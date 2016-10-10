@@ -88,7 +88,6 @@ objc_msgSend([Person class], @selector(eat));
 ~~~
 
 ### 1.2 消息机制的原理 ###
-
   * 对象根据方法编号`SEL`去映射表查找对应的方法实现
 ![runtime_msgSend_image](https://github.com/MengYP/MengYP.github.io/blob/master/resources/img/runtime_msgSend.png?raw=true "描述消息机制原理的图 ")
 
