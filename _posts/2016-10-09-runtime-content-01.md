@@ -98,9 +98,8 @@ objc_msgSend([Person class], @selector(eat));
   * 开发使用场景：
         系统自带的方法功能不够，给系统自带的方法扩展一些功能，并且保持原有功能。
   * 解决方法：
-
-        * 方式一：继承系统的类，重写方法。
-        * 方式二：使用runtime，交换方法。
+      方式一：继承系统的类，重写方法。
+      方式二：使用runtime，交换方法。
 
 ### 2.1 使用`runtime`交换方法 ###
 
@@ -152,7 +151,15 @@ objc_msgSend([Person class], @selector(eat));
 
 ### 2.2 使用`runtime`交换方法的原理 ###
 
+交换之前：
+![runtime_method_exchangeBefore](https://github.com/MengYP/MengYP.github.io/blob/master/resources/img/runtime_method_exchangeBefore.png?raw=true "描述runtime交换方法原理的图_交换之前 ")
 
+交换之后：
+![runtime_method_exchanged](https://github.com/MengYP/MengYP.github.io/blob/master/resources/img/runtime_method_exchanged.png?raw=true "描述runtime交换方法原理的图_交换之前 ")
+
+```
+dadfaf 
+```
 
 
 
