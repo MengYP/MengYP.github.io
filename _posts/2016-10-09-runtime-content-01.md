@@ -30,7 +30,7 @@ RunTime简称运行时。OC就是运行时机制，也就是在运行时候的�
 2、runtime 与OC交互
 ------------
 
-Object-C从三种不同的层级上与Runtime系统进行交互：
+Objective-C从三种不同的层级上与Runtime系统进行交互：
 
   * 通过Objective-C源代码；
   * 通过Foundation框架的NSObject类定义的方法；
@@ -89,9 +89,7 @@ objc_msgSend([Person class], @selector(eat));
 
 ### 1.2 消息机制的原理 ###
 
-  * 对象根据方法编号SEL去映射表查找对应的方法实现
-
-
-
+  * 对象根据方法编号`SEL`去映射表查找对应的方法实现
+![runtime_msgSend_image](https://github.com/MengYP/MengYP.github.io/blob/master/resources/img/runtime_msgSend.png?raw=true "描述消息机制原理的图 ")
 
 ### 未完待续 ###
