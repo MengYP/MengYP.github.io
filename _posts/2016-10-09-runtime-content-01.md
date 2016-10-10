@@ -65,7 +65,7 @@ Object-C从三种不同的层级上与Runtime系统进行交互：
   * `objc_msgSend`，只有对象才能发送消息，因此以`obj`开头
   * 使用消息机制前提，必须导入`#import<objc/message.h>`
 
-###1.1 消息机制的简单使用
+###1.1 消息机制的简单使用###
 
 ~~~Object-C
 //1.对象方法
@@ -87,10 +87,9 @@ objc_msgSend(p, @selector(eat));
 // 用类名调用类方法，底层会自动把类名转换成类对象调用
 // 本质：让类对象发送消息
 objc_msgSend([Person class], @selector(eat));
-
 ~~~
 
-###1.2 消息机制的原理
+###1.2 消息机制的原理###
 
   * 对象根据方法编号SEL去映射表查找对应的方法实现
 
