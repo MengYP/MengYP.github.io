@@ -31,6 +31,7 @@ RunTime简称运行时。OC就是运行时机制，也就是在运行时候的�
 ------------
 
 Object-C从三种不同的层级上与Runtime系统进行交互：
+
   * 通过Objective-C源代码；
   * 通过Foundation框架的NSObject类定义的方法；
   * 通过对runtime函数的直接调用。
