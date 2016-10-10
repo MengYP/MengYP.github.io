@@ -89,6 +89,70 @@ objc_msgSend([Person class], @selector(eat));
 
 ### 1.2 消息机制的原理 ###
   * 对象根据方法编号`SEL`去映射表查找对应的方法实现
+
 ![runtime_msgSend_image](https://github.com/MengYP/MengYP.github.io/blob/master/resources/img/runtime_msgSend.png?raw=true "描述消息机制原理的图 ")
+
+
+2、交换方法
+------------
+  * 开发使用场景：
+        系统自带的方法功能不够，给系统自带的方法扩展一些功能，并且保持原有功能。
+  * 解决方法：
+      •	方式一：继承系统的类，重写方法。
+      •	方式二：使用runtime，交换方法。
+
+### 2.1 使用`runtime`交换方法 ###
+
+~~~Objective-C
+@implementation ViewController
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // 需求：给imageNamed方法提供功能，每次加载图片就判断下图片是否加载成功。
+
+    // 步骤一：先搞个分类，定义一个能加载图片并且能打印的方法+ (instancetype)imageWithName:(NSString*)name;
+
+    //步骤二：交换imageNamed和imageWithName的实现，就能调用imageWithName，间接调用imageWithName的实现。
+
+    UIImage *image = [UIImage imageNamed:@"123"];
+}
+@end
+~~~
+
+~~~Objective-C
+@implementation UIImage (Image)
+// 加载分类到内存的时候调用
++ (void)load
+{
+    // 交换方法：
+    // 获取imageWithName方法地址
+    Method imageWithName = class_getClassMethod(self,@selector(imageWithName:));
+
+    // 获取imageWithName方法地址
+    Method imageName = class_getClassMethod(self, @selector(imageNamed:));
+
+    // 交换方法地址，相当于交换实现方式
+    method_exchangeImplementations(imageWithName, imageName);
+}
+
+// 不能在分类中重写系统方法imageNamed，因为会把系统的功能给覆盖掉，而且分类中不能调用super.
+
+// 既能加载图片又能打印
++ (instancetype)imageWithName:(NSString *)name
+{
+    // 这里调用imageWithName，相当于调用imageName
+    UIImage *image = [self imageWithName:name];
+    if (image == nil) {
+        NSLog(@"加载空的图片");
+    }
+    return image;
+}
+@end
+~~~
+
+### 2.2 使用`runtime`交换方法的原理 ###
+
+
+
+
 
 ### 未完待续 ###
