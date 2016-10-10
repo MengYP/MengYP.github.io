@@ -67,7 +67,7 @@ Objective-C从三种不同的层级上与Runtime系统进行交互：
 
 ### 1.1 消息机制的简单使用 ###
 
-~~~Objective-C
+```Objective-C
 //1.对象方法
 // 创建person对象
 Person *p = [[Person alloc] init];
@@ -85,7 +85,7 @@ objc_msgSend(p, @selector(eat));
 // 用类名调用类方法，底层会自动把类名转换成类对象调用
 // 本质：让类对象发送消息
 objc_msgSend([Person class], @selector(eat));
-~~~
+```
 
 ### 1.2 消息机制的原理 ###
   * 对象根据方法编号`SEL`去映射表查找对应的方法实现
@@ -103,7 +103,7 @@ objc_msgSend([Person class], @selector(eat));
 
 ### 2.1 使用`runtime`交换方法 ###
 
-~~~
+```Objective-C
 @implementation ViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -113,12 +113,12 @@ objc_msgSend([Person class], @selector(eat));
 
     //步骤二：交换imageNamed和imageWithName的实现，就能调用imageWithName，间接调用imageWithName的实现。
 
-    UIImage *image = [UIImage imageNamed:@"123"];
+    UIImage * img = [UIImage imageNamed:@"123"];
 }
 @end
-~~~
+```
 
-~~~
+```
 @implementation UIImage (Image)
 // 加载分类到内存的时候调用
 + (void)load
@@ -140,14 +140,14 @@ objc_msgSend([Person class], @selector(eat));
 + (instancetype)imageWithName:(NSString *)name
 {
     // 这里调用imageWithName，相当于调用imageName
-    UIImage *image = [self imageWithName:name];
+    UIImage * image = [self imageWithName:name];
     if (image == nil) {
         NSLog(@"加载空的图片");
     }
     return image;
 }
 @end
-~~~
+```
 
 ### 2.2 使用`runtime`交换方法的原理 ###
 
@@ -314,6 +314,7 @@ static const char *key = "name";
   * 如果不一致，就会调用[<Status 0x7fa74b545d60> setValue:forUndefinedKey:] ，报key找不到的错误。
   * 分析：模型中的属性和字典的key不一一对应，系统就会调用setValue:forUndefinedKey: 报错。
   * 解决：重写对象的setValue:forUndefinedKey: ，把系统的方法覆盖，就能继续使用KVC，字典转模型了。
+
 ```
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
@@ -470,11 +471,14 @@ static const char *key = "name";
 @end
 ```
 >实现字典和模型的自动转换的核心就是：可以遍历出字典中的每个属性。
+>
 >很多`json`解析的框架中都用了这个特性，包括：`MJEXtension`，`YYModel`，`jsonModel`都是将`json`转换为字典，再遍历字典中的每个属性进行`modle`的转换。
+>
 >字典转模型的比较核心的方法就是：获取属性的列表的方法。
 `OBJC_EXPORT Ivar *class_copyIvarList(Class cls, unsigned int *outCount)
 __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_2_0);`
 >
+
   * 总结：基本上主流的`json`转`model`都少不了，使用运行时动态获取属性的属性名的方法，来进行字典转模型替换，字典转模型效率最高的（耗时最短的）是KVC，其他的字典转模型是在`KVC`的`key`和`value`做处理，动态的获取`json`中的`key`和`value`，当然转换的过程中，第三方框架需要做一些判空的逻辑处理，再进行`KVC`转模。这句`[xx  setValue:value forKey:key];`无论`JsonModle`,`YYKIt`,`MJextension`都少不了`[xx  setValue:value forKey:key];`这句是字典转模型的核心方法。
 
 
