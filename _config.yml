@@ -28,7 +28,7 @@ nav:
   - name:           "About"
     href:           "/about"
   - name:           "Project"
-    href:           "/Project"
+    href:           "/project"
 
 sass:
   style:            :compressed
