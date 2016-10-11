@@ -92,16 +92,21 @@ objc_msgSend([Person class], @selector(eat));
 
 ![runtime_msgSend_image](https://github.com/MengYP/MengYP.github.io/blob/master/resources/img/runtime_msgSend.png?raw=true "描述消息机制原理的图 ")
 
+☺
 
-2、交换方法
+2、`Swizzle`黑魔法
 ------------
-  * 开发使用场景：
-        系统自带的方法功能不够，给系统自带的方法扩展一些功能，并且保持原有功能。
-  * 解决方法：
-      方式一：继承系统的类，重写方法。
-      方式二：使用runtime，交换方法。
+  * 或者说：交换方法；或者说：拦截系统自带的方法调用 ；或者说：对系统的方法进行替换；
+  * 比如可以拦截：imageNamed:、viewDidLoad、alloc;
 
-### 2.1 使用`runtime`交换方法 ###
+  > 开发使用场景：
+  系统自带的方法功能不够，给系统自带的方法扩展一些功能，并且保持原有功能。
+  > 解决方法：
+      方式一：继承系统的类，重写方法；
+      方式二：使用runtime，交换方法。
+  >
+
+### 2.1 使用`runtime`交换方法一 ###
 
 ```Objective-C
 @implementation ViewController
@@ -157,6 +162,42 @@ objc_msgSend([Person class], @selector(eat));
 交换之后：
 ![runtime_method_exchanged](https://github.com/MengYP/MengYP.github.io/blob/master/resources/img/runtime_method_exchanged.png?raw=true "描述runtime交换方法原理的图_交换之前 ")
 
+### 2.3 使用`runtime`交换方法二 ###
+
+  * 需求：比如`iOS6`升级`iOS7`后需要版本适配，根据不同系统使用不同样式图片（拟物化和扁平化），如何通过不去手动一个个修改每个`UIImage`的`imageNamed:`方法就可以实现为该方法中加入版本判断语句？
+  * 实现步骤：
+        a、为UIImage建一个分类(UIImage+Category)
+        b、在分类中实现一个自定义方法，方法中写要在系统方法中加入的语句，比如版本判断。
+
+```
++ (UIImage*)myp_imageNamed:(NSString *)name
+{
+    doubleversion = [[UIDevicecurrentDevice].systemVersiondoubleValue];
+    if(version >=7.0){
+      //如果系统版本是7.0以上，使用另外一套文件名结尾是‘_os7’的扁平化图片
+      name = [name stringByAppendingString:@"_os7"];    
+    }
+    return[UIImagexh_imageNamed:name];
+}
+```
+
+```
+//分类中重写UIImage的load方法，实现方法的交换（只要能让其执行一次方法交换语句，load再合适不过了）
++ (void)load {
+    // 获取两个类的类方法
+    Method  m1 = class_getClassMethod([UIImageclass],@selector(imageNamed:));  
+    Method m2 = class_getClassMethod([UIImageclass],@selector(xh_imageNamed:));
+    // 开始交换方法实现
+    method_exchangeImplementations(m1, m2);
+}
+```
+
+  * 注意：自定义方法中最后一定要调用一下系统的方法，让其有加载图片的功能，但是由于方法交换，系统的方法名已经变成了自定义的方法名（就是用我们的名字调用系统的方法，用系统的名字调用我们的方法），这就实现了系统方法的拦截！
+
+  * 利用以上思路，我们还可以给NSObject添加分类，统计创建了多少个对象，给控制器添加分类，统计有创建了多少个控制器，特别是公司需求总变的时候，在一些原有控件或模块上添加一个功能，建议使用该方法！
+
+☺
+
 3、动态添加方法
 ------------
 动态的为某个类或对象增加一个方法。
@@ -206,6 +247,7 @@ void eat(id self,SEL sel)
 }
 @end
 ```
+☺
 
 4、给分类添加属性
 ------------
@@ -246,12 +288,14 @@ static const char *key = "name";
 }
 @end
 ```
+☺
 
 5、字典转模型
 ------------
 
   * 字典转模型的第一步：设计模型。
   * 模型属性，通常需要跟字典中的key一一对应。
+
   >问题：一个一个的生成模型属性，很慢？
   >需求：能不能自动根据一个字典，生成对应的属性。
   >解决：提供一个分类，专门根据字典生成对应的属性字符串。
@@ -482,11 +526,103 @@ __OSX_AVAILABLE_STARTING(__MAC_10_5, __IPHONE_2_0);`
 
   * 总结：基本上主流的`json`转`model`都少不了，使用运行时动态获取属性的属性名的方法，来进行字典转模型替换，字典转模型效率最高的（耗时最短的）是KVC，其他的字典转模型是在`KVC`的`key`和`value`做处理，动态的获取`json`中的`key`和`value`，当然转换的过程中，第三方框架需要做一些判空的逻辑处理，再进行`KVC`转模。这句`[xx  setValue:value forKey:key];`无论`JsonModle`,`YYKIt`,`MJextension`都少不了`[xx  setValue:value forKey:key];`这句是字典转模型的核心方法。
 
+☺
 
-6、`Swizzle`黑魔法
+6、使用`runtime`实现`NSCoding`的自动归档和自动解档
 ------------
-拦截系统自带的方法调用
-或者说：对系统的方法进行替换
+
+  * 优点：不用对每个属性`edcode`和`decode`了，如果几十个属性一个个的`encode`和`decode`真的很麻烦，使用运行时可以遍历出每个对象的属性，数组的方式遍历`encode`,`decode`。
+
+一般的归档方法：
+
+```
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    unsigned int count = 0;
+
+    Ivar *ivars = class_copyIvarList([Movie class],&count);
+
+    for(int i=0; i<count; i++){
+      //取出i位置对应的成员变量
+      Ivar ivar = ivars[i];
+      //查看成员变量
+
+      const char *name = ivar_getName(ivar);
+      //归档
+      NSString *key = [NSString stringWithUTF8String:name];
+      id value = [self valueForKey:key];
+      [encoder encodeObject:value forKey:key];
+    }
+    free(ivars);
+}
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    if(self = [super init]){
+        unsigned int count = 0;
+        Ivar *ivars = class_copyIvarList([Movie class], &count);
+        for(int i=0; i<count; i++){
+            //取出i位置对应的成员变量
+            Ivar ivar  = ivars[i];
+            //查看成员变量
+            const char *name = ivar_getName(ivar);
+            //归档
+            NSString *key = [NSString stringWithUTF8String:name];
+            id value = [decoder decodeObjectForKey:key];
+            //设置到成员变量身上
+            [self setValue:value forKey:key];
+        }
+        free(ivars);
+    }
+    return self;
+}
+```
+
+使用运行时的归档方法：
+
+```
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [encoder encodeObject:_nickname forKey:@"nickname"];
+    [encoder encodeObject:_username forKey:@"username"];
+    [encoder encodeObject:_payOrderId forKey:@"payOrderId"];
+}
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    if(self = [super init]){
+      _nickname = [decoder decodeObjectForKey:@"nickname"];
+      _username = [decoder decodeObjectForKey:@"username"];
+      _payOrderId = [decoder decodeObjectForKey:@"payOrderId"];
+    }
+    return self;
+}
+```
+  * 不用运行时的归档方法：属性少了还好，如果是20个，30个或者后台突然增加了属性，那么直接写死估计代码就不灵了。
+
+
+7、动态变量控制
+------------
+动态对某个对象的变量的值进行替换。
+
+
+8、实现万能控制器跳转
+------------
+
+  * 需求：推送过来的消息，要跳转到任意控制器。
+  * 利用runtime动态生成对象、属性、方法这一特性，我们可以先跟服务端商量好，定义跳转规则，比如要跳转到A控制器，需要传属性id、type，那么服务端返回字典给我，里面有控制器名，两个属性名跟属性值，客户端就可以根据控制器名生成对象，再用`KVC`给对象赋值，这样就搞定了。
+
+
+9、插件开发
+------------
+
+`Xcode`官方并不支持插件开发，官方没有文档，`Xcode`也没有开源，但由于`Xcode`是`Object-C`写的，`OC`动态性太强大，导致在这么封闭的情况下民间还是可以做出各种插件，其核心开发方式就是：
+`dump`出`Xcode`所有头文件，知道`Xcode`里有哪些类和接口。
+通过头文件方法名猜测方法的作用，`swizzle`这些方法，插入自己的代码实现插件逻辑。
+通过`NSNotificationCenter`监听各种事件的发生。
+
+10、JSPath热更新
+------------
+
+
 
 
 ### 未完待续 ###
