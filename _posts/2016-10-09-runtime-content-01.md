@@ -1,6 +1,6 @@
 ---
 title:        "Runtime"
-description:  "Runtime简称运行时。Object-C就是运行时机制，主要是消息机制。"
+description:  "Runtime简称运行时。Objective-C就是运行时机制，主要是消息机制。"
 image:        "http://placehold.it/400x200"
 author:       "GeekMeng"
 ---
