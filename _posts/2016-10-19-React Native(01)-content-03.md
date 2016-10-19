@@ -97,3 +97,10 @@ WebStorm的Terminal中输入命令： `react-native run-ios` 直接自动编译�
 ### 注 ###
 
 [React Native文档](http://reactnative.cn/docs/0.31/getting-started.html#content)
+
+
+
+
+
+
+## 完 ##
