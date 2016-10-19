@@ -80,7 +80,6 @@ WebStorm的Terminal中输入命令安装：
 )
 ```
 
-
 ### WebStorm 常用快捷键 ###
 
 `Cmd + D` ：复制当前行
@@ -96,4 +95,5 @@ WebStorm的Terminal中输入命令安装：
 WebStorm的Terminal中输入命令： `react-native run-ios` 直接自动编译项目、运行项目在模拟器。
 
 ### 注 ###
+
 [React Native文档](http://reactnative.cn/docs/0.31/getting-started.html#content)
