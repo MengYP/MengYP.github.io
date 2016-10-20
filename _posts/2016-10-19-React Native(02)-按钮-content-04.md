@@ -11,14 +11,28 @@ author:         "GeekMeng"
 1.项目介绍
 -------------
 
-### 1.1 项目文件 ###
+### 1.1 项目创建 ###
+
+在命令行中，目标文件下：
+
+(1).创建项目：
+
+`react-native init 项目的名字`
+
+(2).运行项目：
+
+`cd 项目目录`
+
+`react-native run-ios`
+
+### 1.2 项目文件 ###
 
 * 开发iOS应用：编写`index.ios.js`文件（入口文件）。
 (使用`WebSorm` 或者 其他Web开发工具`Sublime`等)
 
 * 开发Android应用：编写`index.android.js`文件（入口文件）。
 
-### 1.2 index.ios.js文件 ###
+### 1.3 index.ios.js文件 ###
 
 文件分为四部分，第一部分：导入用到的组件
 
@@ -69,6 +83,9 @@ const styles = StyleSheet.create({
 ```
 
 第四部分：
+
+> 注册应用(registerComponent)后才能正确渲染
+> 注意：只把应用作为一个整体注册一次，而不是每个组件/模块都注册
 
 * 使用`AppRegistry`内置模块进行“注册”操作。
 * 用来告诉`React Native`哪一个组件被注册为整个应用的根容器。

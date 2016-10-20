@@ -33,7 +33,7 @@ author:         "GeekMeng"
 3.package.json文件
 -------------------
 
-* `package.json`文件中的`devDependencies`下可以查看`React Native`的版本号，以及相关依赖模块。
+* `package.json`配置文件中的`devDependencies`下可以查看`React Native`的版本号，以及相关依赖模块。
 
 
 4.node_modules文件夹
@@ -64,6 +64,7 @@ React反其道而行之，设计的`JSX语法`却是让你`在代码中嵌入结
 
 `<Text>Hello world!</Text>`初看起来，这种写法很像web上的HTML，只不过使用的并不是web上常见的标签如<div>或是<span>等，这里我们使用的是`React Native的组件`。上面的示例代码中，使用的是`内置的<Text>组件`，它专门用来显示文本。
 
+* React Native面向组件化开发的，把html的代码转换成oc或java编写的组件
 
 三、React Native项目规范代码
 ===============
