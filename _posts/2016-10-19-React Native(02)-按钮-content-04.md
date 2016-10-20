@@ -192,6 +192,27 @@ const styles = StyleSheet.create({
 });
 ```
 
+* 注意点：
+
+(1).使用自定义组件，必须引入自定义组件
+
+`import Button from './src/component/Button';`
+
+(2).构造函数中初始化状态
+```
+//构造函数
+constructor(props){
+    super(props);
+    //初始化状态
+}
+```
+
+(3).对属性进行解构
+
+```JavaScript
+//解构 （对属性进行解构）
+const {text, bgColor} = this.props;
+```
 
 
 

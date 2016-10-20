@@ -92,6 +92,8 @@ WebStorm的Terminal中输入命令安装：
 
 `Tab + Shift` ：向前移动代码块
 
+`Ctrl + tab` ：切换已经打开的文件
+
 WebStorm的Terminal中输入命令： `react-native run-ios` 直接自动编译项目、运行项目在模拟器。
 
 ### 注 ###
