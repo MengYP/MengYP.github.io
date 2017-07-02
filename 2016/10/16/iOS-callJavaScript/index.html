@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="iOS,Swift,JavaScript,UIWebView,WKWebView,JavaScriptCore,OC,HTML,WebKit," />
+  <meta name="keywords" content="iOS,Swift,JavaScript,JavaScriptCore,OC,UIWebView,WKWebView,HTML,WebKit," />
 
 
 
@@ -96,13 +96,13 @@
 
 
 <meta name="description" content="OC/Swift与JavaScript交互问题 iOS中如何加载HTML页面？（包括Objective-C和Swift） iOS中如何去执行一段JavaScript代码？（包括Objective-C和Swift） iOS中为什么要使用原生语言去执行一段JavaScript代码？ iOS中如何监听到HTML页面中触发的事件？（JavaScript函数的触发） iOS混合开发中，当JavaScript">
-<meta name="keywords" content="iOS,Swift,JavaScript,UIWebView,WKWebView,JavaScriptCore,OC,HTML,WebKit">
+<meta name="keywords" content="iOS,Swift,JavaScript,JavaScriptCore,OC,UIWebView,WKWebView,HTML,WebKit">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Objective-C&#x2F;Swift与JavaScript交互">
 <meta property="og:url" content="http://mengyueping.com/2016/10/16/iOS-callJavaScript/index.html">
 <meta property="og:site_name" content="孟跃平的技术博客">
 <meta property="og:description" content="OC/Swift与JavaScript交互问题 iOS中如何加载HTML页面？（包括Objective-C和Swift） iOS中如何去执行一段JavaScript代码？（包括Objective-C和Swift） iOS中为什么要使用原生语言去执行一段JavaScript代码？ iOS中如何监听到HTML页面中触发的事件？（JavaScript函数的触发） iOS混合开发中，当JavaScript">
-<meta property="og:updated_time" content="2017-06-23T16:00:00.000Z">
+<meta property="og:updated_time" content="2017-07-01T16:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C&#x2F;Swift与JavaScript交互">
 <meta name="twitter:description" content="OC/Swift与JavaScript交互问题 iOS中如何加载HTML页面？（包括Objective-C和Swift） iOS中如何去执行一段JavaScript代码？（包括Objective-C和Swift） iOS中为什么要使用原生语言去执行一段JavaScript代码？ iOS中如何监听到HTML页面中触发的事件？（JavaScript函数的触发） iOS混合开发中，当JavaScript">
@@ -360,6 +360,17 @@ var _hmt = _hmt || [];
 
                 
                 
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/JavaScriptCore/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScriptCore</span>
+                  </a>
+                </span>
+
+                
+                
               
             </span>
           
@@ -514,7 +525,8 @@ var _hmt = _hmt || [];
 <p>方式二，自己创建一个<code>JSVirtualMachine</code>对象，传入的创建<code>JSContext</code>对象中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//OC</div><div class="line">JSVirtualMachine *jsVM = [[JSVirtualMachine alloc] init];</div><div class="line">JSContext *context = [[JSContext alloc] initWithVirtualMachine:jsVM]; //传入的JSVirtualMachine对象不能为空</div></pre></td></tr></table></figure></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Swift</span></div><div class="line"><span class="keyword">let</span> jsVM = <span class="type">JSVirtualMachine</span>()</div><div class="line"><span class="keyword">let</span> <span class="built_in">c</span> = <span class="type">JSContext</span>(virtualMachine: jsVM)</div></pre></td></tr></table></figure>
 <p><code>JSVirtualMachine</code>为<code>JavaScript</code>的运行<strong>提供了底层资源</strong>，<code>JSContext</code>为<code>JavaScript</code><strong>提供了运行环境</strong>;<br>而<code>JSContext</code>的创建都是基于<code>JSVirtualMachine</code>。<br><code>JSValue</code>其实就是<code>JS</code>对象在<code>JSVirtualMachine</code>中的一个强引用。</p>
-<p>=================<br>2017.6更新</p>
+<p>=================<br>本文代码，我的<code>Github</code>仓库获取<a href="https://github.com/MengYP/apple-stack/tree/master/iOS_JavaScript/iOS-callJavaScript" target="_blank" rel="external">apple-stack</a></p>
+<p>=================<br>2017.7更新</p>
 
       
     </div>
@@ -571,13 +583,13 @@ var _hmt = _hmt || [];
           
             <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
-            <a href="/tags/UIWebView/" rel="tag"># UIWebView</a>
-          
-            <a href="/tags/WKWebView/" rel="tag"># WKWebView</a>
-          
             <a href="/tags/JavaScriptCore/" rel="tag"># JavaScriptCore</a>
           
             <a href="/tags/OC/" rel="tag"># OC</a>
+          
+            <a href="/tags/UIWebView/" rel="tag"># UIWebView</a>
+          
+            <a href="/tags/WKWebView/" rel="tag"># WKWebView</a>
           
             <a href="/tags/HTML/" rel="tag"># HTML</a>
           
@@ -590,6 +602,22 @@ var _hmt = _hmt || [];
       
       
 
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/02/iOS-JSExport-JSCallOC-Swift/" rel="prev" title="JSExport实现JS调用OC/Swift">
+                JSExport实现JS调用OC/Swift <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
 
       
@@ -664,7 +692,7 @@ var _hmt = _hmt || [];
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -675,7 +703,7 @@ var _hmt = _hmt || [];
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -686,7 +714,7 @@ var _hmt = _hmt || [];
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
