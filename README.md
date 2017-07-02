@@ -1,4 +1,4 @@
-[个人博客](www.mengyueping.com)
+[个人博客](http://www.mengyueping.com)
 
 使用[Hexo](https://hexo.io/)
 
