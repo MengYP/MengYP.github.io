@@ -64,6 +64,115 @@
   </entry>
   
   <entry>
+    <title>iOS之KVO机制</title>
+    <link href="http://mengyueping.com/2017/07/18/iOS_KVO/"/>
+    <id>http://mengyueping.com/2017/07/18/iOS_KVO/</id>
+    <published>2017-07-17T16:00:00.000Z</published>
+    <updated>2017-07-18T12:44:16.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
+<li>KeyPath、KVC、KVO有什么联系？</li>
+<li>KVC通过Key找到Value的原理？</li>
+<li>iOS中的KVO是如何实现的？</li>
+<li>MVC数据流通哪些阶段都会使用到哪些模式？</li>
+</ul>
+<a id="more"></a>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="KeyPath"><a href="#KeyPath" class="headerlink" title="KeyPath"></a>KeyPath</h2><p><code>KeyPath</code>，键路径，是基于<strong>键-值（key-value）</strong>编码技术的。<strong>键-值（key-value）</strong>编码技术是一种间接访问对象属性的机制，是一种查找方式。在一个给定的实体（比如对象）中，同一个属性的所有值具有相同的数据类型。</p>
+<p><code>键路径</code>是一个由用点作分隔符的键组成的字符串（点语法），用于指定一个连接在一起的对象性质序列。后一个键的性质是由前一个键的性质决定的。</p>
+<p>有了<code>键路径</code>，就可以不通过模型（类/对象）实现的方法，来直接指定相关对象的性质（属性/方法）。通过<code>键路径</code>，可以指定对象中的一个任意深度的路径，使其指向相关对象的特定属性。</p>
+<h2 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h2><p><code>Key-Value-Coding</code>，键值编码，是一种通过字符串间接访问对象的属性的方法。不是通过调用存取方法（<code>setter/getter</code>）来获取属性，而是使用字符串来标识属性，直接或通过实例变量访问的机制，非对象类型的变量将自动封装或者解封成对象，很多情况下会简化程序代码。在字典转模型、自定义模型归档/解档都会使用到。</p>
+<p><code>KVC</code>的缺点：一旦使用<code>KVC</code>，编译器将无法检查出错误，即<strong>不会对设置的键、键路径进行错误检查</strong>，且执行效率要低于合成存取器方法和自定义的<code>setter</code>和<code>getter</code>方法。效率低的原因是使用<code>KVC</code>键值编码，它必须先解析字符串，然后在设置或者访问对象的实例变量。</p>
+<h2 id="KVC机制通过key找到value的原理"><a href="#KVC机制通过key找到value的原理" class="headerlink" title="KVC机制通过key找到value的原理"></a>KVC机制通过key找到value的原理</h2><p>当通过<code>KVC</code>访问对象时，例如：<code>[self valueForKey:@&quot;view&quot;]</code>，程序会自动试图通过下面几种不同的方式解析这个方法的调用：</p>
+<ul>
+<li>第一、查找对象是否带有 <code>view</code> 这个方法，</li>
+<li>第二、如果没有找到，会继续查找对象是否带有 <code>view</code> 这个实例变量（<code>iVar</code>） </li>
+<li>第三、如果还没有找到，程序会继续试图调用方法 <code>-(id)valueForUndefinedKey:</code>。</li>
+<li>第四、如果这个方法还是没有被实现的话，程序会抛出一个 <code>NSundefinedKeyException</code> 异常错误。</li>
+</ul>
+<blockquote>
+<p>注意：</p>
+<p>1、<code>KVC</code>查找方法的时候，不仅仅会查找 <code>view</code> 这个方法，还会查找 <code>getview</code> (前面加一个<code>get</code>)这个方法，或者 <code>_view</code> 以及 <code>_getview</code> 这个几种形式。</p>
+<p>2、在查找实例变量的时候，也会不仅仅查找 <code>view</code> 这个变量，也会查找 <code>_view</code> 这个变量是否存在。</p>
+<p>3、设计 <code>valueForUndefinedKey:</code> 方法的主要目的是：当你使用 <code>-(id)valueForKey</code> 方法从对象中请求值时，对象能够在错误发生前，有最后的机会响应这个请求。</p>
+</blockquote>
+<h1 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h1><p><code>key-Value-Observing</code>，键值观察机制，键值观察机制是一种能使得一个对象获取到其他对象<strong>属性变化</strong>的通知，极大的简化了代码。这样看来，<code>KVO</code>就是一种典型的通知模式。实现<code>KVO</code>键值观察模式，被观察的对象必须使用 <code>KVC</code> 键值编码技术来修改它的实例变量，或者点语法，这样才能被观察者观察到。因此，<code>KVC</code>是<code>KVO</code>的基础。<code>KVC</code> 和 <code>KVO</code> 的 <code>keyPath</code> 可以是属性、实例变量、成员变量。</p>
+<h2 id="iOS中实现KVO"><a href="#iOS中实现KVO" class="headerlink" title="iOS中实现KVO"></a>iOS中实现KVO</h2><p><code>KVO</code>是基于<code>runtime</code>机制实现的。<br><code>KVO</code>中谁监听谁注册，且对响应进行处理，这样观察者和被观察者完全解耦。<code>KVO</code>只检测类中的属性，并且属性名都是通过字符串来查找，编译器不会检错和补全，全部取决于自己。观察者和被观察者不会被保留也不会被释放。</p>
+<p><code>Core Data</code>实现了对于<code>KVC</code>和<code>KVO</code>完整且自动化的支持，除了为属性整合<code>KVO</code>和<code>KVC</code>访问方法外，还整合了适当的集合访问方法来处理多值关系。</p>
+<h3 id="OC版本"><a href="#OC版本" class="headerlink" title="OC版本"></a>OC版本</h3><p>第一、注册观察者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(nullable void *)context;</div></pre></td></tr></table></figure></p>
+<p>第二、接收变更通知<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary&lt;NSKeyValueChangeKey, id&gt; *)change context:(nullable void *)context;</div></pre></td></tr></table></figure></p>
+<p>第三、移除对象的观察者身份<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;</div></pre></td></tr></table></figure></p>
+<h3 id="Swift版本"><a href="#Swift版本" class="headerlink" title="Swift版本"></a>Swift版本</h3><p>第一、注册观察者<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">addObserver</span><span class="params">(<span class="number">_</span> observer: NSObject, forKeyPath keyPath: String, options: NSKeyValueObservingOptions = [], context: UnsafeMutableRawPointer?)</span></span></div></pre></td></tr></table></figure></p>
+<p>第二、接收变更通知<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">observeValue</span><span class="params">(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)</span></span></div></pre></td></tr></table></figure></p>
+<p>第三、移除对象的观察者身份<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">removeObserver</span><span class="params">(<span class="number">_</span> observer: NSObject, forKeyPath keyPath: String)</span></span></div></pre></td></tr></table></figure></p>
+<h1 id="与其他设计模式的比较"><a href="#与其他设计模式的比较" class="headerlink" title="与其他设计模式的比较"></a>与其他设计模式的比较</h1><h2 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h2><p><strong>代理</strong>又叫<strong>委托</strong>，是一种设计模式。代理是对象与对象之间的通信交互，解除了对象之间的耦合性。允许一个类在某些特定时刻通知到其他类，而不需要获取到那些类的指针，改变或传递控制链。可以减少框架复杂度。代理的属性常使用<code>weak</code>修饰的原因：防止循环引用（循环引用会导致对象无法得到正确的释放）。</p>
+<blockquote>
+<p>通知和代理区别：</p>
+<p>1、代理是一种回调机制，且是一对一的关系。</p>
+<p>2、通知是一对多的关系，一个对所有的观察者提供变更的通知。</p>
+<p>3、代理效率比通知高。</p>
+<p>代理 和 Block</p>
+<p>1、一般都是一对一的通信。</p>
+<p>2、代理需要定义协议，代理对象遵守协议且实现协议方法，才可以实现通信。</p>
+<p>3、相比之下，Block更加简洁，不需要定义繁琐的协议方法，但通信事件比较多的话，建议使用代理。</p>
+</blockquote>
+<h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><p><code>iOS</code>中的协议是一个方法列表，且多少有点相关。它的特点是可以被任何类使用（实现），但类自身不会实现这样方法，而是由其他人来实现。</p>
+<p>协议经常用来实现委托对象（委托设计模式）。如果一个类采用了一个协议，那么它必须实现协议中必须需要实现的方法。在协议中，方法默认是必须实现（<code>@required</code>），添加关键字<code>@optional</code>，表明一旦采用该协议，这些可选的方法是可以选择不实现。</p>
+<h2 id="MVC设计模式"><a href="#MVC设计模式" class="headerlink" title="MVC设计模式"></a>MVC设计模式</h2><p><code>MVC</code>是一种架构模式，<code>M</code>表示<code>model</code>，<code>V</code>表示视图<code>view</code>，<code>C</code>表示控制器<code>controller</code>。</p>
+<ul>
+<li><p><code>model</code>负责存储、定义、操作数据；</p>
+</li>
+<li><p><code>view</code>用来展示给用户，和用户进行操作交互；</p>
+</li>
+<li><p><code>controller</code>是<code>model</code>和<code>view</code>的协调者。<code>controller</code>把<code>model</code>中的数据拿过来给<code>view</code>用。</p>
+</li>
+</ul>
+<blockquote>
+<p>注意：</p>
+<p>1、<code>controller</code>可以直接与<code>model</code>和<code>view</code>进行通信，而<code>view</code>不能和<code>controller</code>直接通信。<code>view</code>与<code>controller</code>通信需要利用代理协议的方式。</p>
+<p>2、当有数据更新时，<code>model</code>也要与<code>controller</code>进行通信，这个时候就要用<code>Notification</code>和<code>KVO</code>，这个方式就像一个广播一样，<code>model</code>发信号，<code>controller</code>设置监听接受信号，当有数据更新时就发信号给<code>controller</code>。</p>
+<p>3、<code>model</code>和<code>view</code>不能直接进行通信，这样会违背<code>MVC</code>设计模式。</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;KeyPath、KVC、KVO有什么联系？&lt;/li&gt;
+&lt;li&gt;KVC通过Key找到Value的原理？&lt;/li&gt;
+&lt;li&gt;iOS中的KVO是如何实现的？&lt;/li&gt;
+&lt;li&gt;MVC数据流通哪些阶段都会使用到哪些模式？&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://mengyueping.com/categories/iOS/"/>
+    
+      <category term="KVO" scheme="http://mengyueping.com/categories/iOS/KVO/"/>
+    
+    
+      <category term="iOS" scheme="http://mengyueping.com/tags/iOS/"/>
+    
+      <category term="Swift" scheme="http://mengyueping.com/tags/Swift/"/>
+    
+      <category term="OC" scheme="http://mengyueping.com/tags/OC/"/>
+    
+      <category term="KVO" scheme="http://mengyueping.com/tags/KVO/"/>
+    
+      <category term="KVC" scheme="http://mengyueping.com/tags/KVC/"/>
+    
+      <category term="KeyPath" scheme="http://mengyueping.com/tags/KeyPath/"/>
+    
+      <category term="Block" scheme="http://mengyueping.com/tags/Block/"/>
+    
+      <category term="代理" scheme="http://mengyueping.com/tags/%E4%BB%A3%E7%90%86/"/>
+    
+      <category term="Notification" scheme="http://mengyueping.com/tags/Notification/"/>
+    
+      <category term="MVC" scheme="http://mengyueping.com/tags/MVC/"/>
+    
+  </entry>
+  
+  <entry>
     <title>iOS的runtime应用篇之实现归档解档</title>
     <link href="http://mengyueping.com/2017/07/17/iOS-runtime-archive/"/>
     <id>http://mengyueping.com/2017/07/17/iOS-runtime-archive/</id>

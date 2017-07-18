@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://mengyueping.com/2017/07/18/iOS_KVO/</loc>
+    
+    <lastmod>2017-07-18T12:44:16.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://mengyueping.com/2017/07/18/iOS-runtime-methodExchange/</loc>
     
     <lastmod>2017-07-18T08:29:10.000Z</lastmod>
