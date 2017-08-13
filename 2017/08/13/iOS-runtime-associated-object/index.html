@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="iOS,Swift,OC,KVO,KVC,KeyPath,Block,代理,Notification,MVC," />
+  <meta name="keywords" content="iOS,OC,runtime,关联对象,AssociatedObject," />
 
 
 
@@ -95,17 +95,17 @@
 
 
 
-<meta name="description" content="问题 KeyPath、KVC、KVO有什么联系？ KVC通过Key找到Value的原理？ iOS中的KVO是如何实现的？ MVC数据流通哪些阶段都会使用到哪些模式？">
-<meta name="keywords" content="iOS,Swift,OC,KVO,KVC,KeyPath,Block,代理,Notification,MVC">
+<meta name="description" content="问题  关联对象被存储在什么地方，是不是存放在被关联对象本身的内存中？ 关联对象的五种关联策略有什么区别？ 关联对象都有哪些使用场景?">
+<meta name="keywords" content="iOS,OC,runtime,关联对象,AssociatedObject">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS之KVO机制">
-<meta property="og:url" content="http://mengyueping.com/2017/07/18/iOS_KVO/index.html">
+<meta property="og:title" content="iOS的runtime之AssociatedObject">
+<meta property="og:url" content="http://mengyueping.com/2017/08/13/iOS-runtime-associated-object/index.html">
 <meta property="og:site_name" content="孟跃平的技术博客">
-<meta property="og:description" content="问题 KeyPath、KVC、KVO有什么联系？ KVC通过Key找到Value的原理？ iOS中的KVO是如何实现的？ MVC数据流通哪些阶段都会使用到哪些模式？">
-<meta property="og:updated_time" content="2017-07-18T12:44:16.000Z">
+<meta property="og:description" content="问题  关联对象被存储在什么地方，是不是存放在被关联对象本身的内存中？ 关联对象的五种关联策略有什么区别？ 关联对象都有哪些使用场景?">
+<meta property="og:updated_time" content="2017-08-13T06:39:59.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS之KVO机制">
-<meta name="twitter:description" content="问题 KeyPath、KVC、KVO有什么联系？ KVC通过Key找到Value的原理？ iOS中的KVO是如何实现的？ MVC数据流通哪些阶段都会使用到哪些模式？">
+<meta name="twitter:title" content="iOS的runtime之AssociatedObject">
+<meta name="twitter:description" content="问题  关联对象被存储在什么地方，是不是存放在被关联对象本身的内存中？ 关联对象的五种关联策略有什么区别？ 关联对象都有哪些使用场景?">
 
 
 
@@ -133,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="http://mengyueping.com/2017/07/18/iOS_KVO/"/>
+  <link rel="canonical" href="http://mengyueping.com/2017/08/13/iOS-runtime-associated-object/"/>
 
 
 
@@ -151,7 +151,7 @@ var _hmt = _hmt || [];
 </script>
 
 
-  <title>iOS之KVO机制 | 孟跃平的技术博客</title>
+  <title>iOS的runtime之AssociatedObject | 孟跃平的技术博客</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -301,7 +301,7 @@ var _hmt = _hmt || [];
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://mengyueping.com/2017/07/18/iOS_KVO/">
+    <link itemprop="mainEntityOfPage" href="http://mengyueping.com/2017/08/13/iOS-runtime-associated-object/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="孟跃平">
@@ -318,7 +318,7 @@ var _hmt = _hmt || [];
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS之KVO机制</h1>
+          <h1 class="post-title" itemprop="name headline">iOS的runtime之AssociatedObject</h1>
         
 
         <div class="post-meta">
@@ -330,8 +330,8 @@ var _hmt = _hmt || [];
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-18T00:00:00+08:00">
-                2017-07-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-13T00:00:00+08:00">
+                2017-08-13
               </time>
             
 
@@ -364,8 +364,8 @@ var _hmt = _hmt || [];
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/KVO/" itemprop="url" rel="index">
-                    <span itemprop="name">KVO</span>
+                  <a href="/categories/iOS/runtime/" itemprop="url" rel="index">
+                    <span itemprop="name">runtime</span>
                   </a>
                 </span>
 
@@ -381,7 +381,7 @@ var _hmt = _hmt || [];
 
           
           
-             <span id="/2017/07/18/iOS_KVO/" class="leancloud_visitors" data-flag-title="iOS之KVO机制">
+             <span id="/2017/08/13/iOS-runtime-associated-object/" class="leancloud_visitors" data-flag-title="iOS的runtime之AssociatedObject">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -414,68 +414,36 @@ var _hmt = _hmt || [];
       
 
       
-        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
-<li>KeyPath、KVC、KVO有什么联系？</li>
-<li>KVC通过Key找到Value的原理？</li>
-<li>iOS中的KVO是如何实现的？</li>
-<li>MVC数据流通哪些阶段都会使用到哪些模式？</li>
-</ul>
+        <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><blockquote>
+<ol>
+<li>关联对象被存储在什么地方，是不是存放在被关联对象本身的内存中？</li>
+<li>关联对象的五种关联策略有什么区别？</li>
+<li>关联对象都有哪些使用场景?</li>
+</ol>
+</blockquote>
 <a id="more"></a>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><h2 id="KeyPath"><a href="#KeyPath" class="headerlink" title="KeyPath"></a>KeyPath</h2><p><code>KeyPath</code>，键路径，是基于<strong>键-值（key-value）</strong>编码技术的。<strong>键-值（key-value）</strong>编码技术是一种间接访问对象属性的机制，是一种查找方式。在一个给定的实体（比如对象）中，同一个属性的所有值具有相同的数据类型。</p>
-<p><code>键路径</code>是一个由用点作分隔符的键组成的字符串（点语法），用于指定一个连接在一起的对象性质序列。后一个键的性质是由前一个键的性质决定的。</p>
-<p>有了<code>键路径</code>，就可以不通过模型（类/对象）实现的方法，来直接指定相关对象的性质（属性/方法）。通过<code>键路径</code>，可以指定对象中的一个任意深度的路径，使其指向相关对象的特定属性。</p>
-<h2 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h2><p><code>Key-Value-Coding</code>，键值编码，是一种通过字符串间接访问对象的属性的方法。不是通过调用存取方法（<code>setter/getter</code>）来获取属性，而是使用字符串来标识属性，直接或通过实例变量访问的机制，非对象类型的变量将自动封装或者解封成对象，很多情况下会简化程序代码。在字典转模型、自定义模型归档/解档都会使用到。</p>
-<p><code>KVC</code>的缺点：一旦使用<code>KVC</code>，编译器将无法检查出错误，即<strong>不会对设置的键、键路径进行错误检查</strong>，且执行效率要低于合成存取器方法和自定义的<code>setter</code>和<code>getter</code>方法。效率低的原因是使用<code>KVC</code>键值编码，它必须先解析字符串，然后在设置或者访问对象的实例变量。</p>
-<h2 id="KVC机制通过key找到value的原理"><a href="#KVC机制通过key找到value的原理" class="headerlink" title="KVC机制通过key找到value的原理"></a>KVC机制通过key找到value的原理</h2><p>当通过<code>KVC</code>访问对象时，例如：<code>[self valueForKey:@&quot;view&quot;]</code>，程序会自动试图通过下面几种不同的方式解析这个方法的调用：</p>
-<ul>
-<li>第一、查找对象是否带有 <code>view</code> 这个方法，</li>
-<li>第二、如果没有找到，会继续查找对象是否带有 <code>view</code> 这个实例变量（<code>iVar</code>） </li>
-<li>第三、如果还没有找到，程序会继续试图调用方法 <code>-(id)valueForUndefinedKey:</code>。</li>
-<li>第四、如果这个方法还是没有被实现的话，程序会抛出一个 <code>NSundefinedKeyException</code> 异常错误。</li>
-</ul>
+<h1 id="关联对象函数"><a href="#关联对象函数" class="headerlink" title="关联对象函数"></a>关联对象函数</h1><p>关联对象函数：<code>objc_setAssociatedObject</code>、<code>objc_getAssociatedObject</code>、<code>objc_removeAssociatedObjects</code>。</p>
 <blockquote>
-<p>注意：</p>
-<p>1、<code>KVC</code>查找方法的时候，不仅仅会查找 <code>view</code> 这个方法，还会查找 <code>getview</code> (前面加一个<code>get</code>)这个方法，或者 <code>_view</code> 以及 <code>_getview</code> 这个几种形式。</p>
-<p>2、在查找实例变量的时候，也会不仅仅查找 <code>view</code> 这个变量，也会查找 <code>_view</code> 这个变量是否存在。</p>
-<p>3、设计 <code>valueForUndefinedKey:</code> 方法的主要目的是：当你使用 <code>-(id)valueForKey</code> 方法从对象中请求值时，对象能够在错误发生前，有最后的机会响应这个请求。</p>
+<p><code>关联</code>是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分，可以理解为对象和属性的关系，但是有所不同。</p>
+<p><code>关联</code>是在类的定义之外为类增加额外的存储空间。使用关联，我们可以<strong>不用修改类的定义</strong>而为其<strong>对象增加存储空间</strong>。在<strong>无法访问到类的源码</strong>的时候或者是<strong>考虑到二进制兼容性</strong>的时候是非常有用。</p>
+<p><code>关联</code>是基于关键字的，因此，我们可以为任何对象增加任意多的关联，每个都使用不同的关键字即可。<code>关联</code>是可以保证<strong>被关联的对象在关联对象的整个生命周期都是可用的</strong>。</p>
 </blockquote>
-<h1 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h1><p><code>key-Value-Observing</code>，键值观察机制，键值观察机制是一种能使得一个对象获取到其他对象<strong>属性变化</strong>的通知，极大的简化了代码。这样看来，<code>KVO</code>就是一种典型的通知模式。实现<code>KVO</code>键值观察模式，被观察的对象必须使用 <code>KVC</code> 键值编码技术来修改它的实例变量，或者点语法，这样才能被观察者观察到。因此，<code>KVC</code>是<code>KVO</code>的基础。<code>KVC</code> 和 <code>KVO</code> 的 <code>keyPath</code> 可以是属性、实例变量、成员变量。</p>
-<h2 id="iOS中实现KVO"><a href="#iOS中实现KVO" class="headerlink" title="iOS中实现KVO"></a>iOS中实现KVO</h2><p><code>KVO</code>是基于<code>runtime</code>机制实现的。<br><code>KVO</code>中谁监听谁注册，且对响应进行处理，这样观察者和被观察者完全解耦。<code>KVO</code>只检测类中的属性，并且属性名都是通过字符串来查找，编译器不会检错和补全，全部取决于自己。观察者和被观察者不会被保留也不会被释放。</p>
-<p><code>Core Data</code>实现了对于<code>KVC</code>和<code>KVO</code>完整且自动化的支持，除了为属性整合<code>KVO</code>和<code>KVC</code>访问方法外，还整合了适当的集合访问方法来处理多值关系。</p>
-<h3 id="OC版本"><a href="#OC版本" class="headerlink" title="OC版本"></a>OC版本</h3><p>第一、注册观察者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(nullable void *)context;</div></pre></td></tr></table></figure></p>
-<p>第二、接收变更通知<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary&lt;NSKeyValueChangeKey, id&gt; *)change context:(nullable void *)context;</div></pre></td></tr></table></figure></p>
-<p>第三、移除对象的观察者身份<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;</div></pre></td></tr></table></figure></p>
-<h3 id="Swift版本"><a href="#Swift版本" class="headerlink" title="Swift版本"></a>Swift版本</h3><p>第一、注册观察者<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">addObserver</span><span class="params">(<span class="number">_</span> observer: NSObject, forKeyPath keyPath: String, options: NSKeyValueObservingOptions = [], context: UnsafeMutableRawPointer?)</span></span></div></pre></td></tr></table></figure></p>
-<p>第二、接收变更通知<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">observeValue</span><span class="params">(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)</span></span></div></pre></td></tr></table></figure></p>
-<p>第三、移除对象的观察者身份<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">removeObserver</span><span class="params">(<span class="number">_</span> observer: NSObject, forKeyPath keyPath: String)</span></span></div></pre></td></tr></table></figure></p>
-<h1 id="与其他设计模式的比较"><a href="#与其他设计模式的比较" class="headerlink" title="与其他设计模式的比较"></a>与其他设计模式的比较</h1><h2 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h2><p><strong>代理</strong>又叫<strong>委托</strong>，是一种设计模式。代理是对象与对象之间的通信交互，解除了对象之间的耦合性。允许一个类在某些特定时刻通知到其他类，而不需要获取到那些类的指针，改变或传递控制链。可以减少框架复杂度。代理的属性常使用<code>weak</code>修饰的原因：防止循环引用（循环引用会导致对象无法得到正确的释放）。</p>
+<h2 id="设置关联对象"><a href="#设置关联对象" class="headerlink" title="设置关联对象"></a>设置关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">void</span> objc_setAssociatedObject(<span class="keyword">id</span> object, <span class="keyword">const</span> <span class="keyword">void</span> *key, <span class="keyword">id</span> value, objc_AssociationPolicy policy);</div></pre></td></tr></table></figure>
+<p>四个参数：<strong>源对象</strong>(被关联的对象-<code>id object</code>)，<strong>关键字</strong>(<code>const void *key</code>)，<strong>关联的对象</strong>(<code>id value</code>)和一个<strong>关联策略</strong>(<code>objc_AssociationPolicy policy</code>)。</p>
+<p><code>关键字</code>：是一个<code>void</code>类型的指针。每一个关联的关键字必须是唯一的。通常都是会采用静态变量来作为关键字。</p>
 <blockquote>
-<p>通知和代理区别：</p>
-<p>1、代理是一种回调机制，且是一对一的关系。</p>
-<p>2、通知是一对多的关系，一个对所有的观察者提供变更的通知。</p>
-<p>3、代理效率比通知高。</p>
-<p>代理 和 Block</p>
-<p>1、一般都是一对一的通信。</p>
-<p>2、代理需要定义协议，代理对象遵守协议且实现协议方法，才可以实现通信。</p>
-<p>3、相比之下，Block更加简洁，不需要定义繁琐的协议方法，但通信事件比较多的话，建议使用代理。</p>
+<p>有三种推荐<code>Key</code>值：<br>声明 <code>static char kAssociatedObjectKey;</code>，使用 <code>&amp;kAssociatedObjectKey</code>作为 <code>key</code>值;<br>声明 <code>static void *kAssociatedObjectKey = &amp;kAssociatedObjectKey;</code>，使用 <code>kAssociatedObjectKey</code> 作为<code>key</code> 值；<br>用<code>selector</code>，使用<code>getter</code>方法的名称作为<code>key</code>值。(省掉了一个变量名。可以通过<code>_cmd</code>)</p>
 </blockquote>
-<h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><p><code>iOS</code>中的协议是一个方法列表，且多少有点相关。它的特点是可以被任何类使用（实现），但类自身不会实现这样方法，而是由其他人来实现。</p>
-<p>协议经常用来实现委托对象（委托设计模式）。如果一个类采用了一个协议，那么它必须实现协议中必须需要实现的方法。在协议中，方法默认是必须实现（<code>@required</code>），添加关键字<code>@optional</code>，表明一旦采用该协议，这些可选的方法是可以选择不实现。</p>
-<h2 id="MVC设计模式"><a href="#MVC设计模式" class="headerlink" title="MVC设计模式"></a>MVC设计模式</h2><p><code>MVC</code>是一种架构模式，<code>M</code>表示<code>model</code>，<code>V</code>表示视图<code>view</code>，<code>C</code>表示控制器<code>controller</code>。</p>
-<ul>
-<li><p><code>model</code>负责存储、定义、操作数据；</p>
-</li>
-<li><p><code>view</code>用来展示给用户，和用户进行操作交互；</p>
-</li>
-<li><p><code>controller</code>是<code>model</code>和<code>view</code>的协调者。<code>controller</code>把<code>model</code>中的数据拿过来给<code>view</code>用。</p>
-</li>
-</ul>
+<h2 id="关联策略"><a href="#关联策略" class="headerlink" title="关联策略"></a>关联策略</h2><p>表明了关联的对象是通过  赋值，保留引用还是复制的方式进行关联的；还有这种关联是原子的还是非原子的。这里的关联策略和声明属性时的很类似。使用枚举常量来表示的。<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// OBJC_ASSOCIATION_ASSIGN           : 弱引用关联对象《=》@property(assign)/@property(unsafe_unretained)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_RETAIN_NONATOMIC : 强引用关联对象，且为非原子操作《=》@property (strong, nonatomic)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_COPY_NONATOMIC   : 复制关联对象，且为非原子操作《=》@property (copy, nonatomic)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_RETAIN           : 强引用关联对象，且为原子操作《=》@property (strong, atomic)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_COPY             : 复制关联对象，且为原子操作《=》@property (copy, atomic)</span></div><div class="line"><span class="keyword">typedef</span> OBJC_ENUM(uintptr_t, objc_AssociationPolicy) &#123;</div><div class="line">    OBJC_ASSOCIATION_ASSIGN = <span class="number">0</span>,          </div><div class="line">    OBJC_ASSOCIATION_RETAIN_NONATOMIC = <span class="number">1</span>, </div><div class="line">    OBJC_ASSOCIATION_COPY_NONATOMIC = <span class="number">3</span>,   </div><div class="line">    OBJC_ASSOCIATION_RETAIN = <span class="number">01401</span>,       </div><div class="line">    OBJC_ASSOCIATION_COPY = <span class="number">01403</span>      </div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="断开关联"><a href="#断开关联" class="headerlink" title="断开关联"></a>断开关联</h2><p>断开关联可以使用<code>objc_setAssociatedObject</code>函数，传入<code>nil</code>值即可。<br>其中，被关联的对象为<code>nil</code>，此时关联策略也就无关紧要了。<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">objc_setAssociatedObject(array, &amp;Key, <span class="literal">nil</span>, OBJC_ASSOCIATION_ASSIGN);</div></pre></td></tr></table></figure></p>
+<h2 id="获取关联对象"><a href="#获取关联对象" class="headerlink" title="获取关联对象"></a>获取关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">id</span> objc_getAssociatedObject(<span class="keyword">id</span> object, <span class="keyword">const</span> <span class="keyword">void</span> *key);</div></pre></td></tr></table></figure>
+<h2 id="断开所有关联对象"><a href="#断开所有关联对象" class="headerlink" title="断开所有关联对象"></a>断开所有关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">void</span> objc_removeAssociatedObjects(<span class="keyword">id</span> object);</div></pre></td></tr></table></figure>
+<p>通常情况下不建议使用这个函数，因为他会断开所有关联。只有在需要把对象恢复到“原始状态”的时候才会使用这个函数。</p>
+<h1 id="关联对象使用"><a href="#关联对象使用" class="headerlink" title="关联对象使用"></a>关联对象使用</h1><p>给一个对象动态添加属性，其实就是<code>get/set</code>方法。</p>
 <blockquote>
-<p>注意：</p>
-<p>1、<code>controller</code>可以直接与<code>model</code>和<code>view</code>进行通信，而<code>view</code>不能和<code>controller</code>直接通信。<code>view</code>与<code>controller</code>通信需要利用代理协议的方式。</p>
-<p>2、当有数据更新时，<code>model</code>也要与<code>controller</code>进行通信，这个时候就要用<code>Notification</code>和<code>KVO</code>，这个方式就像一个广播一样，<code>model</code>发信号，<code>controller</code>设置监听接受信号，当有数据更新时就发信号给<code>controller</code>。</p>
-<p>3、<code>model</code>和<code>view</code>不能直接进行通信，这样会违背<code>MVC</code>设计模式。</p>
+<p>为现有的类添加私有变量以帮助实现细节。<br>为现有的类添加公有属性。<br>为<code>KVO</code>创建一个关联的观察者。</p>
 </blockquote>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 对象关联</span></div><div class="line"><span class="comment">//1 定义常量关键字  键名</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">char</span> arrayKey;</div><div class="line"><span class="comment">//2 创建一个数组（要关联对象）</span></div><div class="line"><span class="built_in">NSArray</span> *arr = [[<span class="built_in">NSArray</span> alloc] initWithObjects:<span class="string">@"One"</span>, <span class="string">@"Two"</span>,<span class="string">@"Three"</span>, <span class="literal">nil</span>];</div><div class="line"><span class="comment">//3 创建一个字符串（关联对象）</span></div><div class="line"><span class="built_in">NSString</span> *arrayID = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@"</span>,<span class="string">@"three numbers"</span>];</div><div class="line"><span class="comment">//4 把 arrayID 关联到对象</span></div><div class="line">objc_setAssociatedObject(arr, &amp;arrayKey, arrayID, OBJC_ASSOCIATION_RETAIN);</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -528,23 +496,13 @@ var _hmt = _hmt || [];
           
             <a href="/tags/iOS/" rel="tag"># iOS</a>
           
-            <a href="/tags/Swift/" rel="tag"># Swift</a>
-          
             <a href="/tags/OC/" rel="tag"># OC</a>
           
-            <a href="/tags/KVO/" rel="tag"># KVO</a>
+            <a href="/tags/runtime/" rel="tag"># runtime</a>
           
-            <a href="/tags/KVC/" rel="tag"># KVC</a>
+            <a href="/tags/关联对象/" rel="tag"># 关联对象</a>
           
-            <a href="/tags/KeyPath/" rel="tag"># KeyPath</a>
-          
-            <a href="/tags/Block/" rel="tag"># Block</a>
-          
-            <a href="/tags/代理/" rel="tag"># 代理</a>
-          
-            <a href="/tags/Notification/" rel="tag"># Notification</a>
-          
-            <a href="/tags/MVC/" rel="tag"># MVC</a>
+            <a href="/tags/AssociatedObject/" rel="tag"># AssociatedObject</a>
           
         </div>
       
@@ -557,8 +515,8 @@ var _hmt = _hmt || [];
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/17/iOS-runtime-archive/" rel="next" title="iOS的runtime应用篇之实现归档解档">
-                <i class="fa fa-chevron-left"></i> iOS的runtime应用篇之实现归档解档
+              <a href="/2017/07/20/iOS-multi-thread/" rel="next" title="iOS之多线程">
+                <i class="fa fa-chevron-left"></i> iOS之多线程
               </a>
             
           </div>
@@ -566,10 +524,6 @@ var _hmt = _hmt || [];
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/18/iOS-runtime-methodExchange/" rel="prev" title="iOS的runtime应用篇之方法交换">
-                iOS的runtime应用篇之方法交换 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -722,7 +676,7 @@ var _hmt = _hmt || [];
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#KeyPath"><span class="nav-number">2.1.</span> <span class="nav-text">KeyPath</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KVC"><span class="nav-number">2.2.</span> <span class="nav-text">KVC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KVC机制通过key找到value的原理"><span class="nav-number">2.3.</span> <span class="nav-text">KVC机制通过key找到value的原理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#KVO"><span class="nav-number">3.</span> <span class="nav-text">KVO</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS中实现KVO"><span class="nav-number">3.1.</span> <span class="nav-text">iOS中实现KVO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OC版本"><span class="nav-number">3.1.1.</span> <span class="nav-text">OC版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift版本"><span class="nav-number">3.1.2.</span> <span class="nav-text">Swift版本</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#与其他设计模式的比较"><span class="nav-number">4.</span> <span class="nav-text">与其他设计模式的比较</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代理"><span class="nav-number">4.1.</span> <span class="nav-text">代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协议"><span class="nav-number">4.2.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC设计模式"><span class="nav-number">4.3.</span> <span class="nav-text">MVC设计模式</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关联对象函数"><span class="nav-number">2.</span> <span class="nav-text">关联对象函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置关联对象"><span class="nav-number">2.1.</span> <span class="nav-text">设置关联对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关联策略"><span class="nav-number">2.2.</span> <span class="nav-text">关联策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#断开关联"><span class="nav-number">2.3.</span> <span class="nav-text">断开关联</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取关联对象"><span class="nav-number">2.4.</span> <span class="nav-text">获取关联对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#断开所有关联对象"><span class="nav-number">2.5.</span> <span class="nav-text">断开所有关联对象</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关联对象使用"><span class="nav-number">3.</span> <span class="nav-text">关联对象使用</span></a></li></ol></div>
             
 
           </div>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mengyueping.com/"/>
-  <updated>2017-07-20T12:33:20.000Z</updated>
+  <updated>2017-08-13T06:39:59.000Z</updated>
   <id>http://mengyueping.com/</id>
   
   <author>
@@ -14,6 +14,74 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>iOS的runtime之AssociatedObject</title>
+    <link href="http://mengyueping.com/2017/08/13/iOS-runtime-associated-object/"/>
+    <id>http://mengyueping.com/2017/08/13/iOS-runtime-associated-object/</id>
+    <published>2017-08-12T16:00:00.000Z</published>
+    <updated>2017-08-13T06:39:59.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><blockquote>
+<ol>
+<li>关联对象被存储在什么地方，是不是存放在被关联对象本身的内存中？</li>
+<li>关联对象的五种关联策略有什么区别？</li>
+<li>关联对象都有哪些使用场景?</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+<h1 id="关联对象函数"><a href="#关联对象函数" class="headerlink" title="关联对象函数"></a>关联对象函数</h1><p>关联对象函数：<code>objc_setAssociatedObject</code>、<code>objc_getAssociatedObject</code>、<code>objc_removeAssociatedObjects</code>。</p>
+<blockquote>
+<p><code>关联</code>是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分，可以理解为对象和属性的关系，但是有所不同。</p>
+<p><code>关联</code>是在类的定义之外为类增加额外的存储空间。使用关联，我们可以<strong>不用修改类的定义</strong>而为其<strong>对象增加存储空间</strong>。在<strong>无法访问到类的源码</strong>的时候或者是<strong>考虑到二进制兼容性</strong>的时候是非常有用。</p>
+<p><code>关联</code>是基于关键字的，因此，我们可以为任何对象增加任意多的关联，每个都使用不同的关键字即可。<code>关联</code>是可以保证<strong>被关联的对象在关联对象的整个生命周期都是可用的</strong>。</p>
+</blockquote>
+<h2 id="设置关联对象"><a href="#设置关联对象" class="headerlink" title="设置关联对象"></a>设置关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">void</span> objc_setAssociatedObject(<span class="keyword">id</span> object, <span class="keyword">const</span> <span class="keyword">void</span> *key, <span class="keyword">id</span> value, objc_AssociationPolicy policy);</div></pre></td></tr></table></figure>
+<p>四个参数：<strong>源对象</strong>(被关联的对象-<code>id object</code>)，<strong>关键字</strong>(<code>const void *key</code>)，<strong>关联的对象</strong>(<code>id value</code>)和一个<strong>关联策略</strong>(<code>objc_AssociationPolicy policy</code>)。</p>
+<p><code>关键字</code>：是一个<code>void</code>类型的指针。每一个关联的关键字必须是唯一的。通常都是会采用静态变量来作为关键字。</p>
+<blockquote>
+<p>有三种推荐<code>Key</code>值：<br>声明 <code>static char kAssociatedObjectKey;</code>，使用 <code>&amp;kAssociatedObjectKey</code>作为 <code>key</code>值;<br>声明 <code>static void *kAssociatedObjectKey = &amp;kAssociatedObjectKey;</code>，使用 <code>kAssociatedObjectKey</code> 作为<code>key</code> 值；<br>用<code>selector</code>，使用<code>getter</code>方法的名称作为<code>key</code>值。(省掉了一个变量名。可以通过<code>_cmd</code>)</p>
+</blockquote>
+<h2 id="关联策略"><a href="#关联策略" class="headerlink" title="关联策略"></a>关联策略</h2><p>表明了关联的对象是通过  赋值，保留引用还是复制的方式进行关联的；还有这种关联是原子的还是非原子的。这里的关联策略和声明属性时的很类似。使用枚举常量来表示的。<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// OBJC_ASSOCIATION_ASSIGN           : 弱引用关联对象《=》@property(assign)/@property(unsafe_unretained)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_RETAIN_NONATOMIC : 强引用关联对象，且为非原子操作《=》@property (strong, nonatomic)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_COPY_NONATOMIC   : 复制关联对象，且为非原子操作《=》@property (copy, nonatomic)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_RETAIN           : 强引用关联对象，且为原子操作《=》@property (strong, atomic)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_COPY             : 复制关联对象，且为原子操作《=》@property (copy, atomic)</span></div><div class="line"><span class="keyword">typedef</span> OBJC_ENUM(uintptr_t, objc_AssociationPolicy) &#123;</div><div class="line">    OBJC_ASSOCIATION_ASSIGN = <span class="number">0</span>,          </div><div class="line">    OBJC_ASSOCIATION_RETAIN_NONATOMIC = <span class="number">1</span>, </div><div class="line">    OBJC_ASSOCIATION_COPY_NONATOMIC = <span class="number">3</span>,   </div><div class="line">    OBJC_ASSOCIATION_RETAIN = <span class="number">01401</span>,       </div><div class="line">    OBJC_ASSOCIATION_COPY = <span class="number">01403</span>      </div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="断开关联"><a href="#断开关联" class="headerlink" title="断开关联"></a>断开关联</h2><p>断开关联可以使用<code>objc_setAssociatedObject</code>函数，传入<code>nil</code>值即可。<br>其中，被关联的对象为<code>nil</code>，此时关联策略也就无关紧要了。<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">objc_setAssociatedObject(array, &amp;Key, <span class="literal">nil</span>, OBJC_ASSOCIATION_ASSIGN);</div></pre></td></tr></table></figure></p>
+<h2 id="获取关联对象"><a href="#获取关联对象" class="headerlink" title="获取关联对象"></a>获取关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">id</span> objc_getAssociatedObject(<span class="keyword">id</span> object, <span class="keyword">const</span> <span class="keyword">void</span> *key);</div></pre></td></tr></table></figure>
+<h2 id="断开所有关联对象"><a href="#断开所有关联对象" class="headerlink" title="断开所有关联对象"></a>断开所有关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">void</span> objc_removeAssociatedObjects(<span class="keyword">id</span> object);</div></pre></td></tr></table></figure>
+<p>通常情况下不建议使用这个函数，因为他会断开所有关联。只有在需要把对象恢复到“原始状态”的时候才会使用这个函数。</p>
+<h1 id="关联对象使用"><a href="#关联对象使用" class="headerlink" title="关联对象使用"></a>关联对象使用</h1><p>给一个对象动态添加属性，其实就是<code>get/set</code>方法。</p>
+<blockquote>
+<p>为现有的类添加私有变量以帮助实现细节。<br>为现有的类添加公有属性。<br>为<code>KVO</code>创建一个关联的观察者。</p>
+</blockquote>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 对象关联</span></div><div class="line"><span class="comment">//1 定义常量关键字  键名</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">char</span> arrayKey;</div><div class="line"><span class="comment">//2 创建一个数组（要关联对象）</span></div><div class="line"><span class="built_in">NSArray</span> *arr = [[<span class="built_in">NSArray</span> alloc] initWithObjects:<span class="string">@"One"</span>, <span class="string">@"Two"</span>,<span class="string">@"Three"</span>, <span class="literal">nil</span>];</div><div class="line"><span class="comment">//3 创建一个字符串（关联对象）</span></div><div class="line"><span class="built_in">NSString</span> *arrayID = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@"</span>,<span class="string">@"three numbers"</span>];</div><div class="line"><span class="comment">//4 把 arrayID 关联到对象</span></div><div class="line">objc_setAssociatedObject(arr, &amp;arrayKey, arrayID, OBJC_ASSOCIATION_RETAIN);</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h1&gt;&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;关联对象被存储在什么地方，是不是存放在被关联对象本身的内存中？&lt;/li&gt;
+&lt;li&gt;关联对象的五种关联策略有什么区别？&lt;/li&gt;
+&lt;li&gt;关联对象都有哪些使用场景?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://mengyueping.com/categories/iOS/"/>
+    
+      <category term="runtime" scheme="http://mengyueping.com/categories/iOS/runtime/"/>
+    
+    
+      <category term="iOS" scheme="http://mengyueping.com/tags/iOS/"/>
+    
+      <category term="OC" scheme="http://mengyueping.com/tags/OC/"/>
+    
+      <category term="runtime" scheme="http://mengyueping.com/tags/runtime/"/>
+    
+      <category term="关联对象" scheme="http://mengyueping.com/tags/%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1/"/>
+    
+      <category term="AssociatedObject" scheme="http://mengyueping.com/tags/AssociatedObject/"/>
+    
+  </entry>
   
   <entry>
     <title>iOS之多线程</title>
