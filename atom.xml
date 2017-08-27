@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://mengyueping.com/"/>
-  <updated>2017-08-13T06:39:59.000Z</updated>
+  <updated>2017-08-27T13:59:48.000Z</updated>
   <id>http://mengyueping.com/</id>
   
   <author>
@@ -14,6 +14,111 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>iOS的Runloop</title>
+    <link href="http://mengyueping.com/2017/08/27/iOS-runloop/"/>
+    <id>http://mengyueping.com/2017/08/27/iOS-runloop/</id>
+    <published>2017-08-26T16:00:00.000Z</published>
+    <updated>2017-08-27T13:59:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="runloop"><a href="#runloop" class="headerlink" title="runloop"></a>runloop</h1><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
+<li>程序启动过程？</li>
+<li>创建定时器的方法？在主线程创建定时器？在子线程创建定时器？添加定时器到运行循环，不同模式的区别？</li>
+<li>使用<code>GCD</code>创建定时器？</li>
+<li>子线程创建的定时器，为什么需要开启一个子线程的<code>RunLoop</code>？</li>
+<li><code>RunLoop</code>作用？主线程能不能被销毁，销毁后会程序会怎样？</li>
+</ul>
+<a id="more"></a>
+<h1 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h1><p>程序启动：<code>打开程序</code> -&gt; <code>执行main函数</code> -&gt; <code>执行UIApplicationMain函数</code> -&gt; <code>初始化UIApplication（创建和设置代理对象，开启事件循环）</code> -&gt; <code>监听系统事件</code>。 </p>
+<blockquote>
+<p>1、<code>main</code>函数<br>2、<code>UIApplicationMain</code></p>
+<blockquote>
+<p>2.1 创建<code>UIApplication</code>对象</p>
+<p>2.2 创建<code>UIApplication</code>的<code>delegate</code>对象 (没有<code>storyboard</code>)</p>
+</blockquote>
+<p>3、<code>delegate</code>对象开始处理（监听）系统事件(有<code>storyboard</code>)</p>
+<blockquote>
+<p>3.1 程序启动完毕的时候，就会调用代理的 <code>application:didFinishLaunchingWithOptions:</code>方法</p>
+<p>3.2 创建和设置<code>UIWindow</code>的<code>rootViewController</code></p>
+<p>3.3 显示窗口</p>
+</blockquote>
+<p>3.根据<code>Info.plist</code>获得最主要<code>storyboard</code>的文件名,加载最主要的<code>storyboard</code>(有<code>storyboard</code>)</p>
+<blockquote>
+<p>3.1 创建<code>UIWindow</code></p>
+<p>3.2 创建和设置<code>UIWindow</code>的<code>rootViewController</code></p>
+<p>3.3 显示窗口</p>
+</blockquote>
+</blockquote>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// If nil is specified for principalClassName, the value for NSPrincipalClass from the Info.plist is used. </span></div><div class="line"><span class="comment">//CH: 如果给“principalClassName”参数指定了“nil”，将会从“Info.plist”中加载key为“NSPrincipalClass”所对应的Value。</span></div><div class="line"></div><div class="line"><span class="comment">// If there is no NSPrincipalClass key specified, the UIApplication class is used. </span></div><div class="line"><span class="comment">//CH: 如果“Info.plist”中没有指定“NSPrincipalClass”这个key，那么“UIApplication”类会被使用。</span></div><div class="line"></div><div class="line"><span class="comment">// The delegate class will be instantiated using init.</span></div><div class="line"><span class="comment">//CH: 代理类将使用“init”来实例化。</span></div><div class="line"><span class="built_in">UIKIT_EXTERN</span> <span class="keyword">int</span> <span class="built_in">UIApplicationMain</span>(<span class="keyword">int</span> argc, <span class="keyword">char</span> * _Nonnull * _Null_unspecified argv, <span class="built_in">NSString</span> * _Nullable principalClassName, <span class="built_in">NSString</span> * _Nullable delegateClassName);</div></pre></td></tr></table></figure>
+<p>通常创建项目主运行循环代码：<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> <span class="built_in">UIApplicationMain</span>(argc, argv, <span class="literal">nil</span>, <span class="built_in">NSStringFromClass</span>([AppDelegate <span class="keyword">class</span>]));</div></pre></td></tr></table></figure></p>
+<p>可以相当于:<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 把 nil 替换为 @"UIApplication"</span></div><div class="line"><span class="keyword">return</span> <span class="built_in">UIApplicationMain</span>(argc, argv, <span class="string">@"UIApplication"</span>, <span class="built_in">NSStringFromClass</span>([AppDelegate <span class="keyword">class</span>]));</div></pre></td></tr></table></figure></p>
+<p>参数<code>principalClassName</code>是<code>APP</code>的单例对象，也可以是自定义<code>UIApplication</code>的子类，可以拦截<code>UIApplication</code>的一些事件。</p>
+<p>通过下面代码可以证明<code>UIApplicationMain</code>函数是一个死循环。<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 死循环</span></div><div class="line"><span class="comment">// --- Runloop 主线程</span></div><div class="line"><span class="keyword">int</span> m = <span class="built_in">UIApplicationMain</span>(argc, argv, <span class="string">@"UIApplication"</span>, <span class="built_in">NSStringFromClass</span>([AppDelegate <span class="keyword">class</span>]));</div><div class="line"><span class="built_in">NSLog</span>(<span class="string">@"---UIApplicationMain--不会执行---"</span>); <span class="comment">// 上面代码是死循环，所以下面代码都不会执行。</span></div><div class="line"><span class="keyword">return</span> m;</div></pre></td></tr></table></figure></p>
+<h1 id="NSTimer"><a href="#NSTimer" class="headerlink" title="NSTimer"></a>NSTimer</h1><h2 id="主线程创建定时器"><a href="#主线程创建定时器" class="headerlink" title="主线程创建定时器"></a>主线程创建定时器</h2><p>方式一：<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 创建定时器，并把定时器添加到主运行循环。</span></div><div class="line">[<span class="built_in">NSTimer</span> scheduledTimerWithTimeInterval:<span class="number">1</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerStart) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</div></pre></td></tr></table></figure></p>
+<p>方式二：<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSTimer</span> *timer = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">1</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerStart) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</div><div class="line"><span class="comment">// 把定时器对象添加到默认运行循环，即主运行循环。</span></div><div class="line">[[<span class="built_in">NSRunLoop</span> currentRunLoop] addTimer:timer forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</div><div class="line"><span class="comment">// [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];</span></div><div class="line"><span class="comment">// [[NSRunLoop currentRunLoop] addTimer:timer forMode:UITrackingRunLoopMode];</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>添加到 NSRunLoop 的三种模式：</p>
+<p><code>NSDefaultRunLoopMode</code>： 默认模式，苹果建议放时钟，网络事件。</p>
+<p><code>UITrackingRunLoopMode</code>： UI模式，只有被触摸事件所唤醒。</p>
+<p><code>NSRunLoopCommonModes</code>： 并不是一个真正的<code>Runloop</code>的模式，而是一个占位模式。<br>在<code>NSDefaultRunLoopMode</code>和<code>UITrackingRunLoopMode</code>模式中都会占位，即在这两种模式中都会添加事件。</p>
+</blockquote>
+<p>在<code>UITrackingRunLoopMode</code>模式下，使用计时器方法回调中的耗时操作，会造成<code>UI</code>界面操作卡顿现象，对用户体验不好，所以默认使用方法一开启定时器，是在<code>NSDefaultRunLoopMode</code>模式下。例如：<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSTimer</span> *timer = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">1</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerStart) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</div><div class="line">[[<span class="built_in">NSRunLoop</span> currentRunLoop] addTimer:timer forMode:<span class="built_in">UITrackingRunLoopMode</span>];</div></pre></td></tr></table></figure></p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 耗时操作</span></div><div class="line">- (<span class="keyword">void</span>)timerStart &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"---timerStart--"</span>);</div><div class="line">    [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">1.0</span>]; <span class="comment">// 耗时操作</span></div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"---耗时操作--"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="子线程创建定时器"><a href="#子线程创建定时器" class="headerlink" title="子线程创建定时器"></a>子线程创建定时器</h2><p>创建一个<code>NSThread</code>的子类<code>Thread</code>，并重写<code>-dealloc</code>方法：<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Thread</span> : <span class="title">NSThread</span></span></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)dealloc</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"--Thread--dealloc---"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>创建<code>Thread</code>对象，并使用一个全局对象对其进行强引用，开启一条子线程：<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) Thread *thread;</div></pre></td></tr></table></figure></p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 开启一条子线程</span></div><div class="line">_thread = [[Thread alloc] initWithBlock:^&#123;</div><div class="line">    <span class="comment">//方法一：</span></div><div class="line">   <span class="comment">// [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerStartChildThread) userInfo:nil repeats:YES];</span></div><div class="line">    </div><div class="line">    <span class="comment">//方法二：</span></div><div class="line">    <span class="built_in">NSTimer</span> *timer = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">1</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(timerStartChildThread) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</div><div class="line">    <span class="comment">// 告诉Runloop</span></div><div class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] addTimer:timer forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</div><div class="line">    </div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,[<span class="built_in">NSThread</span> currentThread]);</div><div class="line">    </div><div class="line">    <span class="comment">// 运行Runloop</span></div><div class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] run];</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"--此行代码--执行不到--"</span>); <span class="comment">//前面有死循环，所以不会执行 </span></div><div class="line">&#125;];</div><div class="line">[_thread start]; <span class="comment">// 开启线程</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>如何保住一个线程？<br>1、对<code>NSThread</code>对象进行全局变量强引用，只是保证<code>NSThread</code>这个<code>OC</code>对象不会被销毁，并不能保证线程不会被销毁。</p>
+<p>2、当一个线程没有任务的时候，这个线程就会销毁。所以要保住一个线程，必须给这个线程做完的事情任务。</p>
+<p>3、<code>Runloop</code>就是一个事件监听任务，永远不会停止。<br> 除非主动停止，使用<code>[NSThread exit];</code> 或者<code>[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.001]];</code>。</p>
+<p>4、子线程的<code>Runloop</code>默认是关闭的。</p>
+<p>主线程和子线程的一些理解：</p>
+<p>1、主线程和子线程在本质上没有任何区别。对于操作系统来说，一个<code>App</code>的主线程就是一个子线程。</p>
+<p>2、<code>iOS</code>系统对待主线程和子线程是有区别的，渲染<code>UI</code>在主线程上面做。</p>
+<p>3、<code>UIKit</code> 框架下的控件，苹果建议都用 <code>nonatomic</code> 非原子性来修饰（不加锁），提升性能。建议：<code>UI</code>操作都在主线程上面执行。</p>
+<p>4、主线程是可以被干掉的。使用<code>[NSThread exit];</code>。把主线程干掉后，子线程可以继续运行，<code>App</code>不<code>Crash</code>，只是<code>UI</code>操作全部不会响应。</p>
+</blockquote>
+<h2 id="GCD创建定时器"><a href="#GCD创建定时器" class="headerlink" title="GCD创建定时器"></a>GCD创建定时器</h2><p><code>GCD</code>创建的定时器，默认会在子线程，会默认开启一个子线程<code>Runloop</code>。<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 强引用</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) dispatch_source_t timer;</div></pre></td></tr></table></figure></p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// GCD 并发编程</span></div><div class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="number">0</span>, <span class="number">0</span>);</div><div class="line"><span class="comment">// 创建一个定时器,必须有一个全局的强引用,来保持住timer对象</span></div><div class="line">_timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, <span class="number">0</span>, <span class="number">0</span>, queue);</div><div class="line"><span class="comment">// 设置timer GCD中时间单位是纳秒。NSEC_PER_SEC 1000000000ull</span></div><div class="line">dispatch_source_set_timer(_timer, DISPATCH_TIME_NOW, <span class="number">1.0</span> * <span class="built_in">NSEC_PER_SEC</span>, <span class="number">0</span> * <span class="built_in">NSEC_PER_SEC</span>);</div><div class="line"><span class="comment">// 设置回调</span></div><div class="line">dispatch_source_set_event_handler(_timer, ^&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"--%@--"</span>,[<span class="built_in">NSThread</span> currentThread]); <span class="comment">//子线程</span></div><div class="line">&#125;);</div><div class="line"><span class="comment">// 启动</span></div><div class="line">dispatch_resume(_timer);</div></pre></td></tr></table></figure>
+<h1 id="RunLoop"><a href="#RunLoop" class="headerlink" title="RunLoop"></a>RunLoop</h1><blockquote>
+<p>为什么要有<code>RunLoop</code>：<br>1、保证程序不退出。主<code>RunLoop</code>保证主线程不退出，保证主线程存活。<br>2、负责监听事件：触摸事件、时钟事件、网络事件。<br>3、如果没有事件发生，会进入休眠。</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;runloop&quot;&gt;&lt;a href=&quot;#runloop&quot; class=&quot;headerlink&quot; title=&quot;runloop&quot;&gt;&lt;/a&gt;runloop&lt;/h1&gt;&lt;h2 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;程序启动过程？&lt;/li&gt;
+&lt;li&gt;创建定时器的方法？在主线程创建定时器？在子线程创建定时器？添加定时器到运行循环，不同模式的区别？&lt;/li&gt;
+&lt;li&gt;使用&lt;code&gt;GCD&lt;/code&gt;创建定时器？&lt;/li&gt;
+&lt;li&gt;子线程创建的定时器，为什么需要开启一个子线程的&lt;code&gt;RunLoop&lt;/code&gt;？&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RunLoop&lt;/code&gt;作用？主线程能不能被销毁，销毁后会程序会怎样？&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="iOS" scheme="http://mengyueping.com/categories/iOS/"/>
+    
+      <category term="RunLoop" scheme="http://mengyueping.com/categories/iOS/RunLoop/"/>
+    
+    
+      <category term="iOS" scheme="http://mengyueping.com/tags/iOS/"/>
+    
+      <category term="OC" scheme="http://mengyueping.com/tags/OC/"/>
+    
+      <category term="GCD" scheme="http://mengyueping.com/tags/GCD/"/>
+    
+      <category term="NSThread" scheme="http://mengyueping.com/tags/NSThread/"/>
+    
+      <category term="多线程" scheme="http://mengyueping.com/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    
+      <category term="RunLoop" scheme="http://mengyueping.com/tags/RunLoop/"/>
+    
+      <category term="NSTimer" scheme="http://mengyueping.com/tags/NSTimer/"/>
+    
+  </entry>
   
   <entry>
     <title>iOS的runtime之AssociatedObject</title>
