@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="iOS,Swift,JavaScript,JavaScriptCore,JSExport,OC,JSManagedValue," />
+  <meta name="keywords" content="iOS,Swift,OC,JavaScript,JavaScriptCore,JSExport,JSManagedValue," />
 
 
 
@@ -80,10 +80,10 @@
 
 
 <meta name="description" content="问题 JSExport如何使用？ 如何使用JSExport调用自定义的OC/Swift类属性? 如何使用JSExport调用自定义的OC/Swift类的方法？ 如何使用JSExport调用系统或外部引用库的OC/Swift类的属性和方法？ JSManagedValue的作用？  若想了解如何通过UIWebView、WKWebView、JavaScriptCore的JSContext来执行JavaS">
-<meta name="keywords" content="iOS,Swift,JavaScript,JavaScriptCore,JSExport,OC,JSManagedValue">
+<meta name="keywords" content="iOS,Swift,OC,JavaScript,JavaScriptCore,JSExport,JSManagedValue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JSExport实现JS调用OC&#x2F;Swift">
-<meta property="og:url" content="http://mengyueping.com/2017/07/02/iOS-JSExport-JSCallOC-Swift/index.html">
+<meta property="og:url" content="http://www.mengyueping.com/2017/07/02/iOS-JSExport-JSCallOC-Swift/index.html">
 <meta property="og:site_name" content="孟跃平的技术博客">
 <meta property="og:description" content="问题 JSExport如何使用？ 如何使用JSExport调用自定义的OC/Swift类属性? 如何使用JSExport调用自定义的OC/Swift类的方法？ 如何使用JSExport调用系统或外部引用库的OC/Swift类的属性和方法？ JSManagedValue的作用？  若想了解如何通过UIWebView、WKWebView、JavaScriptCore的JSContext来执行JavaS">
 <meta property="og:locale" content="zh-Hans">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://mengyueping.com/2017/07/02/iOS-JSExport-JSCallOC-Swift/"/>
+  <link rel="canonical" href="http://www.mengyueping.com/2017/07/02/iOS-JSExport-JSCallOC-Swift/"/>
 
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://mengyueping.com/2017/07/02/iOS-JSExport-JSCallOC-Swift/">
+    <link itemprop="mainEntityOfPage" href="http://www.mengyueping.com/2017/07/02/iOS-JSExport-JSCallOC-Swift/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="孟跃平">
@@ -402,7 +402,7 @@
 <li>如何使用<code>JSExport</code>调用系统或外部引用库的<code>OC/Swift</code>类的属性和方法？</li>
 <li><code>JSManagedValue</code>的作用？</li>
 </ul>
-<p>若想了解如何通过<code>UIWebView</code>、<code>WKWebView</code>、<code>JavaScriptCore</code>的<code>JSContext</code>来执行<code>JavaScript</code>代码，使用<code>UIWebView</code>、<code>WKWebView</code>监听<code>JS</code>函数调用，<code>WKWebView</code>与<code>JS</code>之间的通信，以及通过<code>JavaScriptCore</code>的<code>JSContext</code>使<code>OC/Swift</code>中<code>Block/Closure</code>转换成<code>JS</code>函数以达到<code>JS</code>调用<code>OC</code>效果，可以参看：<a href="http://www.mengyueping.com/2016/10/16/iOS-callJavaScript/" target="_blank" rel="noopener">Objective-C/Swift与JavaScript交互</a>。</p>
+<p>若想了解如何通过<code>UIWebView</code>、<code>WKWebView</code>、<code>JavaScriptCore</code>的<code>JSContext</code>来执行<code>JavaScript</code>代码，使用<code>UIWebView</code>、<code>WKWebView</code>监听<code>JS</code>函数调用，<code>WKWebView</code>与<code>JS</code>之间的通信，以及通过<code>JavaScriptCore</code>的<code>JSContext</code>使<code>OC/Swift</code>中<code>Block/Closure</code>转换成<code>JS</code>函数以达到<code>JS</code>调用<code>OC</code>效果，可以参看：<a href="http://www.mengyueping.com/2016/10/16/iOS-callJavaScript/">Objective-C/Swift与JavaScript交互</a>。</p>
 <a id="more"></a>
 <h1 id="JSExport"><a href="#JSExport" class="headerlink" title="JSExport"></a>JSExport</h1><blockquote>
 <p><code>JSExport</code>：是一个协议，没有声明任何属性和方法。可以自定义一个协议，继承自<code>JSExport</code>。我们可以在自定义的协议里面声明属性、方法，继承该协议的<code>OC/Swift</code>对象会把协议中的属性和方法提供给<code>JS</code>调用。<code>JSExport</code>主要是用于将<code>OC/Swift</code>中定义的<code>Model</code>类等引入到<code>JavaScript</code>中，便于在<code>JS</code>中使用这种对象和对象的属性、方法。</p>
@@ -479,13 +479,13 @@
           
             <a href="/tags/Swift/" rel="tag"># Swift</a>
           
+            <a href="/tags/OC/" rel="tag"># OC</a>
+          
             <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
             <a href="/tags/JavaScriptCore/" rel="tag"># JavaScriptCore</a>
           
             <a href="/tags/JSExport/" rel="tag"># JSExport</a>
-          
-            <a href="/tags/OC/" rel="tag"># OC</a>
           
             <a href="/tags/JSManagedValue/" rel="tag"># JSManagedValue</a>
           
@@ -837,7 +837,7 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://mengyueping.com/2017/07/02/iOS-JSExport-JSCallOC-Swift/';
+          this.page.url = 'http://www.mengyueping.com/2017/07/02/iOS-JSExport-JSCallOC-Swift/';
           this.page.identifier = '2017/07/02/iOS-JSExport-JSCallOC-Swift/';
           this.page.title = 'JSExport实现JS调用OC/Swift';
         };
