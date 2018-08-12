@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
@@ -10,6 +10,7 @@
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
 
 
@@ -36,36 +37,11 @@
 
 
 
+
   
   
   <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
 
 
 
@@ -74,7 +50,22 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
 
 
   <meta name="keywords" content="iOS,Swift,OC,IDFV,KeyChain,UDID,IDFA," />
@@ -82,13 +73,6 @@
 
 
 
-
-  <link rel="alternate" href="/atom.xml" title="孟跃平的技术博客" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
 
 
 
@@ -102,6 +86,7 @@
 <meta property="og:url" content="http://mengyueping.com/2017/07/12/iOS-keyChain-IDFV/index.html">
 <meta property="og:site_name" content="孟跃平的技术博客">
 <meta property="og:description" content="iOS设备ID问题 UDID、MAC地址、UUID、IDFV、keychain、IDFA能作为设备的唯一标识吗？ 如何使用IDFV和keychain来标识安装App的设备？ 如何来标识本公司所有App安装的设备？记录用户应用使用习惯？ 用哪种ID追踪某一台设备是否在下载过某个应用?">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-07-11T16:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS开发中使用到的设备ID及存储方案">
@@ -114,9 +99,11 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -139,23 +126,7 @@
 
 
 
-
-<script type="text/javascript" id="hexo.configurations">
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?deacc15534ffb9510cfb94bae354ea45";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
   <title>iOS开发中使用到的设备ID及存储方案 | 孟跃平的技术博客</title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
   
 
 
@@ -175,19 +146,16 @@ var _hmt = _hmt || [];
 
 
 
+</head>
 
-
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -233,22 +201,22 @@ var _hmt = _hmt || [];
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
           </a>
         </li>
       
@@ -263,12 +231,12 @@ var _hmt = _hmt || [];
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            标签
+            关于
           </a>
         </li>
       
@@ -300,13 +268,17 @@ var _hmt = _hmt || [];
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://mengyueping.com/2017/07/12/iOS-keyChain-IDFV/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="孟跃平">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/uploads/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -366,6 +338,17 @@ var _hmt = _hmt || [];
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/12/iOS-keyChain-IDFV/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/07/12/iOS-keyChain-IDFV/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -376,17 +359,12 @@ var _hmt = _hmt || [];
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">阅读次数 </span>
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
           
 
           
@@ -397,6 +375,9 @@ var _hmt = _hmt || [];
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -413,6 +394,8 @@ var _hmt = _hmt || [];
 <h1 id="UDID"><a href="#UDID" class="headerlink" title="UDID"></a>UDID</h1><p><code>Unique Device Identifier</code>是<code>iOS</code>设备的唯一识别码，由40个字符的字母和数字组成。在需要限制一台设备一个账号的应用中经常会用到。在<code>iOS5</code>中可以获取到设备的<code>UDID</code>，<code>iOS7</code>中已经完全的禁用了它。另外可以使用<code>iTunes</code>，<code>pp助手</code>或<code>itools</code>等软件查看iOS设备<code>UDID</code>（设备标识）。<code>iOS7</code>之前使用了获取到设备的<code>UDID</code>的<code>app</code>，如果在<code>iOS7</code>上运行，它不会返回设备的<code>UDID</code>，而是会返回一串字符串，以<code>FFFFFFFF</code>开头，跟着<code>identifierForVendor</code>的十六进制值。废弃。</p>
 <blockquote>
 <p><code>UDID</code>可以关联其它各种数据到相关设备上。例如，连接到开发者账号，可以允许在发布前让设备安装或测试应用；也可以让开发者获得<code>iOS</code>测试版进行体验。<code>apple</code>用<code>UDID</code>连接到<code>apple ID</code>，这些设备可以自动下载和安装从<code>App Store</code>购买的应用、保存从<code>iTunes</code>购买的音乐、帮助<code>apple</code>发送推送通知、即时消息。 在<code>iOS</code>应用早期，<code>UDID</code>被第三方应用开发者和网络广告商用来收集用户数据，可以用来关联地址、记录应用使用习惯等等以便推送精准广告。</p>
+</blockquote>
+<blockquote>
 <p>为什么苹果反对开发人员使用<code>UDID</code>？</p>
 <p>开发者把<code>UDID</code>跟用户的真实姓名、密码、住址、其它数据关联起来；网络窥探者会从多个应用收集这些数据，然后顺藤摸瓜得到这个人的许多隐私数据。同时大部分应用确实在频繁传输<code>UDID</code>和私人信息。 为了避免集体诉讼，苹果最终决定在<code>iOS 5</code>的时候，将这一惯例废除，开发者被引导生成一个唯一的标识符，只能检测应用程序，其他的信息不提供。现在应用试图获取<code>UDID</code>已被禁止且不允许上架。</p>
 </blockquote>
@@ -424,10 +407,10 @@ var _hmt = _hmt || [];
 <p><code>1EF34611-4735-44C5-AC44-5D1ABD70B618</code></p>
 </blockquote>
 <p>代码生成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[NSUUID UUID].UUIDString;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[NSUUID UUID].UUIDString;</span><br></pre></td></tr></table></figure>
 <h1 id="IDFV"><a href="#IDFV" class="headerlink" title="IDFV"></a>IDFV</h1><p><code>iOS 6.0</code>系统新增用于替换获取<code>UDID</code>的接口。是给<code>Vendor</code>（应用提供商）标识用户用的，每个设备在所属同一个<code>Vender</code>的应用里，都有相同的值。其中的<code>Vender</code>是指应用提供商。</p>
 <p>通过<code>Bundle ID</code>前三部分进行匹配（前三部分一般是<code>Organization</code>），如果相同就是同一个<code>Vender</code>，例如对于<code>com.mengyueping.www.appone</code>,<code>com.mengyueping.www.apptwo</code>这两个<code>BundleID</code>来说，就属于同一个<code>Vender</code>，共享同一个<code>IDFV</code>的值。另外，还与设备相关。<code>IDFV</code>的值是一定能取到的，非常适合于作为内部用户行为分析的主<code>id</code>，来标识用户，替代<code>UDID</code>。如果用户将属于此<code>Vender</code>的所有<code>App</code>卸载，则<code>IDFV</code>的值会被重置，即再重装此<code>Vender</code>的<code>App</code>，<code>IDFV</code>的值和之前不同。<code>iOS6.0</code>及以后。</p>
-<p>代码生成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[[UIDevice currentDevice] identifierForVendor] UUIDString]</div></pre></td></tr></table></figure></p>
+<p>代码生成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[UIDevice currentDevice] identifierForVendor] UUIDString]</span><br></pre></td></tr></table></figure></p>
 <p>模拟器中测试：</p>
 <ul>
 <li>1、同一个模拟器中运行不同<code>App</code>(<code>Bundle ID</code>不同)，<code>Bundle ID</code>前三部分相同（一般是公司域名反转，eg:<code>com.mengyueping.www</code>），即属于同一个家公司，获取到<code>IDFV</code>相同。</li>
@@ -446,44 +429,44 @@ var _hmt = _hmt || [];
 <h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>关于<code>KeyChain</code>操作是在<code>Security Framework</code>中，主要<code>API</code>在<code>&lt;Security/SecItem.h&gt;</code>头文件中。下面对常用<code>API</code>粗略介绍。</p>
 <p>对<code>Keychain</code>存储的<code>Item</code>（条目）可以理解为包含三部分：</p>
 <ul>
-<li>一部分是标识<code>Keychain</code>存储的<code>Item</code>类型，有固定的键<code>Key</code>是<code>kSecClass</code>，<code>Value</code>是一个<code>CFStringRef</code>类型，有固定五个选择：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 键</div><div class="line">extern const CFStringRef kSecClass</div></pre></td></tr></table></figure>
+<li>一部分是标识<code>Keychain</code>存储的<code>Item</code>类型，有固定的键<code>Key</code>是<code>kSecClass</code>，<code>Value</code>是一个<code>CFStringRef</code>类型，有固定五个选择：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 键</span><br><span class="line">extern const CFStringRef kSecClass</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 对应的值</div><div class="line">extern const CFStringRef kSecClassInternetPassword;</div><div class="line">extern const CFStringRef kSecClassGenericPassword;  //一般密码类型的item（不同类型会采用不同的加密级别）</div><div class="line">extern const CFStringRef kSecClassCertificate;</div><div class="line">extern const CFStringRef kSecClassKey;</div><div class="line">extern const CFStringRef kSecClassIdentity;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 对应的值</span><br><span class="line">extern const CFStringRef kSecClassInternetPassword;</span><br><span class="line">extern const CFStringRef kSecClassGenericPassword;  //一般密码类型的item（不同类型会采用不同的加密级别）</span><br><span class="line">extern const CFStringRef kSecClassCertificate;</span><br><span class="line">extern const CFStringRef kSecClassKey;</span><br><span class="line">extern const CFStringRef kSecClassIdentity;</span><br></pre></td></tr></table></figure>
 <p><code>SecItem</code>有五类：<strong>通用密码</strong>、<strong>互联网密码</strong>、<strong>证书</strong>、<strong>密钥</strong>和<strong>身份</strong>。</p>
 <ul>
 <li>一部分是可搜索的属性键值，定义了<code>Keychain</code>的<code>Item</code>的一些属性，有固定的键<code>Key</code>，是<code>CFStringRef</code>类型，<code>Value</code>是自己定义的对象，做存储搜索用，常用的<code>key</code>有：</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">extern const CFStringRef kSecAttrAccessGroup</div><div class="line">extern const CFStringRef kSecAttrService    // 用于描述该item的service属性</div><div class="line">extern const CFStringRef kSecAttrGeneric</div><div class="line">extern const CFStringRef kSecAttrAccount    // 指定item的account name。</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">extern const CFStringRef kSecAttrAccessible // 就是设置item的属性访问方式的</div><div class="line">// 有固定的Value选择， 一般是 kSecAttrAccessibleAfterFirstUnlock 表示只要设备一旦设备启动解锁后就可以一直访问。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">extern const CFStringRef kSecAttrAccessGroup</span><br><span class="line">extern const CFStringRef kSecAttrService    // 用于描述该item的service属性</span><br><span class="line">extern const CFStringRef kSecAttrGeneric</span><br><span class="line">extern const CFStringRef kSecAttrAccount    // 指定item的account name。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">extern const CFStringRef kSecAttrAccessible // 就是设置item的属性访问方式的</span><br><span class="line">// 有固定的Value选择， 一般是 kSecAttrAccessibleAfterFirstUnlock 表示只要设备一旦设备启动解锁后就可以一直访问。</span><br></pre></td></tr></table></figure>
 <ul>
 <li>一部分是加密过的存储数据，通常是要存储的密码等。</li>
 </ul>
 <p>这三部分都是以<code>Key-Value</code>（键值对）的字典形式存储的。</p>
 <p>对应<code>增、删、改、查</code>的<code>API</code>使用了<code>C</code>语言函数，如下：</p>
 <ul>
-<li>往<code>Keychain</code>里增加一条数据。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OSStatus SecItemAdd(CFDictionaryRef attributes, CFTypeRef * __nullable CF_RETURNS_RETAINED result)</div></pre></td></tr></table></figure>
+<li>往<code>Keychain</code>里增加一条数据。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OSStatus SecItemAdd(CFDictionaryRef attributes, CFTypeRef * __nullable CF_RETURNS_RETAINED result)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <blockquote>
 <p>第一个参数表示数据。<br>第二个参数表示执行该操作后，指向刚添加的这个数据的引用，如果不需要用到这条数据，可以传入NULL。</p>
 </blockquote>
 <ul>
-<li>查询<code>Keychain</code>里是否有符合条件的记录。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OSStatus SecItemCopyMatching(CFDictionaryRef query, CFTypeRef * __nullable CF_RETURNS_RETAINED result)</div></pre></td></tr></table></figure>
+<li>查询<code>Keychain</code>里是否有符合条件的记录。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OSStatus SecItemCopyMatching(CFDictionaryRef query, CFTypeRef * __nullable CF_RETURNS_RETAINED result)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <blockquote>
 <p>第一个参数查询条件<br>第二个查询到结果的引用。</p>
 </blockquote>
 <ul>
-<li>删除符号查询条件的记录。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OSStatus SecItemDelete(CFDictionaryRef query)</div></pre></td></tr></table></figure>
+<li>删除符号查询条件的记录。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OSStatus SecItemDelete(CFDictionaryRef query)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <blockquote>
 <p>参数表示查询条件</p>
 </blockquote>
 <ul>
-<li>更新Keychain里的记录。第一个参数表示查询条件，第二个表示当根据第一个查询条件后，用于更新的值。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OSStatus SecItemUpdate(CFDictionaryRef query, CFDictionaryRef attributesToUpdate)</div></pre></td></tr></table></figure>
+<li>更新Keychain里的记录。第一个参数表示查询条件，第二个表示当根据第一个查询条件后，用于更新的值。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OSStatus SecItemUpdate(CFDictionaryRef query, CFDictionaryRef attributesToUpdate)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <blockquote>
@@ -492,16 +475,18 @@ var _hmt = _hmt || [];
 <h2 id="Keychain-IDFV作为设备标识"><a href="#Keychain-IDFV作为设备标识" class="headerlink" title="Keychain+IDFV作为设备标识"></a><code>Keychain</code>+<code>IDFV</code>作为设备标识</h2><p>让同一开发商的所有<code>APP</code>在同一台设备上获取到设备标识相同，方便追踪用户，做数据统计。</p>
 <blockquote>
 <p>项目配置：<br>第一，在项目根目录下创建名字为<code>KeychainAccessGroups.plist</code>的<code>plist</code>文件，该文件的结构是一个字典，其中最顶层的节点是一个键为<code>keychain-access-groups</code>的<code>Array</code>，并且该<code>Array</code>中每一项都是一个描述分组的<code>NSString</code>。这个描述分组的<code>NSString</code>，就是<code>Keychain</code>配置字典中键<code>kSecAttrAccessGroup</code>所对应的值，就是要设置的组名。</p>
+</blockquote>
+<blockquote>
 <p>第二，设置<code>Code signing Entitlements</code>，在<code>Target -&gt; Build Settings -&gt; Signing</code>这一栏下配置路径，即为<code>Code Signing Entitlements</code>设置键值<code>$(PROJECT)/KeychainAccessGroups.plist</code>。这样就可以保证每个<code>app</code>都能从<code>keychain</code>中读取出来同一个值。</p>
 </blockquote>
 <h3 id="OC版本"><a href="#OC版本" class="headerlink" title="OC版本"></a>OC版本</h3><p>封装方法获取/存储<code>IDFV</code>作为设备标识，如果<code>Keychain</code>中已经存储的有，就直接获取，如果没有就获取并存储：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> 获得/存储IDFV</div><div class="line"> </div><div class="line"> @return IDFV设备标识</div><div class="line"> */</div><div class="line">+ (NSString *)getToPutUUID</div><div class="line">&#123;</div><div class="line">    NSString *idfv = [self get:kIDFVKey];</div><div class="line">    if (!idfv) &#123;</div><div class="line">        idfv = [[[UIDevice currentDevice] identifierForVendor] UUIDString];</div><div class="line">        [self put:kIDFVKey data:idfv];  //存储到Keychain</div><div class="line">    &#125;</div><div class="line">    return idfv;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 获得/存储IDFV</span><br><span class="line"> </span><br><span class="line"> @return IDFV设备标识</span><br><span class="line"> */</span><br><span class="line">+ (NSString *)getToPutUUID</span><br><span class="line">&#123;</span><br><span class="line">    NSString *idfv = [self get:kIDFVKey];</span><br><span class="line">    if (!idfv) &#123;</span><br><span class="line">        idfv = [[[UIDevice currentDevice] identifierForVendor] UUIDString];</span><br><span class="line">        [self put:kIDFVKey data:idfv];  //存储到Keychain</span><br><span class="line">    &#125;</span><br><span class="line">    return idfv;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>对<code>Keychain</code>的基本操作封装，<code>增/删/改/查</code>代码实现类<code>MYPKeychain</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">#pragma mark 增</div><div class="line">+ (void)put:(NSString *)key data:(id)data</div><div class="line">&#123;</div><div class="line">    NSMutableDictionary *keychainData = [self getKeychainBaseDict];</div><div class="line">    if ([self get:key]) &#123;</div><div class="line">        [self update:key data:data]; //更新</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    [keychainData setObject:[NSKeyedArchiver archivedDataWithRootObject:data] forKey:(__bridge id)kSecValueData];</div><div class="line">    </div><div class="line">    OSStatus result = SecItemAdd((__bridge CFDictionaryRef)keychainData, NULL);</div><div class="line">    if (result == noErr) &#123;</div><div class="line">        NSLog(@&quot;SecItemAdd Success.\n&quot;);</div><div class="line">    &#125;else if(result == -34018) &#123;</div><div class="line">        NSAssert(NO, @&quot;add Failure,Internal error when a required entitlement isn&apos;t present..\n&quot;);</div><div class="line">    &#125;else &#123;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#pragma mark 删</div><div class="line">+ (void)delete:(NSString *)key</div><div class="line">&#123;</div><div class="line">    NSMutableDictionary *keychainQuery = [self getKeychainBaseDict];</div><div class="line">    </div><div class="line">    OSStatus result = SecItemDelete((__bridge CFDictionaryRef)keychainQuery);</div><div class="line">    if (result == noErr) &#123;</div><div class="line">        NSLog(@&quot;SecItemDelete Success.\n&quot;);</div><div class="line">    &#125;else if(result == -34018) &#123;</div><div class="line">        NSAssert(NO, @&quot;add Failure,Internal error when a required entitlement isn&apos;t present..\n&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">#pragma mark 改</div><div class="line">+ (void)update:(NSString *)key data:(id)data</div><div class="line">&#123;</div><div class="line">    NSMutableDictionary *keychainDict = [self getKeychainBaseDict];</div><div class="line">    </div><div class="line">    CFDictionaryRef attributes = nil;</div><div class="line">    OSStatus keychainErr = SecItemCopyMatching((__bridge CFDictionaryRef)keychainDict, (CFTypeRef *)&amp;attributes);</div><div class="line">    if (keychainErr == noErr)&#123;</div><div class="line">        </div><div class="line">        NSMutableDictionary *updateData = [NSMutableDictionary dictionaryWithDictionary:keychainDict];</div><div class="line">        [updateData setObject:[NSKeyedArchiver archivedDataWithRootObject:data] forKey:(__bridge id)kSecValueData];</div><div class="line">        [updateData removeObjectForKey:(__bridge id)kSecClass];</div><div class="line">        [self updateWithData:updateData keychainQuery:keychainDict];</div><div class="line">        </div><div class="line">    &#125;else if (keychainErr == errSecItemNotFound) &#123; //如果在Keychain中没有找到，就创建</div><div class="line">        </div><div class="line">        [self put:key data:data];</div><div class="line">    &#125; else &#123;</div><div class="line">        NSAssert(NO, @&quot;Serious error.\n&quot;);</div><div class="line">        if (attributes) CFRelease(attributes);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">#pragma mark 查</div><div class="line">/**</div><div class="line"> 获得存储的数据</div><div class="line"> */</div><div class="line">+ (id)get:(NSString *)key</div><div class="line">&#123;</div><div class="line">    id ret = nil;</div><div class="line">    NSMutableDictionary *keychainQuery = [self getKeychainQueryDict];</div><div class="line">    </div><div class="line">    CFDataRef keyData = NULL;</div><div class="line">    OSStatus keychainErr = SecItemCopyMatching((__bridge CFDictionaryRef)keychainQuery, (CFTypeRef *)&amp;keyData);</div><div class="line">    if (keychainErr == noErr) &#123;</div><div class="line">        ret = [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge NSData *)keyData];</div><div class="line">    &#125;</div><div class="line">    if (keyData) &#123;</div><div class="line">        CFRelease(keyData);</div><div class="line">    &#125;</div><div class="line">    return ret;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">#pragma mark - 私有方法</div><div class="line">+ (void)updateWithData:(NSMutableDictionary *)updateData keychainQuery: (NSMutableDictionary *)query &#123;</div><div class="line">    //#if TARGET_IPHONE_SIMULATOR</div><div class="line">    //        // 模拟器的都有个默认的组“test”，删了，不然会出错</div><div class="line">    //        [updateData removeObjectForKey:(id)kSecAttrAccessGroup];</div><div class="line">    //#endif</div><div class="line">    </div><div class="line">    OSStatus result = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)updateData);</div><div class="line">    </div><div class="line">    if (result == noErr) &#123;</div><div class="line">        NSLog(@&quot;SecItemUpdate Success.\n&quot;);</div><div class="line">    &#125;else if(result == -34018) &#123;</div><div class="line">        NSAssert(NO, @&quot;add Failure,Internal error when a required entitlement isn&apos;t present..\n&quot;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> keychain item的搜索属性配置</div><div class="line"> */</div><div class="line">+ (NSMutableDictionary *)getKeychainQueryDict</div><div class="line">&#123;</div><div class="line">    NSMutableDictionary *dict = [self getKeychainBaseDict];</div><div class="line">    [dict setObject:(id)kCFBooleanTrue forKey:(__bridge id)kSecReturnData];</div><div class="line">    [dict setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];</div><div class="line">    </div><div class="line">    return dict;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/**</div><div class="line"> keychain item的存储数据配置</div><div class="line"> */</div><div class="line">+ (NSMutableDictionary *)getKeychainBaseDict</div><div class="line">&#123;</div><div class="line">    NSDictionary *dict =</div><div class="line">    @&#123;</div><div class="line">      (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,</div><div class="line">      (__bridge id)kSecAttrService: kSeachAttrService,</div><div class="line">      (__bridge id)kSecAttrAccount: kSeachAttrAccount,</div><div class="line">      (__bridge id)kSecAttrAccessible: (__bridge id)kSecAttrAccessibleAfterFirstUnlock,</div><div class="line">      (__bridge id)kSecAttrAccessGroup: kAccessGroup</div><div class="line">      &#125;;</div><div class="line">    </div><div class="line">    return [NSMutableDictionary dictionaryWithDictionary:dict];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark 增</span><br><span class="line">+ (void)put:(NSString *)key data:(id)data</span><br><span class="line">&#123;</span><br><span class="line">    NSMutableDictionary *keychainData = [self getKeychainBaseDict];</span><br><span class="line">    if ([self get:key]) &#123;</span><br><span class="line">        [self update:key data:data]; //更新</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    [keychainData setObject:[NSKeyedArchiver archivedDataWithRootObject:data] forKey:(__bridge id)kSecValueData];</span><br><span class="line">    </span><br><span class="line">    OSStatus result = SecItemAdd((__bridge CFDictionaryRef)keychainData, NULL);</span><br><span class="line">    if (result == noErr) &#123;</span><br><span class="line">        NSLog(@&quot;SecItemAdd Success.\n&quot;);</span><br><span class="line">    &#125;else if(result == -34018) &#123;</span><br><span class="line">        NSAssert(NO, @&quot;add Failure,Internal error when a required entitlement isn&apos;t present..\n&quot;);</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark 删</span><br><span class="line">+ (void)delete:(NSString *)key</span><br><span class="line">&#123;</span><br><span class="line">    NSMutableDictionary *keychainQuery = [self getKeychainBaseDict];</span><br><span class="line">    </span><br><span class="line">    OSStatus result = SecItemDelete((__bridge CFDictionaryRef)keychainQuery);</span><br><span class="line">    if (result == noErr) &#123;</span><br><span class="line">        NSLog(@&quot;SecItemDelete Success.\n&quot;);</span><br><span class="line">    &#125;else if(result == -34018) &#123;</span><br><span class="line">        NSAssert(NO, @&quot;add Failure,Internal error when a required entitlement isn&apos;t present..\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark 改</span><br><span class="line">+ (void)update:(NSString *)key data:(id)data</span><br><span class="line">&#123;</span><br><span class="line">    NSMutableDictionary *keychainDict = [self getKeychainBaseDict];</span><br><span class="line">    </span><br><span class="line">    CFDictionaryRef attributes = nil;</span><br><span class="line">    OSStatus keychainErr = SecItemCopyMatching((__bridge CFDictionaryRef)keychainDict, (CFTypeRef *)&amp;attributes);</span><br><span class="line">    if (keychainErr == noErr)&#123;</span><br><span class="line">        </span><br><span class="line">        NSMutableDictionary *updateData = [NSMutableDictionary dictionaryWithDictionary:keychainDict];</span><br><span class="line">        [updateData setObject:[NSKeyedArchiver archivedDataWithRootObject:data] forKey:(__bridge id)kSecValueData];</span><br><span class="line">        [updateData removeObjectForKey:(__bridge id)kSecClass];</span><br><span class="line">        [self updateWithData:updateData keychainQuery:keychainDict];</span><br><span class="line">        </span><br><span class="line">    &#125;else if (keychainErr == errSecItemNotFound) &#123; //如果在Keychain中没有找到，就创建</span><br><span class="line">        </span><br><span class="line">        [self put:key data:data];</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        NSAssert(NO, @&quot;Serious error.\n&quot;);</span><br><span class="line">        if (attributes) CFRelease(attributes);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark 查</span><br><span class="line">/**</span><br><span class="line"> 获得存储的数据</span><br><span class="line"> */</span><br><span class="line">+ (id)get:(NSString *)key</span><br><span class="line">&#123;</span><br><span class="line">    id ret = nil;</span><br><span class="line">    NSMutableDictionary *keychainQuery = [self getKeychainQueryDict];</span><br><span class="line">    </span><br><span class="line">    CFDataRef keyData = NULL;</span><br><span class="line">    OSStatus keychainErr = SecItemCopyMatching((__bridge CFDictionaryRef)keychainQuery, (CFTypeRef *)&amp;keyData);</span><br><span class="line">    if (keychainErr == noErr) &#123;</span><br><span class="line">        ret = [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge NSData *)keyData];</span><br><span class="line">    &#125;</span><br><span class="line">    if (keyData) &#123;</span><br><span class="line">        CFRelease(keyData);</span><br><span class="line">    &#125;</span><br><span class="line">    return ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - 私有方法</span><br><span class="line">+ (void)updateWithData:(NSMutableDictionary *)updateData keychainQuery: (NSMutableDictionary *)query &#123;</span><br><span class="line">    //#if TARGET_IPHONE_SIMULATOR</span><br><span class="line">    //        // 模拟器的都有个默认的组“test”，删了，不然会出错</span><br><span class="line">    //        [updateData removeObjectForKey:(id)kSecAttrAccessGroup];</span><br><span class="line">    //#endif</span><br><span class="line">    </span><br><span class="line">    OSStatus result = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)updateData);</span><br><span class="line">    </span><br><span class="line">    if (result == noErr) &#123;</span><br><span class="line">        NSLog(@&quot;SecItemUpdate Success.\n&quot;);</span><br><span class="line">    &#125;else if(result == -34018) &#123;</span><br><span class="line">        NSAssert(NO, @&quot;add Failure,Internal error when a required entitlement isn&apos;t present..\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> keychain item的搜索属性配置</span><br><span class="line"> */</span><br><span class="line">+ (NSMutableDictionary *)getKeychainQueryDict</span><br><span class="line">&#123;</span><br><span class="line">    NSMutableDictionary *dict = [self getKeychainBaseDict];</span><br><span class="line">    [dict setObject:(id)kCFBooleanTrue forKey:(__bridge id)kSecReturnData];</span><br><span class="line">    [dict setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];</span><br><span class="line">    </span><br><span class="line">    return dict;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> keychain item的存储数据配置</span><br><span class="line"> */</span><br><span class="line">+ (NSMutableDictionary *)getKeychainBaseDict</span><br><span class="line">&#123;</span><br><span class="line">    NSDictionary *dict =</span><br><span class="line">    @&#123;</span><br><span class="line">      (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,</span><br><span class="line">      (__bridge id)kSecAttrService: kSeachAttrService,</span><br><span class="line">      (__bridge id)kSecAttrAccount: kSeachAttrAccount,</span><br><span class="line">      (__bridge id)kSecAttrAccessible: (__bridge id)kSecAttrAccessibleAfterFirstUnlock,</span><br><span class="line">      (__bridge id)kSecAttrAccessGroup: kAccessGroup</span><br><span class="line">      &#125;;</span><br><span class="line">    </span><br><span class="line">    return [NSMutableDictionary dictionaryWithDictionary:dict];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="IDFA"><a href="#IDFA" class="headerlink" title="IDFA"></a>IDFA</h1><p><code>advertising Identifier</code>，广告标示符，广告id，适用于广告推广，<code>App</code>换量等跨应用的用户追踪等。在同一个设备上的所有<code>App</code>都会取到相同的值，是苹果专门给应用提供商用来追踪用户而设的。<code>iOS</code>设备用户可以设置<code>限制广告跟踪</code>和<code>还原广告标识符</code>。(设置 -&gt; 隐私 -&gt; 广告 -&gt; 限制广告跟踪/还原广告标识符…)（Settings -&gt; Privacy -&gt; Advertising -&gt; Limit Ad Tracking/Reset Advertising Identifier…）。iOS6.0+。</p>
 <ul>
 <li>同一台<code>iOS</code>设备上的所有<code>App</code>获得的<code>IDFA</code>都是相同的。<code>App</code>卸载再安装，获得的<code>IDFA</code>依然相同。</li>
@@ -510,54 +495,50 @@ var _hmt = _hmt || [];
 <li>在真机中，<code>iOS10</code>系统，<code>Limit Ad Tracking</code>功能打开，<code>IDFA</code>会被重置为无意义的<code>00000000-0000-0000-0000-000000000000</code>，再次关闭重新生成新的值。</li>
 </ul>
 <p>获取：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#import &lt;AdSupport/AdSupport.h&gt;</div><div class="line"></div><div class="line">[[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;AdSupport/AdSupport.h&gt;</span><br><span class="line"></span><br><span class="line">[[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];</span><br></pre></td></tr></table></figure>
 <p>注意：由于<code>IDFA</code>会出现取不到的情况，故不能作为业务分析的主<code>id</code>，来识别用户。</p>
-<p>=================<br>本文代码，我的<code>Github</code>仓库获取<a href="https://github.com/MengYP/apple-stack/tree/master/iOS_KeyChain-IDFV/OC-KeyChain-IDFV" target="_blank" rel="external">apple-stack</a></p>
+<p>=================<br>本文代码，我的<code>Github</code>仓库获取<a href="https://github.com/MengYP/apple-stack/tree/master/iOS_KeyChain-IDFV/OC-KeyChain-IDFV" target="_blank" rel="noopener">apple-stack</a></p>
 
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>🐶 客观赏个好评吧 🐶</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
 
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>🐶 有您的支持将鼓励我继续创作 🐶</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/reward/wechat-reward-image.jpg" alt="孟跃平 WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="/images/reward/alipay-reward-image.jpg" alt="孟跃平 Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.png" alt="孟跃平 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/uploads/alipay.png" alt="孟跃平 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
   </div>
+</div>
 
+      </div>
+    
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -609,6 +590,10 @@ var _hmt = _hmt || [];
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -630,9 +615,19 @@ var _hmt = _hmt || [];
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -648,99 +643,100 @@ var _hmt = _hmt || [];
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="孟跃平" />
-          <p class="site-author-name" itemprop="name">孟跃平</p>
-           
-              <p class="site-description motion-element" itemprop="description">Just do it, and keep.</p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives/">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="孟跃平" />
             
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
+              <p class="site-author-name" itemprop="name">孟跃平</p>
+              <p class="site-description motion-element" itemprop="description">stay hungry, stay foolish</p>
           </div>
-        
 
-        <div class="links-of-author motion-element">
-          
+          <nav class="site-state motion-element">
+
             
-              <span class="links-of-author-item">
-                <a href="https://github.com/MengYP" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
                 </a>
-              </span>
+              </div>
             
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
           
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MengYP" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mengcoder@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
         </div>
-
-        
-        
-
-        
-        
-
-        
-
-
       </section>
 
       
@@ -773,49 +769,29 @@ var _hmt = _hmt || [];
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">孟跃平</span>
+
+  
 </div>
 
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
+
+
+
+
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
 
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
+
+
+
 
 
         
@@ -827,6 +803,8 @@ var _hmt = _hmt || [];
         <i class="fa fa-arrow-up"></i>
         
       </div>
+    
+
     
 
   </div>
@@ -861,51 +839,83 @@ var _hmt = _hmt || [];
 
 
   
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
   
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
-
-
-
-  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
 
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
 
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://mengyueping.com/2017/07/12/iOS-keyChain-IDFV/';
+          this.page.identifier = '2017/07/12/iOS-keyChain-IDFV/';
+          this.page.title = 'iOS开发中使用到的设备ID及存储方案';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
 
   
 
@@ -930,14 +940,8 @@ var _hmt = _hmt || [];
 
 
 
-  
 
 
-
-
-
-
-  
 
 
 
@@ -945,8 +949,14 @@ var _hmt = _hmt || [];
 
   
 
+
+
+
+
   
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
   <script>AV.initialize("bSSS0Dg4QVv1p0FAHGaWv8Ei-gzGzoHsz", "UcKuDEryAx1QLVWeFLQHrUns");</script>
   <script>
     function showTime(Counter) {
@@ -1054,6 +1064,9 @@ var _hmt = _hmt || [];
 
   
 
+  
+
+  
   
 
   

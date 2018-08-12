@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
@@ -10,6 +10,7 @@
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
 
 
@@ -36,36 +37,11 @@
 
 
 
+
   
   
   <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
 
 
 
@@ -74,7 +50,22 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
 
 
   <meta name="keywords" content="iOS,OC,runtime,关联对象,AssociatedObject," />
@@ -82,13 +73,6 @@
 
 
 
-
-  <link rel="alternate" href="/atom.xml" title="孟跃平的技术博客" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
 
 
 
@@ -102,7 +86,8 @@
 <meta property="og:url" content="http://mengyueping.com/2017/08/13/iOS-runtime-associated-object/index.html">
 <meta property="og:site_name" content="孟跃平的技术博客">
 <meta property="og:description" content="问题  关联对象被存储在什么地方，是不是存放在被关联对象本身的内存中？ 关联对象的五种关联策略有什么区别？ 关联对象都有哪些使用场景?">
-<meta property="og:updated_time" content="2017-08-13T06:39:59.000Z">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-06T14:41:29.442Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS的runtime之AssociatedObject">
 <meta name="twitter:description" content="问题  关联对象被存储在什么地方，是不是存放在被关联对象本身的内存中？ 关联对象的五种关联策略有什么区别？ 关联对象都有哪些使用场景?">
@@ -114,9 +99,11 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -139,23 +126,7 @@
 
 
 
-
-<script type="text/javascript" id="hexo.configurations">
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?deacc15534ffb9510cfb94bae354ea45";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
   <title>iOS的runtime之AssociatedObject | 孟跃平的技术博客</title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
   
 
 
@@ -175,19 +146,16 @@ var _hmt = _hmt || [];
 
 
 
+</head>
 
-
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -233,22 +201,22 @@ var _hmt = _hmt || [];
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
           </a>
         </li>
       
@@ -263,12 +231,12 @@ var _hmt = _hmt || [];
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            标签
+            关于
           </a>
         </li>
       
@@ -300,13 +268,17 @@ var _hmt = _hmt || [];
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://mengyueping.com/2017/08/13/iOS-runtime-associated-object/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="孟跃平">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/uploads/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -377,6 +349,17 @@ var _hmt = _hmt || [];
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/13/iOS-runtime-associated-object/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/08/13/iOS-runtime-associated-object/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -387,17 +370,12 @@ var _hmt = _hmt || [];
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">阅读次数 </span>
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
           
 
           
@@ -408,6 +386,9 @@ var _hmt = _hmt || [];
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -425,70 +406,70 @@ var _hmt = _hmt || [];
 <h1 id="关联对象函数"><a href="#关联对象函数" class="headerlink" title="关联对象函数"></a>关联对象函数</h1><p>关联对象函数：<code>objc_setAssociatedObject</code>、<code>objc_getAssociatedObject</code>、<code>objc_removeAssociatedObjects</code>。</p>
 <blockquote>
 <p><code>关联</code>是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分，可以理解为对象和属性的关系，但是有所不同。</p>
+</blockquote>
+<blockquote>
 <p><code>关联</code>是在类的定义之外为类增加额外的存储空间。使用关联，我们可以<strong>不用修改类的定义</strong>而为其<strong>对象增加存储空间</strong>。在<strong>无法访问到类的源码</strong>的时候或者是<strong>考虑到二进制兼容性</strong>的时候是非常有用。</p>
+</blockquote>
+<blockquote>
 <p><code>关联</code>是基于关键字的，因此，我们可以为任何对象增加任意多的关联，每个都使用不同的关键字即可。<code>关联</code>是可以保证<strong>被关联的对象在关联对象的整个生命周期都是可用的</strong>。</p>
 </blockquote>
-<h2 id="设置关联对象"><a href="#设置关联对象" class="headerlink" title="设置关联对象"></a>设置关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">void</span> objc_setAssociatedObject(<span class="keyword">id</span> object, <span class="keyword">const</span> <span class="keyword">void</span> *key, <span class="keyword">id</span> value, objc_AssociationPolicy policy);</div></pre></td></tr></table></figure>
+<h2 id="设置关联对象"><a href="#设置关联对象" class="headerlink" title="设置关联对象"></a>设置关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OBJC_EXPORT <span class="keyword">void</span> objc_setAssociatedObject(<span class="keyword">id</span> object, <span class="keyword">const</span> <span class="keyword">void</span> *key, <span class="keyword">id</span> value, objc_AssociationPolicy policy);</span><br></pre></td></tr></table></figure>
 <p>四个参数：<strong>源对象</strong>(被关联的对象-<code>id object</code>)，<strong>关键字</strong>(<code>const void *key</code>)，<strong>关联的对象</strong>(<code>id value</code>)和一个<strong>关联策略</strong>(<code>objc_AssociationPolicy policy</code>)。</p>
 <p><code>关键字</code>：是一个<code>void</code>类型的指针。每一个关联的关键字必须是唯一的。通常都是会采用静态变量来作为关键字。</p>
 <blockquote>
 <p>有三种推荐<code>Key</code>值：<br>声明 <code>static char kAssociatedObjectKey;</code>，使用 <code>&amp;kAssociatedObjectKey</code>作为 <code>key</code>值;<br>声明 <code>static void *kAssociatedObjectKey = &amp;kAssociatedObjectKey;</code>，使用 <code>kAssociatedObjectKey</code> 作为<code>key</code> 值；<br>用<code>selector</code>，使用<code>getter</code>方法的名称作为<code>key</code>值。(省掉了一个变量名。可以通过<code>_cmd</code>)</p>
 </blockquote>
-<h2 id="关联策略"><a href="#关联策略" class="headerlink" title="关联策略"></a>关联策略</h2><p>表明了关联的对象是通过  赋值，保留引用还是复制的方式进行关联的；还有这种关联是原子的还是非原子的。这里的关联策略和声明属性时的很类似。使用枚举常量来表示的。<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// OBJC_ASSOCIATION_ASSIGN           : 弱引用关联对象《=》@property(assign)/@property(unsafe_unretained)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_RETAIN_NONATOMIC : 强引用关联对象，且为非原子操作《=》@property (strong, nonatomic)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_COPY_NONATOMIC   : 复制关联对象，且为非原子操作《=》@property (copy, nonatomic)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_RETAIN           : 强引用关联对象，且为原子操作《=》@property (strong, atomic)</span></div><div class="line"><span class="comment">// OBJC_ASSOCIATION_COPY             : 复制关联对象，且为原子操作《=》@property (copy, atomic)</span></div><div class="line"><span class="keyword">typedef</span> OBJC_ENUM(uintptr_t, objc_AssociationPolicy) &#123;</div><div class="line">    OBJC_ASSOCIATION_ASSIGN = <span class="number">0</span>,          </div><div class="line">    OBJC_ASSOCIATION_RETAIN_NONATOMIC = <span class="number">1</span>, </div><div class="line">    OBJC_ASSOCIATION_COPY_NONATOMIC = <span class="number">3</span>,   </div><div class="line">    OBJC_ASSOCIATION_RETAIN = <span class="number">01401</span>,       </div><div class="line">    OBJC_ASSOCIATION_COPY = <span class="number">01403</span>      </div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<h2 id="断开关联"><a href="#断开关联" class="headerlink" title="断开关联"></a>断开关联</h2><p>断开关联可以使用<code>objc_setAssociatedObject</code>函数，传入<code>nil</code>值即可。<br>其中，被关联的对象为<code>nil</code>，此时关联策略也就无关紧要了。<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">objc_setAssociatedObject(array, &amp;Key, <span class="literal">nil</span>, OBJC_ASSOCIATION_ASSIGN);</div></pre></td></tr></table></figure></p>
-<h2 id="获取关联对象"><a href="#获取关联对象" class="headerlink" title="获取关联对象"></a>获取关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">id</span> objc_getAssociatedObject(<span class="keyword">id</span> object, <span class="keyword">const</span> <span class="keyword">void</span> *key);</div></pre></td></tr></table></figure>
-<h2 id="断开所有关联对象"><a href="#断开所有关联对象" class="headerlink" title="断开所有关联对象"></a>断开所有关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">void</span> objc_removeAssociatedObjects(<span class="keyword">id</span> object);</div></pre></td></tr></table></figure>
+<h2 id="关联策略"><a href="#关联策略" class="headerlink" title="关联策略"></a>关联策略</h2><p>表明了关联的对象是通过  赋值，保留引用还是复制的方式进行关联的；还有这种关联是原子的还是非原子的。这里的关联策略和声明属性时的很类似。使用枚举常量来表示的。<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OBJC_ASSOCIATION_ASSIGN           : 弱引用关联对象《=》@property(assign)/@property(unsafe_unretained)</span></span><br><span class="line"><span class="comment">// OBJC_ASSOCIATION_RETAIN_NONATOMIC : 强引用关联对象，且为非原子操作《=》@property (strong, nonatomic)</span></span><br><span class="line"><span class="comment">// OBJC_ASSOCIATION_COPY_NONATOMIC   : 复制关联对象，且为非原子操作《=》@property (copy, nonatomic)</span></span><br><span class="line"><span class="comment">// OBJC_ASSOCIATION_RETAIN           : 强引用关联对象，且为原子操作《=》@property (strong, atomic)</span></span><br><span class="line"><span class="comment">// OBJC_ASSOCIATION_COPY             : 复制关联对象，且为原子操作《=》@property (copy, atomic)</span></span><br><span class="line"><span class="keyword">typedef</span> OBJC_ENUM(uintptr_t, objc_AssociationPolicy) &#123;</span><br><span class="line">    OBJC_ASSOCIATION_ASSIGN = <span class="number">0</span>,          </span><br><span class="line">    OBJC_ASSOCIATION_RETAIN_NONATOMIC = <span class="number">1</span>, </span><br><span class="line">    OBJC_ASSOCIATION_COPY_NONATOMIC = <span class="number">3</span>,   </span><br><span class="line">    OBJC_ASSOCIATION_RETAIN = <span class="number">01401</span>,       </span><br><span class="line">    OBJC_ASSOCIATION_COPY = <span class="number">01403</span>      </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2 id="断开关联"><a href="#断开关联" class="headerlink" title="断开关联"></a>断开关联</h2><p>断开关联可以使用<code>objc_setAssociatedObject</code>函数，传入<code>nil</code>值即可。<br>其中，被关联的对象为<code>nil</code>，此时关联策略也就无关紧要了。<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objc_setAssociatedObject(array, &amp;Key, <span class="literal">nil</span>, OBJC_ASSOCIATION_ASSIGN);</span><br></pre></td></tr></table></figure></p>
+<h2 id="获取关联对象"><a href="#获取关联对象" class="headerlink" title="获取关联对象"></a>获取关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OBJC_EXPORT <span class="keyword">id</span> objc_getAssociatedObject(<span class="keyword">id</span> object, <span class="keyword">const</span> <span class="keyword">void</span> *key);</span><br></pre></td></tr></table></figure>
+<h2 id="断开所有关联对象"><a href="#断开所有关联对象" class="headerlink" title="断开所有关联对象"></a>断开所有关联对象</h2><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OBJC_EXPORT <span class="keyword">void</span> objc_removeAssociatedObjects(<span class="keyword">id</span> object);</span><br></pre></td></tr></table></figure>
 <p>通常情况下不建议使用这个函数，因为他会断开所有关联。只有在需要把对象恢复到“原始状态”的时候才会使用这个函数。</p>
 <h1 id="关联对象使用"><a href="#关联对象使用" class="headerlink" title="关联对象使用"></a>关联对象使用</h1><p>给一个对象动态添加属性，其实就是<code>get/set</code>方法。</p>
 <blockquote>
 <p>为现有的类添加私有变量以帮助实现细节。<br>为现有的类添加公有属性。<br>为<code>KVO</code>创建一个关联的观察者。</p>
 </blockquote>
-<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 对象关联</span></div><div class="line"><span class="comment">//1 定义常量关键字  键名</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">char</span> arrayKey;</div><div class="line"><span class="comment">//2 创建一个数组（要关联对象）</span></div><div class="line"><span class="built_in">NSArray</span> *arr = [[<span class="built_in">NSArray</span> alloc] initWithObjects:<span class="string">@"One"</span>, <span class="string">@"Two"</span>,<span class="string">@"Three"</span>, <span class="literal">nil</span>];</div><div class="line"><span class="comment">//3 创建一个字符串（关联对象）</span></div><div class="line"><span class="built_in">NSString</span> *arrayID = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@"</span>,<span class="string">@"three numbers"</span>];</div><div class="line"><span class="comment">//4 把 arrayID 关联到对象</span></div><div class="line">objc_setAssociatedObject(arr, &amp;arrayKey, arrayID, OBJC_ASSOCIATION_RETAIN);</div></pre></td></tr></table></figure>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对象关联</span></span><br><span class="line"><span class="comment">//1 定义常量关键字  键名</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">char</span> arrayKey;</span><br><span class="line"><span class="comment">//2 创建一个数组（要关联对象）</span></span><br><span class="line"><span class="built_in">NSArray</span> *arr = [[<span class="built_in">NSArray</span> alloc] initWithObjects:<span class="string">@"One"</span>, <span class="string">@"Two"</span>,<span class="string">@"Three"</span>, <span class="literal">nil</span>];</span><br><span class="line"><span class="comment">//3 创建一个字符串（关联对象）</span></span><br><span class="line"><span class="built_in">NSString</span> *arrayID = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@"</span>,<span class="string">@"three numbers"</span>];</span><br><span class="line"><span class="comment">//4 把 arrayID 关联到对象</span></span><br><span class="line">objc_setAssociatedObject(arr, &amp;arrayKey, arrayID, OBJC_ASSOCIATION_RETAIN);</span><br></pre></td></tr></table></figure>
 
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>🐶 客观赏个好评吧 🐶</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
 
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>🐶 有您的支持将鼓励我继续创作 🐶</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/reward/wechat-reward-image.jpg" alt="孟跃平 WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="/images/reward/alipay-reward-image.jpg" alt="孟跃平 Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.png" alt="孟跃平 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/uploads/alipay.png" alt="孟跃平 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
   </div>
+</div>
 
+      </div>
+    
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -525,10 +506,6 @@ var _hmt = _hmt || [];
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/27/iOS-runloop/" rel="prev" title="iOS的Runloop">
-                iOS的Runloop <i class="fa fa-chevron-right"></i>
-              </a>
-            
           </div>
         </div>
       
@@ -536,6 +513,10 @@ var _hmt = _hmt || [];
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -557,9 +538,19 @@ var _hmt = _hmt || [];
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -575,99 +566,100 @@ var _hmt = _hmt || [];
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="孟跃平" />
-          <p class="site-author-name" itemprop="name">孟跃平</p>
-           
-              <p class="site-description motion-element" itemprop="description">Just do it, and keep.</p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives/">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="孟跃平" />
             
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
+              <p class="site-author-name" itemprop="name">孟跃平</p>
+              <p class="site-description motion-element" itemprop="description">stay hungry, stay foolish</p>
           </div>
-        
 
-        <div class="links-of-author motion-element">
-          
+          <nav class="site-state motion-element">
+
             
-              <span class="links-of-author-item">
-                <a href="https://github.com/MengYP" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
                 </a>
-              </span>
+              </div>
             
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
           
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MengYP" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mengcoder@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
         </div>
-
-        
-        
-
-        
-        
-
-        
-
-
       </section>
 
       
@@ -700,49 +692,29 @@ var _hmt = _hmt || [];
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">孟跃平</span>
+
+  
 </div>
 
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
+
+
+
+
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
 
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
+
+
+
 
 
         
@@ -754,6 +726,8 @@ var _hmt = _hmt || [];
         <i class="fa fa-arrow-up"></i>
         
       </div>
+    
+
     
 
   </div>
@@ -788,51 +762,83 @@ var _hmt = _hmt || [];
 
 
   
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
   
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
-
-
-
-  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
 
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
 
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://mengyueping.com/2017/08/13/iOS-runtime-associated-object/';
+          this.page.identifier = '2017/08/13/iOS-runtime-associated-object/';
+          this.page.title = 'iOS的runtime之AssociatedObject';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
 
   
 
@@ -857,14 +863,8 @@ var _hmt = _hmt || [];
 
 
 
-  
 
 
-
-
-
-
-  
 
 
 
@@ -872,8 +872,14 @@ var _hmt = _hmt || [];
 
   
 
+
+
+
+
   
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
   <script>AV.initialize("bSSS0Dg4QVv1p0FAHGaWv8Ei-gzGzoHsz", "UcKuDEryAx1QLVWeFLQHrUns");</script>
   <script>
     function showTime(Counter) {
@@ -981,6 +987,9 @@ var _hmt = _hmt || [];
 
   
 
+  
+
+  
   
 
   

@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
@@ -10,6 +10,7 @@
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
 
 
@@ -36,36 +37,11 @@
 
 
 
+
   
   
   <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
 
 
 
@@ -74,7 +50,22 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
 
 
   <meta name="keywords" content="iOS,Swift,OC,KVO,KVC,KeyPath,Block,代理,Notification,MVC," />
@@ -82,13 +73,6 @@
 
 
 
-
-  <link rel="alternate" href="/atom.xml" title="孟跃平的技术博客" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
 
 
 
@@ -102,7 +86,8 @@
 <meta property="og:url" content="http://mengyueping.com/2017/07/18/iOS_KVO/index.html">
 <meta property="og:site_name" content="孟跃平的技术博客">
 <meta property="og:description" content="问题 KeyPath、KVC、KVO有什么联系？ KVC通过Key找到Value的原理？ iOS中的KVO是如何实现的？ MVC数据流通哪些阶段都会使用到哪些模式？">
-<meta property="og:updated_time" content="2017-07-18T12:44:16.000Z">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-06T14:41:29.443Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS之KVO机制">
 <meta name="twitter:description" content="问题 KeyPath、KVC、KVO有什么联系？ KVC通过Key找到Value的原理？ iOS中的KVO是如何实现的？ MVC数据流通哪些阶段都会使用到哪些模式？">
@@ -114,9 +99,11 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -139,23 +126,7 @@
 
 
 
-
-<script type="text/javascript" id="hexo.configurations">
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?deacc15534ffb9510cfb94bae354ea45";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
   <title>iOS之KVO机制 | 孟跃平的技术博客</title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
   
 
 
@@ -175,19 +146,16 @@ var _hmt = _hmt || [];
 
 
 
+</head>
 
-
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -233,22 +201,22 @@ var _hmt = _hmt || [];
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
           </a>
         </li>
       
@@ -263,12 +231,12 @@ var _hmt = _hmt || [];
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            标签
+            关于
           </a>
         </li>
       
@@ -300,13 +268,17 @@ var _hmt = _hmt || [];
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://mengyueping.com/2017/07/18/iOS_KVO/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="孟跃平">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/uploads/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -377,6 +349,17 @@ var _hmt = _hmt || [];
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/18/iOS_KVO/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/07/18/iOS_KVO/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -387,17 +370,12 @@ var _hmt = _hmt || [];
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">阅读次数 </span>
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
           
 
           
@@ -408,6 +386,9 @@ var _hmt = _hmt || [];
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -435,28 +416,48 @@ var _hmt = _hmt || [];
 </ul>
 <blockquote>
 <p>注意：</p>
+</blockquote>
+<blockquote>
 <p>1、<code>KVC</code>查找方法的时候，不仅仅会查找 <code>view</code> 这个方法，还会查找 <code>getview</code> (前面加一个<code>get</code>)这个方法，或者 <code>_view</code> 以及 <code>_getview</code> 这个几种形式。</p>
+</blockquote>
+<blockquote>
 <p>2、在查找实例变量的时候，也会不仅仅查找 <code>view</code> 这个变量，也会查找 <code>_view</code> 这个变量是否存在。</p>
+</blockquote>
+<blockquote>
 <p>3、设计 <code>valueForUndefinedKey:</code> 方法的主要目的是：当你使用 <code>-(id)valueForKey</code> 方法从对象中请求值时，对象能够在错误发生前，有最后的机会响应这个请求。</p>
 </blockquote>
 <h1 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h1><p><code>key-Value-Observing</code>，键值观察机制，键值观察机制是一种能使得一个对象获取到其他对象<strong>属性变化</strong>的通知，极大的简化了代码。这样看来，<code>KVO</code>就是一种典型的通知模式。实现<code>KVO</code>键值观察模式，被观察的对象必须使用 <code>KVC</code> 键值编码技术来修改它的实例变量，或者点语法，这样才能被观察者观察到。因此，<code>KVC</code>是<code>KVO</code>的基础。<code>KVC</code> 和 <code>KVO</code> 的 <code>keyPath</code> 可以是属性、实例变量、成员变量。</p>
 <h2 id="iOS中实现KVO"><a href="#iOS中实现KVO" class="headerlink" title="iOS中实现KVO"></a>iOS中实现KVO</h2><p><code>KVO</code>是基于<code>runtime</code>机制实现的。<br><code>KVO</code>中谁监听谁注册，且对响应进行处理，这样观察者和被观察者完全解耦。<code>KVO</code>只检测类中的属性，并且属性名都是通过字符串来查找，编译器不会检错和补全，全部取决于自己。观察者和被观察者不会被保留也不会被释放。</p>
 <p><code>Core Data</code>实现了对于<code>KVC</code>和<code>KVO</code>完整且自动化的支持，除了为属性整合<code>KVO</code>和<code>KVC</code>访问方法外，还整合了适当的集合访问方法来处理多值关系。</p>
-<h3 id="OC版本"><a href="#OC版本" class="headerlink" title="OC版本"></a>OC版本</h3><p>第一、注册观察者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(nullable void *)context;</div></pre></td></tr></table></figure></p>
-<p>第二、接收变更通知<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary&lt;NSKeyValueChangeKey, id&gt; *)change context:(nullable void *)context;</div></pre></td></tr></table></figure></p>
-<p>第三、移除对象的观察者身份<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;</div></pre></td></tr></table></figure></p>
-<h3 id="Swift版本"><a href="#Swift版本" class="headerlink" title="Swift版本"></a>Swift版本</h3><p>第一、注册观察者<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">addObserver</span><span class="params">(<span class="number">_</span> observer: NSObject, forKeyPath keyPath: String, options: NSKeyValueObservingOptions = [], context: UnsafeMutableRawPointer?)</span></span></div></pre></td></tr></table></figure></p>
-<p>第二、接收变更通知<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">observeValue</span><span class="params">(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)</span></span></div></pre></td></tr></table></figure></p>
-<p>第三、移除对象的观察者身份<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">removeObserver</span><span class="params">(<span class="number">_</span> observer: NSObject, forKeyPath keyPath: String)</span></span></div></pre></td></tr></table></figure></p>
+<h3 id="OC版本"><a href="#OC版本" class="headerlink" title="OC版本"></a>OC版本</h3><p>第一、注册观察者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(nullable void *)context;</span><br></pre></td></tr></table></figure></p>
+<p>第二、接收变更通知<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary&lt;NSKeyValueChangeKey, id&gt; *)change context:(nullable void *)context;</span><br></pre></td></tr></table></figure></p>
+<p>第三、移除对象的观察者身份<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Swift版本"><a href="#Swift版本" class="headerlink" title="Swift版本"></a>Swift版本</h3><p>第一、注册观察者<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">addObserver</span><span class="params">(<span class="number">_</span> observer: NSObject, forKeyPath keyPath: String, options: NSKeyValueObservingOptions = [], context: UnsafeMutableRawPointer?)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>第二、接收变更通知<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">observeValue</span><span class="params">(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>第三、移除对象的观察者身份<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">removeObserver</span><span class="params">(<span class="number">_</span> observer: NSObject, forKeyPath keyPath: String)</span></span></span><br></pre></td></tr></table></figure></p>
 <h1 id="与其他设计模式的比较"><a href="#与其他设计模式的比较" class="headerlink" title="与其他设计模式的比较"></a>与其他设计模式的比较</h1><h2 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h2><p><strong>代理</strong>又叫<strong>委托</strong>，是一种设计模式。代理是对象与对象之间的通信交互，解除了对象之间的耦合性。允许一个类在某些特定时刻通知到其他类，而不需要获取到那些类的指针，改变或传递控制链。可以减少框架复杂度。代理的属性常使用<code>weak</code>修饰的原因：防止循环引用（循环引用会导致对象无法得到正确的释放）。</p>
 <blockquote>
 <p>通知和代理区别：</p>
+</blockquote>
+<blockquote>
 <p>1、代理是一种回调机制，且是一对一的关系。</p>
+</blockquote>
+<blockquote>
 <p>2、通知是一对多的关系，一个对所有的观察者提供变更的通知。</p>
+</blockquote>
+<blockquote>
 <p>3、代理效率比通知高。</p>
+</blockquote>
+<blockquote>
 <p>代理 和 Block</p>
+</blockquote>
+<blockquote>
 <p>1、一般都是一对一的通信。</p>
+</blockquote>
+<blockquote>
 <p>2、代理需要定义协议，代理对象遵守协议且实现协议方法，才可以实现通信。</p>
+</blockquote>
+<blockquote>
 <p>3、相比之下，Block更加简洁，不需要定义繁琐的协议方法，但通信事件比较多的话，建议使用代理。</p>
 </blockquote>
 <h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><p><code>iOS</code>中的协议是一个方法列表，且多少有点相关。它的特点是可以被任何类使用（实现），但类自身不会实现这样方法，而是由其他人来实现。</p>
@@ -472,55 +473,57 @@ var _hmt = _hmt || [];
 </ul>
 <blockquote>
 <p>注意：</p>
+</blockquote>
+<blockquote>
 <p>1、<code>controller</code>可以直接与<code>model</code>和<code>view</code>进行通信，而<code>view</code>不能和<code>controller</code>直接通信。<code>view</code>与<code>controller</code>通信需要利用代理协议的方式。</p>
+</blockquote>
+<blockquote>
 <p>2、当有数据更新时，<code>model</code>也要与<code>controller</code>进行通信，这个时候就要用<code>Notification</code>和<code>KVO</code>，这个方式就像一个广播一样，<code>model</code>发信号，<code>controller</code>设置监听接受信号，当有数据更新时就发信号给<code>controller</code>。</p>
+</blockquote>
+<blockquote>
 <p>3、<code>model</code>和<code>view</code>不能直接进行通信，这样会违背<code>MVC</code>设计模式。</p>
 </blockquote>
 
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>🐶 客观赏个好评吧 🐶</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
 
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>🐶 有您的支持将鼓励我继续创作 🐶</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/reward/wechat-reward-image.jpg" alt="孟跃平 WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="/images/reward/alipay-reward-image.jpg" alt="孟跃平 Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.png" alt="孟跃平 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/uploads/alipay.png" alt="孟跃平 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
   </div>
+</div>
 
+      </div>
+    
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -578,6 +581,10 @@ var _hmt = _hmt || [];
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -599,9 +606,19 @@ var _hmt = _hmt || [];
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -617,99 +634,100 @@ var _hmt = _hmt || [];
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="孟跃平" />
-          <p class="site-author-name" itemprop="name">孟跃平</p>
-           
-              <p class="site-description motion-element" itemprop="description">Just do it, and keep.</p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives/">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="孟跃平" />
             
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
+              <p class="site-author-name" itemprop="name">孟跃平</p>
+              <p class="site-description motion-element" itemprop="description">stay hungry, stay foolish</p>
           </div>
-        
 
-        <div class="links-of-author motion-element">
-          
+          <nav class="site-state motion-element">
+
             
-              <span class="links-of-author-item">
-                <a href="https://github.com/MengYP" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
                 </a>
-              </span>
+              </div>
             
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
           
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MengYP" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mengcoder@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
         </div>
-
-        
-        
-
-        
-        
-
-        
-
-
       </section>
 
       
@@ -742,49 +760,29 @@ var _hmt = _hmt || [];
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">孟跃平</span>
+
+  
 </div>
 
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
+
+
+
+
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
 
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
+
+
+
 
 
         
@@ -796,6 +794,8 @@ var _hmt = _hmt || [];
         <i class="fa fa-arrow-up"></i>
         
       </div>
+    
+
     
 
   </div>
@@ -830,51 +830,83 @@ var _hmt = _hmt || [];
 
 
   
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
   
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
-
-
-
-  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
 
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
 
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://mengyueping.com/2017/07/18/iOS_KVO/';
+          this.page.identifier = '2017/07/18/iOS_KVO/';
+          this.page.title = 'iOS之KVO机制';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
 
   
 
@@ -899,14 +931,8 @@ var _hmt = _hmt || [];
 
 
 
-  
 
 
-
-
-
-
-  
 
 
 
@@ -914,8 +940,14 @@ var _hmt = _hmt || [];
 
   
 
+
+
+
+
   
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
   <script>AV.initialize("bSSS0Dg4QVv1p0FAHGaWv8Ei-gzGzoHsz", "UcKuDEryAx1QLVWeFLQHrUns");</script>
   <script>
     function showTime(Counter) {
@@ -1023,6 +1055,9 @@ var _hmt = _hmt || [];
 
   
 
+  
+
+  
   
 
   

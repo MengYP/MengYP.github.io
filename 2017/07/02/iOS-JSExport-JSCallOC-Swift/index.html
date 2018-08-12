@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
@@ -10,6 +10,7 @@
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
 
 
@@ -36,36 +37,11 @@
 
 
 
+
   
   
   <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
 
 
 
@@ -74,7 +50,22 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
 
 
   <meta name="keywords" content="iOS,Swift,JavaScript,JavaScriptCore,JSExport,OC,JSManagedValue," />
@@ -82,13 +73,6 @@
 
 
 
-
-  <link rel="alternate" href="/atom.xml" title="孟跃平的技术博客" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
 
 
 
@@ -102,6 +86,7 @@
 <meta property="og:url" content="http://mengyueping.com/2017/07/02/iOS-JSExport-JSCallOC-Swift/index.html">
 <meta property="og:site_name" content="孟跃平的技术博客">
 <meta property="og:description" content="问题 JSExport如何使用？ 如何使用JSExport调用自定义的OC/Swift类属性? 如何使用JSExport调用自定义的OC/Swift类的方法？ 如何使用JSExport调用系统或外部引用库的OC/Swift类的属性和方法？ JSManagedValue的作用？  若想了解如何通过UIWebView、WKWebView、JavaScriptCore的JSContext来执行JavaS">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-07-01T16:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSExport实现JS调用OC&#x2F;Swift">
@@ -114,9 +99,11 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -139,23 +126,7 @@
 
 
 
-
-<script type="text/javascript" id="hexo.configurations">
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?deacc15534ffb9510cfb94bae354ea45";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
   <title>JSExport实现JS调用OC/Swift | 孟跃平的技术博客</title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
   
 
 
@@ -175,19 +146,16 @@ var _hmt = _hmt || [];
 
 
 
+</head>
 
-
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -233,22 +201,22 @@ var _hmt = _hmt || [];
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
           </a>
         </li>
       
@@ -263,12 +231,12 @@ var _hmt = _hmt || [];
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            标签
+            关于
           </a>
         </li>
       
@@ -300,13 +268,17 @@ var _hmt = _hmt || [];
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://mengyueping.com/2017/07/02/iOS-JSExport-JSCallOC-Swift/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="孟跃平">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/uploads/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -377,6 +349,17 @@ var _hmt = _hmt || [];
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/02/iOS-JSExport-JSCallOC-Swift/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/07/02/iOS-JSExport-JSCallOC-Swift/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -387,17 +370,12 @@ var _hmt = _hmt || [];
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">阅读次数 </span>
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
           
 
           
@@ -408,6 +386,9 @@ var _hmt = _hmt || [];
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -421,78 +402,74 @@ var _hmt = _hmt || [];
 <li>如何使用<code>JSExport</code>调用系统或外部引用库的<code>OC/Swift</code>类的属性和方法？</li>
 <li><code>JSManagedValue</code>的作用？</li>
 </ul>
-<p>若想了解如何通过<code>UIWebView</code>、<code>WKWebView</code>、<code>JavaScriptCore</code>的<code>JSContext</code>来执行<code>JavaScript</code>代码，使用<code>UIWebView</code>、<code>WKWebView</code>监听<code>JS</code>函数调用，<code>WKWebView</code>与<code>JS</code>之间的通信，以及通过<code>JavaScriptCore</code>的<code>JSContext</code>使<code>OC/Swift</code>中<code>Block/Closure</code>转换成<code>JS</code>函数以达到<code>JS</code>调用<code>OC</code>效果，可以参看：<a href="http://www.mengyueping.com/2016/10/16/iOS-callJavaScript/" target="_blank" rel="external">Objective-C/Swift与JavaScript交互</a>。</p>
+<p>若想了解如何通过<code>UIWebView</code>、<code>WKWebView</code>、<code>JavaScriptCore</code>的<code>JSContext</code>来执行<code>JavaScript</code>代码，使用<code>UIWebView</code>、<code>WKWebView</code>监听<code>JS</code>函数调用，<code>WKWebView</code>与<code>JS</code>之间的通信，以及通过<code>JavaScriptCore</code>的<code>JSContext</code>使<code>OC/Swift</code>中<code>Block/Closure</code>转换成<code>JS</code>函数以达到<code>JS</code>调用<code>OC</code>效果，可以参看：<a href="http://www.mengyueping.com/2016/10/16/iOS-callJavaScript/" target="_blank" rel="noopener">Objective-C/Swift与JavaScript交互</a>。</p>
 <a id="more"></a>
 <h1 id="JSExport"><a href="#JSExport" class="headerlink" title="JSExport"></a>JSExport</h1><blockquote>
 <p><code>JSExport</code>：是一个协议，没有声明任何属性和方法。可以自定义一个协议，继承自<code>JSExport</code>。我们可以在自定义的协议里面声明属性、方法，继承该协议的<code>OC/Swift</code>对象会把协议中的属性和方法提供给<code>JS</code>调用。<code>JSExport</code>主要是用于将<code>OC/Swift</code>中定义的<code>Model</code>类等引入到<code>JavaScript</code>中，便于在<code>JS</code>中使用这种对象和对象的属性、方法。</p>
 </blockquote>
 <h1 id="JSExport实现JS调用原生对象属性和方法"><a href="#JSExport实现JS调用原生对象属性和方法" class="headerlink" title="JSExport实现JS调用原生对象属性和方法"></a>JSExport实现JS调用原生对象属性和方法</h1><p>通过<code>OC/Swift</code>类实现<code>JSExport</code>协议，来实现<code>JS</code>对象直接调用<code>OC/Swift</code>对象里面的方法和属性。<code>OC/Swift</code>如何实现<code>JSExport</code>协议？需要自定义一个协议继承自<code>JSExport</code>协议，在自定义协议中声明<code>JS</code>要调用的属性和方法。然后让<code>OC/Swift</code>类遵守自定义协议并实现协议中的定义的属性和方法。然后把<code>OC/Swift</code>对象存储到<code>JSContext</code>中，这样在<code>JS</code>运行环境中就可以调用<code>OC/Swift</code>对象的属性和方法了。</p>
-<h2 id="OC版本"><a href="#OC版本" class="headerlink" title="OC版本"></a>OC版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// MYPJSExport.h</div><div class="line">/*</div><div class="line"> * 自定义协议继承自 &lt;JSExport&gt;</div><div class="line"> */</div><div class="line">#import &lt;Foundation/Foundation.h&gt;</div><div class="line">#import &lt;JavaScriptCore/JavaScriptCore.h&gt;</div><div class="line"></div><div class="line">@protocol MYPJSExport &lt;JSExport&gt;</div><div class="line">@property (nonatomic, assign) NSInteger sum;</div><div class="line">JSExportAs(add, - (NSInteger)add:(NSInteger)a b:(NSInteger)b);</div><div class="line">@end</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">//在MYPObject.m中</div><div class="line">@synthesize sum = _sum;</div><div class="line">/**</div><div class="line"> 实现协议方法</div><div class="line"> */</div><div class="line">- (NSInteger)add:(NSInteger)a b:(NSInteger)b</div><div class="line">&#123;</div><div class="line">    return a + b;</div><div class="line">&#125;</div><div class="line">/**</div><div class="line"> 重写setter方法方便打印信息</div><div class="line"> */</div><div class="line">- (void)setSum:(NSInteger)sum</div><div class="line">&#123;</div><div class="line">    _sum = sum;</div><div class="line">    NSLog(@&quot;--%@&quot;, @(sum));</div><div class="line">    NSLog(@&quot;%@&quot;,[NSThread currentThread]); // main</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//在ViewController.m</div><div class="line">//初始化</div><div class="line">self.obj = [[MYPObject alloc] init];</div><div class="line">self.context = [[JSContext alloc] init];</div><div class="line">self.context.exceptionHandler = ^(JSContext *context, JSValue *exception) &#123;</div><div class="line">    [JSContext currentContext].exception = exception;</div><div class="line">    NSLog(@&quot;JS抛出exception: %@&quot;,exception);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//将OC对象obj添加到context中</div><div class="line">self.context[@&quot;OCobj&quot;] = self.obj;</div><div class="line">//使用JS调用存储在context中的OC对象obj的方法，并将结果赋值给OC对象obj的sum属性</div><div class="line">[self.context evaluateScript:@&quot;OCobj.sum = OCobj.add(2,3)&quot;]; //OC对象属性值改变是在主线程</div><div class="line">//更改了OC对象 self.obj 的属性值sum , 可见，都是强引用。</div><div class="line">NSLog(@&quot;self.obj.sum: %ld&quot;,(long)self.obj.sum);  // self.obj.sum: 5</div></pre></td></tr></table></figure>
-<h2 id="Swift版本"><a href="#Swift版本" class="headerlink" title="Swift版本"></a>Swift版本</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/// 自定义协议继承自 &lt;JSExport&gt;</span></div><div class="line"><span class="comment">//注意：@objc</span></div><div class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">MYPJSExport</span>: <span class="title">JSExport</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> sum: <span class="type">Int</span> &#123;<span class="keyword">get</span> <span class="keyword">set</span>&#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">doNothing</span><span class="params">()</span></span></div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">squared</span><span class="params">(<span class="number">_</span> num: Int)</span></span> -&gt; <span class="type">Int</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(<span class="number">_</span> a: Int, <span class="number">_</span> b: Int)</span></span> -&gt; <span class="type">Int</span></div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num: Int)</span></span> -&gt; <span class="type">Int</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num1: Int, num2: Int)</span></span> -&gt; <span class="type">Int</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num1: Int, <span class="number">_</span> num2: Int)</span></span> -&gt; <span class="type">Int</span></div><div class="line"><span class="comment">//    func add(_ num1: Int, num2: Int) -&gt; Int //第一个外部参数省略，是没办法使用JS方法表达   </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//注意：@objc</span></div><div class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">class</span> <span class="title">MYPObject</span>: <span class="title">NSObject</span>, <span class="title">MYPJSExport</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> sum: <span class="type">Int</span> = <span class="number">0</span> &#123;</div><div class="line">        <span class="keyword">willSet</span>&#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"newValue: <span class="subst">\(newValue)</span>  |CurrentThread: <span class="subst">\(Thread.current)</span>"</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">didSet</span>&#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"oldValue: <span class="subst">\(oldValue)</span>  |CurrentThread: <span class="subst">\(Thread.current)</span>"</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(<span class="number">_</span> a: Int, <span class="number">_</span> b: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">return</span> a + b</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">doNothing</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"doNothing--"</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">squared</span><span class="params">(<span class="number">_</span> num: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">return</span> num * num</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">return</span> num + <span class="number">10</span></div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num1: Int, num2: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">return</span> num1 + num2</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num1: Int, <span class="number">_</span> num2: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">return</span> num1 * num2</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//不成立</span></div><div class="line"><span class="comment">//    func add(_ num1: Int, num2: Int) -&gt; Int &#123;</span></div><div class="line"><span class="comment">//        return (num1 + num2) * 2</span></div><div class="line"><span class="comment">//    &#125;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//在ViewController.swift中</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> obj: <span class="type">MYPObject</span> = <span class="type">MYPObject</span>()</div><div class="line">    <span class="keyword">let</span> context:<span class="type">JSContext</span> = <span class="type">JSContext</span>()</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">super</span>.viewDidLoad()</div><div class="line">        </div><div class="line">        context.exceptionHandler = &#123; (context, exception) <span class="keyword">in</span></div><div class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> exce = exception <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</div><div class="line">            context!.exception = exce</div><div class="line">            <span class="built_in">print</span>(<span class="string">"JS抛出exception: <span class="subst">\(exce)</span>"</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">let</span> block: <span class="meta">@convention</span>(block) () -&gt; () = &#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"++++++Begin Log++++++"</span>)</div><div class="line">            <span class="keyword">let</span> args = <span class="type">JSContext</span>.currentArguments()</div><div class="line">            <span class="keyword">for</span> jsVal <span class="keyword">in</span> args! &#123;</div><div class="line">                <span class="built_in">print</span>(jsVal)</div><div class="line">            &#125;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"---End Log------"</span>)</div><div class="line">        &#125;</div><div class="line">        context.setObject(block, forKeyedSubscript: <span class="type">NSString</span>(string: <span class="string">"log"</span>))</div><div class="line">        context.setObject(obj, forKeyedSubscript: <span class="type">NSString</span>(string: <span class="string">"Swiftobj"</span>))</div><div class="line">        </div><div class="line">        </div><div class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.doNothing(5))"</span>))</div><div class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.squared(5))"</span>))</div><div class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.add(5,5))"</span>))</div><div class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.addWithNum(5))"</span>))</div><div class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.addWithNum1Num2(10,10))"</span>))</div><div class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.addWithNum1(10,10))"</span>))</div><div class="line"><span class="comment">//        print(context.evaluateScript("log(Swiftobj.addWithNum2(10,10))")) // 'Swiftobj.addWithNum2' is undefined</span></div><div class="line">        </div><div class="line">        context.evaluateScript(<span class="string">"Swiftobj.sum = Swiftobj.add(2,3)"</span>)</div><div class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.sum)"</span>))</div><div class="line">        <span class="built_in">print</span>(<span class="string">"obj.sum: <span class="subst">\(obj.sum)</span>"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="OC版本"><a href="#OC版本" class="headerlink" title="OC版本"></a>OC版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// MYPJSExport.h</span><br><span class="line">/*</span><br><span class="line"> * 自定义协议继承自 &lt;JSExport&gt;</span><br><span class="line"> */</span><br><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line">#import &lt;JavaScriptCore/JavaScriptCore.h&gt;</span><br><span class="line"></span><br><span class="line">@protocol MYPJSExport &lt;JSExport&gt;</span><br><span class="line">@property (nonatomic, assign) NSInteger sum;</span><br><span class="line">JSExportAs(add, - (NSInteger)add:(NSInteger)a b:(NSInteger)b);</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//在MYPObject.m中</span><br><span class="line">@synthesize sum = _sum;</span><br><span class="line">/**</span><br><span class="line"> 实现协议方法</span><br><span class="line"> */</span><br><span class="line">- (NSInteger)add:(NSInteger)a b:(NSInteger)b</span><br><span class="line">&#123;</span><br><span class="line">    return a + b;</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> 重写setter方法方便打印信息</span><br><span class="line"> */</span><br><span class="line">- (void)setSum:(NSInteger)sum</span><br><span class="line">&#123;</span><br><span class="line">    _sum = sum;</span><br><span class="line">    NSLog(@&quot;--%@&quot;, @(sum));</span><br><span class="line">    NSLog(@&quot;%@&quot;,[NSThread currentThread]); // main</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//在ViewController.m</span><br><span class="line">//初始化</span><br><span class="line">self.obj = [[MYPObject alloc] init];</span><br><span class="line">self.context = [[JSContext alloc] init];</span><br><span class="line">self.context.exceptionHandler = ^(JSContext *context, JSValue *exception) &#123;</span><br><span class="line">    [JSContext currentContext].exception = exception;</span><br><span class="line">    NSLog(@&quot;JS抛出exception: %@&quot;,exception);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//将OC对象obj添加到context中</span><br><span class="line">self.context[@&quot;OCobj&quot;] = self.obj;</span><br><span class="line">//使用JS调用存储在context中的OC对象obj的方法，并将结果赋值给OC对象obj的sum属性</span><br><span class="line">[self.context evaluateScript:@&quot;OCobj.sum = OCobj.add(2,3)&quot;]; //OC对象属性值改变是在主线程</span><br><span class="line">//更改了OC对象 self.obj 的属性值sum , 可见，都是强引用。</span><br><span class="line">NSLog(@&quot;self.obj.sum: %ld&quot;,(long)self.obj.sum);  // self.obj.sum: 5</span><br></pre></td></tr></table></figure>
+<h2 id="Swift版本"><a href="#Swift版本" class="headerlink" title="Swift版本"></a>Swift版本</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 自定义协议继承自 &lt;JSExport&gt;</span></span><br><span class="line"><span class="comment">//注意：@objc</span></span><br><span class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">MYPJSExport</span>: <span class="title">JSExport</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> sum: <span class="type">Int</span> &#123;<span class="keyword">get</span> <span class="keyword">set</span>&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">doNothing</span><span class="params">()</span></span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">squared</span><span class="params">(<span class="number">_</span> num: Int)</span></span> -&gt; <span class="type">Int</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(<span class="number">_</span> a: Int, <span class="number">_</span> b: Int)</span></span> -&gt; <span class="type">Int</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num: Int)</span></span> -&gt; <span class="type">Int</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num1: Int, num2: Int)</span></span> -&gt; <span class="type">Int</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num1: Int, <span class="number">_</span> num2: Int)</span></span> -&gt; <span class="type">Int</span></span><br><span class="line"><span class="comment">//    func add(_ num1: Int, num2: Int) -&gt; Int //第一个外部参数省略，是没办法使用JS方法表达   </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注意：@objc</span></span><br><span class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">class</span> <span class="title">MYPObject</span>: <span class="title">NSObject</span>, <span class="title">MYPJSExport</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> sum: <span class="type">Int</span> = <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">willSet</span>&#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"newValue: <span class="subst">\(newValue)</span>  |CurrentThread: <span class="subst">\(Thread.current)</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">didSet</span>&#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"oldValue: <span class="subst">\(oldValue)</span>  |CurrentThread: <span class="subst">\(Thread.current)</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(<span class="number">_</span> a: Int, <span class="number">_</span> b: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> a + b</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">doNothing</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"doNothing--"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">squared</span><span class="params">(<span class="number">_</span> num: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> num * num</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> num + <span class="number">10</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num1: Int, num2: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> num1 + num2</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(num1: Int, <span class="number">_</span> num2: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> num1 * num2</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//不成立</span></span><br><span class="line"><span class="comment">//    func add(_ num1: Int, num2: Int) -&gt; Int &#123;</span></span><br><span class="line"><span class="comment">//        return (num1 + num2) * 2</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在ViewController.swift中</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> obj: <span class="type">MYPObject</span> = <span class="type">MYPObject</span>()</span><br><span class="line">    <span class="keyword">let</span> context:<span class="type">JSContext</span> = <span class="type">JSContext</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        </span><br><span class="line">        context.exceptionHandler = &#123; (context, exception) <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> exce = exception <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">            context!.exception = exce</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"JS抛出exception: <span class="subst">\(exce)</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> block: <span class="meta">@convention</span>(block) () -&gt; () = &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"++++++Begin Log++++++"</span>)</span><br><span class="line">            <span class="keyword">let</span> args = <span class="type">JSContext</span>.currentArguments()</span><br><span class="line">            <span class="keyword">for</span> jsVal <span class="keyword">in</span> args! &#123;</span><br><span class="line">                <span class="built_in">print</span>(jsVal)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"---End Log------"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        context.setObject(block, forKeyedSubscript: <span class="type">NSString</span>(string: <span class="string">"log"</span>))</span><br><span class="line">        context.setObject(obj, forKeyedSubscript: <span class="type">NSString</span>(string: <span class="string">"Swiftobj"</span>))</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.doNothing(5))"</span>))</span><br><span class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.squared(5))"</span>))</span><br><span class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.add(5,5))"</span>))</span><br><span class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.addWithNum(5))"</span>))</span><br><span class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.addWithNum1Num2(10,10))"</span>))</span><br><span class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.addWithNum1(10,10))"</span>))</span><br><span class="line"><span class="comment">//        print(context.evaluateScript("log(Swiftobj.addWithNum2(10,10))")) // 'Swiftobj.addWithNum2' is undefined</span></span><br><span class="line">        </span><br><span class="line">        context.evaluateScript(<span class="string">"Swiftobj.sum = Swiftobj.add(2,3)"</span>)</span><br><span class="line">        <span class="built_in">print</span>(context.evaluateScript(<span class="string">"log(Swiftobj.sum)"</span>))</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"obj.sum: <span class="subst">\(obj.sum)</span>"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="JSExport实现JS调用系统对象属性和方法"><a href="#JSExport实现JS调用系统对象属性和方法" class="headerlink" title="JSExport实现JS调用系统对象属性和方法"></a>JSExport实现JS调用系统对象属性和方法</h1><p>通过<code>&lt;objc/runtime.h&gt;</code>运行时，可以动态的为一个系统类、或者外部导入的库类添加一个协议，这样我们就可以让这些已经定义实现的类遵守我们的<code>JSExport</code>子协议，从而可以在<code>JS</code>中调用这些类在协议中声明的属性和方法。如下：为系统<code>UITextField</code>类动态添加自定义的<code>JSExport</code>子协议，让其能够通过<code>JSContext</code>环境中运行的<code>JS</code>脚本运行修改<code>UITextField</code>对象的<code>text</code>属性。</p>
-<h2 id="OC版本-1"><a href="#OC版本-1" class="headerlink" title="OC版本"></a>OC版本</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">        function btnClick()&#123;</div><div class="line">            log("打印自定义对象："+jsObj.text);</div><div class="line">            //jsObj.text = 333; //子线程更新UI，Crash</div><div class="line">        &#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">onclick</span>=<span class="string">"log()"</span> <span class="attr">type</span>=<span class="string">"button"</span>  <span class="attr">style</span>=<span class="string">"width:300px;height:50px;"</span> <span class="attr">value</span>=<span class="string">"打印log"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">onclick</span>=<span class="string">"btnClick()"</span> <span class="attr">type</span>=<span class="string">"button"</span>  <span class="attr">style</span>=<span class="string">"width:300px;height:50px;"</span> <span class="attr">value</span>=<span class="string">"点击H5的按钮标签，修改iOS的UITextField的输入值"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//自定义协议继承自 &lt;JSExport&gt;</div><div class="line">@protocol MYPJSExport &lt;JSExport&gt;</div><div class="line">@property (nonatomic, copy) NSString *text;</div><div class="line">@end</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line">// 在ViewController.m中</div><div class="line">- (void)viewDidLoad &#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">    </div><div class="line">    NSString *path = [[NSBundle mainBundle] pathForResource:@&quot;index&quot; ofType:@&quot;html&quot;];</div><div class="line">    NSURL *url = [NSURL fileURLWithPath:path];</div><div class="line">    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];</div><div class="line">    </div><div class="line">    //为UITextField类动态添加协议</div><div class="line">    class_addProtocol([UITextField class], @protocol(MYPJSExport));</div><div class="line"></div><div class="line">    // 注意：不能在JS脚本中更改UI控件类的UI属性，因为JS的运行是在子线程，不能对UI进行更新。</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (IBAction)btnClick:(UIButton *)sender</div><div class="line">&#123;</div><div class="line">    self.context = [[JSContext alloc] init];</div><div class="line">    self.context.exceptionHandler = ^(JSContext *context, JSValue *exception) &#123;</div><div class="line">        context.exception = exception;</div><div class="line">        NSLog(@&quot;JS抛出exception: %@&quot;,exception);</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    self.context[@&quot;log&quot;] = ^() &#123;</div><div class="line">        NSLog(@&quot;---Begin Log---&quot;);</div><div class="line">        NSArray *arr= JSContext.currentArguments;</div><div class="line">        for (int i=0; i&lt;arr.count; i++) &#123;</div><div class="line">            NSLog(@&quot;arr[%d] = %@&quot;,i, arr[i]);</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        NSLog(@&quot;%@&quot;,[NSThread currentThread]); // 主线程</div><div class="line">        NSLog(@&quot;---End Log---&quot;);</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    // 实现：可以在JS中拿到原生控件的属性值。</div><div class="line">    self.context[@&quot;textField&quot;] = self.textField;</div><div class="line">    NSString *script = @&quot;var text = textField.text;&quot;;</div><div class="line">    [self.context evaluateScript:script];</div><div class="line">    [self.context evaluateScript:@&quot;log(text)&quot;]; // 此处执行log函数，log内部依然是主线程。</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (IBAction)addBtnClick:(UIButton *)sender</div><div class="line">&#123;</div><div class="line">    NSString *script = @&quot;var num = parseInt(textField.text, 10);&quot;</div><div class="line">    &quot;++num;&quot;</div><div class="line">    &quot;textField.text = num;&quot;;</div><div class="line">    [self.context evaluateScript: script];</div><div class="line">    </div><div class="line">    //问题：JS执行环境都是在子线程，修改UITextField的text属性值是更新UI，子线程更新UI会Crash。为什么此处更新成功了？</div><div class="line">    //猜想：JS调用OC，OC执行依然在主线程。</div><div class="line">    //证实：使用OC执行JS脚本，JS脚本调用OC，对OC对象属性值改变，是在主线程发生的。</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 通过-evaluateScript: 方法，OC执行JS脚本，此时JS脚本的执行是在主线程，可以通过JS更新原生控件UI。</div><div class="line">// JS 直接在Html中调用OC定义的JS函数，运行是在子线程。</div><div class="line"></div><div class="line">#pragma mark - UIWebViewDelegate</div><div class="line">- (void)webViewDidFinishLoad:(UIWebView *)webView</div><div class="line">&#123;</div><div class="line">    self.context = [self.webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];</div><div class="line">    self.context.exceptionHandler = ^(JSContext *context, JSValue *exception) &#123;</div><div class="line">        context.exception = exception;</div><div class="line">        NSLog(@&quot;JS抛出exception: %@&quot;,exception);</div><div class="line">    &#125;;</div><div class="line">    self.context[@&quot;log&quot;] = ^() &#123;</div><div class="line">        NSLog(@&quot;---Begin Log---&quot;);</div><div class="line">        </div><div class="line">        NSArray *arr= JSContext.currentArguments;</div><div class="line">        for (int i=0; i&lt;arr.count; i++) &#123;</div><div class="line">            NSLog(@&quot;arr[%d] = %@&quot;,i, arr[i]);</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        NSLog(@&quot;%@&quot;,[NSThread currentThread]); //子线程</div><div class="line">        NSLog(@&quot;---End Log---&quot;);</div><div class="line">    &#125;;</div><div class="line">    //注意：直接在Html中调用OC定义的JS函数，运行是在子线程。</div><div class="line">    </div><div class="line">    // 存储OC对象，JS调用OC，JS脚本中获得OC对象的属性值。</div><div class="line">    JSValue *jsObj = [JSValue valueWithObject:self.textField inContext:self.context]; //把OC对象转为JS对象</div><div class="line">    JSManagedValue *managedValue = [JSManagedValue managedValueWithValue:jsObj];</div><div class="line">    [self.context.virtualMachine addManagedReference:managedValue withOwner:self];</div><div class="line">    self.context[@&quot;jsObj&quot;] = jsObj; // 存储JS对象</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Swift版本-1"><a href="#Swift版本-1" class="headerlink" title="Swift版本"></a>Swift版本</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/// 自定义协议继承自 &lt;JSExport&gt;</span></div><div class="line"><span class="comment">//注意：@objc</span></div><div class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">MYPJSExport</span>: <span class="title">JSExport</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> text: <span class="type">String</span>? &#123;<span class="keyword">get</span> <span class="keyword">set</span>&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</div><div class="line">    <span class="built_in">lazy</span> <span class="keyword">var</span> context: <span class="type">JSContext</span>? = &#123;</div><div class="line">        <span class="keyword">let</span> context = <span class="type">JSContext</span>()</div><div class="line">        <span class="keyword">return</span> context</div><div class="line">    &#125;()</div><div class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> textField: <span class="type">UITextField</span>!</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">super</span>.viewDidLoad()</div><div class="line">        </div><div class="line">        context?.exceptionHandler = &#123; (context, exception) <span class="keyword">in</span></div><div class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> exception = exception <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</div><div class="line">            context?.exception = exception</div><div class="line">            <span class="built_in">print</span>(<span class="string">"JS抛出错误：<span class="subst">\(exception)</span>"</span>)</div><div class="line">        &#125;;</div><div class="line">        <span class="keyword">let</span> block: <span class="meta">@convention</span>(block) () -&gt; () = &#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"----Begin Log----"</span>)</div><div class="line">            <span class="built_in">print</span>(<span class="string">"Thread.current: <span class="subst">\(Thread.current)</span>"</span>)</div><div class="line">            </div><div class="line">            <span class="keyword">let</span> arguments = <span class="type">JSContext</span>.currentArguments()</div><div class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> args = arguments <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</div><div class="line">            <span class="keyword">var</span> num = <span class="number">1</span></div><div class="line">            <span class="keyword">for</span> arg <span class="keyword">in</span> args &#123;</div><div class="line">                num += <span class="number">1</span></div><div class="line">                <span class="built_in">print</span>(<span class="string">"arg[<span class="subst">\(num)</span>]: <span class="subst">\(arg)</span>"</span>)</div><div class="line">            &#125;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"----End Log----"</span>)</div><div class="line">        &#125;</div><div class="line">        context?.setObject(block, forKeyedSubscript: <span class="type">NSString</span>(string: <span class="string">"log"</span>))</div><div class="line">        </div><div class="line">        <span class="comment">//为UITextField类动态添加协议</span></div><div class="line">        class_addProtocol(<span class="type">UITextField</span>.<span class="keyword">self</span>, <span class="type">MYPJSExport</span>.<span class="keyword">self</span>)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">btnClick</span><span class="params">()</span></span> &#123;</div><div class="line">        context?.setObject(textField, forKeyedSubscript: <span class="type">NSString</span>(string: <span class="string">"textField"</span>))</div><div class="line">        <span class="keyword">let</span> <span class="number">_</span> = context?.evaluateScript(<span class="string">"log(textField.text)"</span>)</div><div class="line">        </div><div class="line">        <span class="keyword">let</span> script = <span class="string">"var num = parseInt(textField.text, 10); ++num; textField.text = num;"</span></div><div class="line">        <span class="keyword">let</span> <span class="number">_</span> = context?.evaluateScript(script)</div><div class="line">        </div><div class="line">        <span class="comment">//注音：注意JS脚本调用OC/Swift是在子线程还是主线程，如果是更新原生UI，需要注意在主线程更新。</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="OC版本-1"><a href="#OC版本-1" class="headerlink" title="OC版本"></a>OC版本</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        function btnClick()&#123;</span></span><br><span class="line"><span class="undefined">            log("打印自定义对象："+jsObj.text);</span></span><br><span class="line"><span class="undefined">            //jsObj.text = 333; //子线程更新UI，Crash</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">onclick</span>=<span class="string">"log()"</span> <span class="attr">type</span>=<span class="string">"button"</span>  <span class="attr">style</span>=<span class="string">"width:300px;height:50px;"</span> <span class="attr">value</span>=<span class="string">"打印log"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">onclick</span>=<span class="string">"btnClick()"</span> <span class="attr">type</span>=<span class="string">"button"</span>  <span class="attr">style</span>=<span class="string">"width:300px;height:50px;"</span> <span class="attr">value</span>=<span class="string">"点击H5的按钮标签，修改iOS的UITextField的输入值"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//自定义协议继承自 &lt;JSExport&gt;</span><br><span class="line">@protocol MYPJSExport &lt;JSExport&gt;</span><br><span class="line">@property (nonatomic, copy) NSString *text;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">// 在ViewController.m中</span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    NSString *path = [[NSBundle mainBundle] pathForResource:@&quot;index&quot; ofType:@&quot;html&quot;];</span><br><span class="line">    NSURL *url = [NSURL fileURLWithPath:path];</span><br><span class="line">    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];</span><br><span class="line">    </span><br><span class="line">    //为UITextField类动态添加协议</span><br><span class="line">    class_addProtocol([UITextField class], @protocol(MYPJSExport));</span><br><span class="line"></span><br><span class="line">    // 注意：不能在JS脚本中更改UI控件类的UI属性，因为JS的运行是在子线程，不能对UI进行更新。</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (IBAction)btnClick:(UIButton *)sender</span><br><span class="line">&#123;</span><br><span class="line">    self.context = [[JSContext alloc] init];</span><br><span class="line">    self.context.exceptionHandler = ^(JSContext *context, JSValue *exception) &#123;</span><br><span class="line">        context.exception = exception;</span><br><span class="line">        NSLog(@&quot;JS抛出exception: %@&quot;,exception);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    self.context[@&quot;log&quot;] = ^() &#123;</span><br><span class="line">        NSLog(@&quot;---Begin Log---&quot;);</span><br><span class="line">        NSArray *arr= JSContext.currentArguments;</span><br><span class="line">        for (int i=0; i&lt;arr.count; i++) &#123;</span><br><span class="line">            NSLog(@&quot;arr[%d] = %@&quot;,i, arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@&quot;,[NSThread currentThread]); // 主线程</span><br><span class="line">        NSLog(@&quot;---End Log---&quot;);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    // 实现：可以在JS中拿到原生控件的属性值。</span><br><span class="line">    self.context[@&quot;textField&quot;] = self.textField;</span><br><span class="line">    NSString *script = @&quot;var text = textField.text;&quot;;</span><br><span class="line">    [self.context evaluateScript:script];</span><br><span class="line">    [self.context evaluateScript:@&quot;log(text)&quot;]; // 此处执行log函数，log内部依然是主线程。</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (IBAction)addBtnClick:(UIButton *)sender</span><br><span class="line">&#123;</span><br><span class="line">    NSString *script = @&quot;var num = parseInt(textField.text, 10);&quot;</span><br><span class="line">    &quot;++num;&quot;</span><br><span class="line">    &quot;textField.text = num;&quot;;</span><br><span class="line">    [self.context evaluateScript: script];</span><br><span class="line">    </span><br><span class="line">    //问题：JS执行环境都是在子线程，修改UITextField的text属性值是更新UI，子线程更新UI会Crash。为什么此处更新成功了？</span><br><span class="line">    //猜想：JS调用OC，OC执行依然在主线程。</span><br><span class="line">    //证实：使用OC执行JS脚本，JS脚本调用OC，对OC对象属性值改变，是在主线程发生的。</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 通过-evaluateScript: 方法，OC执行JS脚本，此时JS脚本的执行是在主线程，可以通过JS更新原生控件UI。</span><br><span class="line">// JS 直接在Html中调用OC定义的JS函数，运行是在子线程。</span><br><span class="line"></span><br><span class="line">#pragma mark - UIWebViewDelegate</span><br><span class="line">- (void)webViewDidFinishLoad:(UIWebView *)webView</span><br><span class="line">&#123;</span><br><span class="line">    self.context = [self.webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];</span><br><span class="line">    self.context.exceptionHandler = ^(JSContext *context, JSValue *exception) &#123;</span><br><span class="line">        context.exception = exception;</span><br><span class="line">        NSLog(@&quot;JS抛出exception: %@&quot;,exception);</span><br><span class="line">    &#125;;</span><br><span class="line">    self.context[@&quot;log&quot;] = ^() &#123;</span><br><span class="line">        NSLog(@&quot;---Begin Log---&quot;);</span><br><span class="line">        </span><br><span class="line">        NSArray *arr= JSContext.currentArguments;</span><br><span class="line">        for (int i=0; i&lt;arr.count; i++) &#123;</span><br><span class="line">            NSLog(@&quot;arr[%d] = %@&quot;,i, arr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@&quot;,[NSThread currentThread]); //子线程</span><br><span class="line">        NSLog(@&quot;---End Log---&quot;);</span><br><span class="line">    &#125;;</span><br><span class="line">    //注意：直接在Html中调用OC定义的JS函数，运行是在子线程。</span><br><span class="line">    </span><br><span class="line">    // 存储OC对象，JS调用OC，JS脚本中获得OC对象的属性值。</span><br><span class="line">    JSValue *jsObj = [JSValue valueWithObject:self.textField inContext:self.context]; //把OC对象转为JS对象</span><br><span class="line">    JSManagedValue *managedValue = [JSManagedValue managedValueWithValue:jsObj];</span><br><span class="line">    [self.context.virtualMachine addManagedReference:managedValue withOwner:self];</span><br><span class="line">    self.context[@&quot;jsObj&quot;] = jsObj; // 存储JS对象</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Swift版本-1"><a href="#Swift版本-1" class="headerlink" title="Swift版本"></a>Swift版本</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 自定义协议继承自 &lt;JSExport&gt;</span></span><br><span class="line"><span class="comment">//注意：@objc</span></span><br><span class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">MYPJSExport</span>: <span class="title">JSExport</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> text: <span class="type">String</span>? &#123;<span class="keyword">get</span> <span class="keyword">set</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    <span class="built_in">lazy</span> <span class="keyword">var</span> context: <span class="type">JSContext</span>? = &#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="type">JSContext</span>()</span><br><span class="line">        <span class="keyword">return</span> context</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> textField: <span class="type">UITextField</span>!</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        </span><br><span class="line">        context?.exceptionHandler = &#123; (context, exception) <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> exception = exception <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">            context?.exception = exception</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"JS抛出错误：<span class="subst">\(exception)</span>"</span>)</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">let</span> block: <span class="meta">@convention</span>(block) () -&gt; () = &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"----Begin Log----"</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"Thread.current: <span class="subst">\(Thread.current)</span>"</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">let</span> arguments = <span class="type">JSContext</span>.currentArguments()</span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> args = arguments <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">            <span class="keyword">var</span> num = <span class="number">1</span></span><br><span class="line">            <span class="keyword">for</span> arg <span class="keyword">in</span> args &#123;</span><br><span class="line">                num += <span class="number">1</span></span><br><span class="line">                <span class="built_in">print</span>(<span class="string">"arg[<span class="subst">\(num)</span>]: <span class="subst">\(arg)</span>"</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"----End Log----"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        context?.setObject(block, forKeyedSubscript: <span class="type">NSString</span>(string: <span class="string">"log"</span>))</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//为UITextField类动态添加协议</span></span><br><span class="line">        class_addProtocol(<span class="type">UITextField</span>.<span class="keyword">self</span>, <span class="type">MYPJSExport</span>.<span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">btnClick</span><span class="params">()</span></span> &#123;</span><br><span class="line">        context?.setObject(textField, forKeyedSubscript: <span class="type">NSString</span>(string: <span class="string">"textField"</span>))</span><br><span class="line">        <span class="keyword">let</span> <span class="number">_</span> = context?.evaluateScript(<span class="string">"log(textField.text)"</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> script = <span class="string">"var num = parseInt(textField.text, 10); ++num; textField.text = num;"</span></span><br><span class="line">        <span class="keyword">let</span> <span class="number">_</span> = context?.evaluateScript(script)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//注音：注意JS脚本调用OC/Swift是在子线程还是主线程，如果是更新原生UI，需要注意在主线程更新。</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="JSManagedValue"><a href="#JSManagedValue" class="headerlink" title="JSManagedValue"></a>JSManagedValue</h1><p>关于内存管理，<code>OC/Swfit</code>使用<code>ARC</code>，而<code>JS</code>使用的是垃圾回收机制，且<code>JS</code>中所有的引用都是强引用，不过<code>JS</code>的循环引用，垃圾回收会帮他们打破。在使用<code>JavaScriptCore</code>里面提供的<code>API</code>时，关于<code>OC/Swift</code>和<code>JS</code>对象之间内存管理，需要注意，一是不要在<code>Block/Closure</code>里面直接使用外部的<code>JSContext</code>对象和外部的<code>JSValue</code>对象；二是<code>OC/Swift</code>对象不要用属性直接保存<code>JSValue</code>对象，太容易循环引用。可以使用<code>JSManagedValue</code>，<code>JSManagedValue</code>帮我们保存了<code>JSValue</code>，这个是弱引用，但必须保证保存的<code>JS</code>对象在<code>JS</code>环境中是存在的。三是不要在不同的<code>JSVirtualMachine</code>之间进行传递<code>JS</code>对象。一个<code>JSVirtualMachine</code>可以运行多个<code>JSContext</code>对象，由于在同一个堆内存和同一个垃圾回收下，所以相互之间传值是没有问题的。但是如果在不同的<code>JSVirtualMachine</code>之间传值，垃圾回收就不知道他们之间的关系了，可能会引起异常。</p>
 <p>有时候为了方便调用，要全局保存<code>JSValue</code>对象，就可以通过全局保存<code>JSManagedValue</code>变量，来达到全局拿到<code>JSValue</code>对象的目的，这样可以避免产生循环引用。这也是<code>JSManagedValue</code>主要用途，解决<code>JSValue</code>对象在<code>OC/Swift</code>堆上的安全引用问题。把<code>JSValue</code>保存进<code>OC/Swift</code>堆对象中是不正确的，这很容易引发循环引用，而导致<code>JSContext</code>不能释放。</p>
-<h2 id="OC版本-2"><a href="#OC版本-2" class="headerlink" title="OC版本"></a>OC版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@protocol MYPJSExport &lt;JSExport&gt;</div><div class="line">//注意：在OC中，保存JS的对象，不要使用JSValue对象作为属性，容易循环引用，替代使用JSManagedValue对象。</div><div class="line">//@property (nonatomic, strong) JSValue *jsValue;</div><div class="line"></div><div class="line">//JSManagedValue对象本身是弱引用，来打破强引用，可以用来保存JSValue对象（JS对象）</div><div class="line">@property (nonatomic, strong) JSManagedValue *managedValue;</div><div class="line">@end</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">@implementation MYPObject</div><div class="line">@synthesize managedValue = _managedValue;</div><div class="line"></div><div class="line">- (void)setManagedValue:(JSManagedValue *)managedValue</div><div class="line">&#123;</div><div class="line">    _managedValue = managedValue;</div><div class="line">    </div><div class="line">    NSLog(@&quot;%@&quot;,[NSThread currentThread]);</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">//在ViewController.h 中</div><div class="line">    self.obj = [[MYPObject alloc] init];</div><div class="line">    self.context = [[JSContext alloc] init];</div><div class="line">    self.context.exceptionHandler = ^(JSContext *context, JSValue *exception) &#123;</div><div class="line">        context.exception = exception;</div><div class="line">        NSLog(@&quot;JS抛出exception: %@&quot;,exception);</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    self.context[@&quot;OCobj&quot;] = self.obj;</div><div class="line">    [self.context evaluateScript: @&quot;function callback()&#123;&#125;;&quot;];</div><div class="line">    </div><div class="line">    //把JS对象存储为全局属性，方便OC下次调用JS</div><div class="line">    self.obj.managedValue = [JSManagedValue managedValueWithValue:self.context[@&quot;callback&quot;]];</div><div class="line">    [JSContext.currentContext.virtualMachine addManagedReference:self.obj.managedValue withOwner:self];</div><div class="line">    NSLog(@&quot;self.obj.managedValue.value: %@&quot;, self.obj.managedValue.value); // function callback()&#123;&#125;</div><div class="line">    // 用 JSManagedValue来保存 JSValue</div><div class="line">    </div><div class="line">    // 如果直接使用JSValue对象作为属性，调用JS方法，进行赋值，JS对象保留了传进来的obj，最后，JS将自己的回调callback赋值给了obj，方便obj下次回调给JS；由于JS那边保存了obj，而且obj这边也保留了JS的回调。这样就形成了循环引用。</div><div class="line">    </div><div class="line">    //注意：只有在协议中定义的方法和属性才能够在JS中被调用。</div></pre></td></tr></table></figure>
-<h2 id="Swift版本-2"><a href="#Swift版本-2" class="headerlink" title="Swift版本"></a>Swift版本</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/// 自定义协议继承自 &lt;JSExport&gt;</span></div><div class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">MYPJSExport</span>: <span class="title">JSExport</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> managedValue: <span class="type">JSManagedValue</span>? &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">class</span> <span class="title">MYPObject</span>: <span class="title">NSObject</span>, <span class="title">MYPJSExport</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> text: <span class="type">String</span>?</div><div class="line">    </div><div class="line"><span class="comment">//    var managedValue: JSManagedValue = managedValue</span></div><div class="line">    <span class="keyword">var</span> managedValue: <span class="type">JSManagedValue</span>? &#123;</div><div class="line">        <span class="keyword">willSet</span>&#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"newValue: <span class="subst">\(String(describing: newValue)</span>)  |CurrentThread: <span class="subst">\(Thread.current)</span>"</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">didSet</span>&#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"oldValue: <span class="subst">\(String(describing: oldValue)</span>)  |CurrentThread: <span class="subst">\(Thread.current)</span>"</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> obj = <span class="type">MYPObject</span>()</div><div class="line">    <span class="keyword">let</span> context = <span class="type">JSContext</span>()</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="keyword">super</span>.viewDidLoad()</div><div class="line">        </div><div class="line">        context?.exceptionHandler = &#123; (context, exception) <span class="keyword">in</span></div><div class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> exce = exception <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</div><div class="line">            context!.exception = exce</div><div class="line">            <span class="built_in">print</span>(<span class="string">"JS抛出exception: <span class="subst">\(exce)</span>"</span>)</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        context?.setObject(obj, forKeyedSubscript: <span class="type">NSString</span>(string: <span class="string">"SwiftObj"</span>))</div><div class="line">        <span class="keyword">let</span> <span class="number">_</span> = context?.evaluateScript(<span class="string">"function callback()&#123;&#125;;"</span>)</div><div class="line">        </div><div class="line">        <span class="comment">// 用 JSManagedValue来保存 JSValue</span></div><div class="line">        <span class="comment">// 把JS对象存储为全局属性，方便OC下次调用JS</span></div><div class="line">        obj.managedValue = <span class="type">JSManagedValue</span>.<span class="keyword">init</span>(value: context?.objectForKeyedSubscript(<span class="string">"callback"</span>))</div><div class="line">        context?.virtualMachine.addManagedReference(obj.managedValue, withOwner: <span class="keyword">self</span>)</div><div class="line">        <span class="built_in">print</span>(<span class="string">"obj.managedValue.value: <span class="subst">\(String(describing: obj.managedValue?.value)</span>)"</span>)</div><div class="line">        </div><div class="line">        <span class="comment">//注意：只有在协议中定义的方法和属性才能够在JS中被调用。</span></div><div class="line">        <span class="keyword">let</span> <span class="number">_</span> = context?.evaluateScript(<span class="string">"SwiftObj.text = '测试';"</span>)</div><div class="line">        <span class="built_in">print</span>(<span class="string">"obj.text: <span class="subst">\(String(describing: obj.text)</span>)"</span>) <span class="comment">// obj.text: nil</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="OC版本-2"><a href="#OC版本-2" class="headerlink" title="OC版本"></a>OC版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@protocol MYPJSExport &lt;JSExport&gt;</span><br><span class="line">//注意：在OC中，保存JS的对象，不要使用JSValue对象作为属性，容易循环引用，替代使用JSManagedValue对象。</span><br><span class="line">//@property (nonatomic, strong) JSValue *jsValue;</span><br><span class="line"></span><br><span class="line">//JSManagedValue对象本身是弱引用，来打破强引用，可以用来保存JSValue对象（JS对象）</span><br><span class="line">@property (nonatomic, strong) JSManagedValue *managedValue;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@implementation MYPObject</span><br><span class="line">@synthesize managedValue = _managedValue;</span><br><span class="line"></span><br><span class="line">- (void)setManagedValue:(JSManagedValue *)managedValue</span><br><span class="line">&#123;</span><br><span class="line">    _managedValue = managedValue;</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%@&quot;,[NSThread currentThread]);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//在ViewController.h 中</span><br><span class="line">    self.obj = [[MYPObject alloc] init];</span><br><span class="line">    self.context = [[JSContext alloc] init];</span><br><span class="line">    self.context.exceptionHandler = ^(JSContext *context, JSValue *exception) &#123;</span><br><span class="line">        context.exception = exception;</span><br><span class="line">        NSLog(@&quot;JS抛出exception: %@&quot;,exception);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    self.context[@&quot;OCobj&quot;] = self.obj;</span><br><span class="line">    [self.context evaluateScript: @&quot;function callback()&#123;&#125;;&quot;];</span><br><span class="line">    </span><br><span class="line">    //把JS对象存储为全局属性，方便OC下次调用JS</span><br><span class="line">    self.obj.managedValue = [JSManagedValue managedValueWithValue:self.context[@&quot;callback&quot;]];</span><br><span class="line">    [JSContext.currentContext.virtualMachine addManagedReference:self.obj.managedValue withOwner:self];</span><br><span class="line">    NSLog(@&quot;self.obj.managedValue.value: %@&quot;, self.obj.managedValue.value); // function callback()&#123;&#125;</span><br><span class="line">    // 用 JSManagedValue来保存 JSValue</span><br><span class="line">    </span><br><span class="line">    // 如果直接使用JSValue对象作为属性，调用JS方法，进行赋值，JS对象保留了传进来的obj，最后，JS将自己的回调callback赋值给了obj，方便obj下次回调给JS；由于JS那边保存了obj，而且obj这边也保留了JS的回调。这样就形成了循环引用。</span><br><span class="line">    </span><br><span class="line">    //注意：只有在协议中定义的方法和属性才能够在JS中被调用。</span><br></pre></td></tr></table></figure>
+<h2 id="Swift版本-2"><a href="#Swift版本-2" class="headerlink" title="Swift版本"></a>Swift版本</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 自定义协议继承自 &lt;JSExport&gt;</span></span><br><span class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">MYPJSExport</span>: <span class="title">JSExport</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> managedValue: <span class="type">JSManagedValue</span>? &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">class</span> <span class="title">MYPObject</span>: <span class="title">NSObject</span>, <span class="title">MYPJSExport</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> text: <span class="type">String</span>?</span><br><span class="line">    </span><br><span class="line"><span class="comment">//    var managedValue: JSManagedValue = managedValue</span></span><br><span class="line">    <span class="keyword">var</span> managedValue: <span class="type">JSManagedValue</span>? &#123;</span><br><span class="line">        <span class="keyword">willSet</span>&#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"newValue: <span class="subst">\(String(describing: newValue)</span>)  |CurrentThread: <span class="subst">\(Thread.current)</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">didSet</span>&#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"oldValue: <span class="subst">\(String(describing: oldValue)</span>)  |CurrentThread: <span class="subst">\(Thread.current)</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> obj = <span class="type">MYPObject</span>()</span><br><span class="line">    <span class="keyword">let</span> context = <span class="type">JSContext</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        </span><br><span class="line">        context?.exceptionHandler = &#123; (context, exception) <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> exce = exception <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">            context!.exception = exce</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"JS抛出exception: <span class="subst">\(exce)</span>"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        context?.setObject(obj, forKeyedSubscript: <span class="type">NSString</span>(string: <span class="string">"SwiftObj"</span>))</span><br><span class="line">        <span class="keyword">let</span> <span class="number">_</span> = context?.evaluateScript(<span class="string">"function callback()&#123;&#125;;"</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 用 JSManagedValue来保存 JSValue</span></span><br><span class="line">        <span class="comment">// 把JS对象存储为全局属性，方便OC下次调用JS</span></span><br><span class="line">        obj.managedValue = <span class="type">JSManagedValue</span>.<span class="keyword">init</span>(value: context?.objectForKeyedSubscript(<span class="string">"callback"</span>))</span><br><span class="line">        context?.virtualMachine.addManagedReference(obj.managedValue, withOwner: <span class="keyword">self</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"obj.managedValue.value: <span class="subst">\(String(describing: obj.managedValue?.value)</span>)"</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//注意：只有在协议中定义的方法和属性才能够在JS中被调用。</span></span><br><span class="line">        <span class="keyword">let</span> <span class="number">_</span> = context?.evaluateScript(<span class="string">"SwiftObj.text = '测试';"</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"obj.text: <span class="subst">\(String(describing: obj.text)</span>)"</span>) <span class="comment">// obj.text: nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面代码中，<code>JSVirtualMachine</code>对象通过方法<code>- (void)addManagedReference:(id)object withOwner:(id)owner</code>来建立<code>JSManagedValue</code>对象与控制器<code>self</code>之间的弱引用关系。</p>
-<p>=================<br>本文代码，我的<code>Github</code>仓库获取<a href="https://github.com/MengYP/apple-stack/tree/master/iOS_JavaScript/iOS-JavaScriptCore-JSExport" target="_blank" rel="external">apple-stack</a></p>
+<p>=================<br>本文代码，我的<code>Github</code>仓库获取<a href="https://github.com/MengYP/apple-stack/tree/master/iOS_JavaScript/iOS-JavaScriptCore-JSExport" target="_blank" rel="noopener">apple-stack</a></p>
 
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>🐶 客观赏个好评吧 🐶</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
 
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>🐶 有您的支持将鼓励我继续创作 🐶</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/reward/wechat-reward-image.jpg" alt="孟跃平 WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="/images/reward/alipay-reward-image.jpg" alt="孟跃平 Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.png" alt="孟跃平 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/uploads/alipay.png" alt="孟跃平 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
   </div>
+</div>
 
+      </div>
+    
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -544,6 +521,10 @@ var _hmt = _hmt || [];
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -565,9 +546,19 @@ var _hmt = _hmt || [];
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -583,99 +574,100 @@ var _hmt = _hmt || [];
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="孟跃平" />
-          <p class="site-author-name" itemprop="name">孟跃平</p>
-           
-              <p class="site-description motion-element" itemprop="description">Just do it, and keep.</p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives/">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="孟跃平" />
             
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
+              <p class="site-author-name" itemprop="name">孟跃平</p>
+              <p class="site-description motion-element" itemprop="description">stay hungry, stay foolish</p>
           </div>
-        
 
-        <div class="links-of-author motion-element">
-          
+          <nav class="site-state motion-element">
+
             
-              <span class="links-of-author-item">
-                <a href="https://github.com/MengYP" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
                 </a>
-              </span>
+              </div>
             
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
           
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MengYP" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mengcoder@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
         </div>
-
-        
-        
-
-        
-        
-
-        
-
-
       </section>
 
       
@@ -708,49 +700,29 @@ var _hmt = _hmt || [];
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">孟跃平</span>
+
+  
 </div>
 
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
+
+
+
+
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
 
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
+
+
+
 
 
         
@@ -762,6 +734,8 @@ var _hmt = _hmt || [];
         <i class="fa fa-arrow-up"></i>
         
       </div>
+    
+
     
 
   </div>
@@ -796,51 +770,83 @@ var _hmt = _hmt || [];
 
 
   
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
   
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
-
-
-
-  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
 
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
 
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://mengyueping.com/2017/07/02/iOS-JSExport-JSCallOC-Swift/';
+          this.page.identifier = '2017/07/02/iOS-JSExport-JSCallOC-Swift/';
+          this.page.title = 'JSExport实现JS调用OC/Swift';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
 
   
 
@@ -865,14 +871,8 @@ var _hmt = _hmt || [];
 
 
 
-  
 
 
-
-
-
-
-  
 
 
 
@@ -880,8 +880,14 @@ var _hmt = _hmt || [];
 
   
 
+
+
+
+
   
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
   <script>AV.initialize("bSSS0Dg4QVv1p0FAHGaWv8Ei-gzGzoHsz", "UcKuDEryAx1QLVWeFLQHrUns");</script>
   <script>
     function showTime(Counter) {
@@ -989,6 +995,9 @@ var _hmt = _hmt || [];
 
   
 
+  
+
+  
   
 
   

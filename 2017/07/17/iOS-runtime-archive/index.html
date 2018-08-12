@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 
 
 
@@ -10,6 +10,7 @@
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
 
 
@@ -36,36 +37,11 @@
 
 
 
+
   
   
   <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
 
 
 
@@ -74,7 +50,22 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
 
 
   <meta name="keywords" content="iOS,Swift,OC,runtime,归档,解档,序列化,反序列化," />
@@ -82,13 +73,6 @@
 
 
 
-
-  <link rel="alternate" href="/atom.xml" title="孟跃平的技术博客" type="application/atom+xml" />
-
-
-
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
 
 
 
@@ -102,7 +86,8 @@
 <meta property="og:url" content="http://mengyueping.com/2017/07/17/iOS-runtime-archive/index.html">
 <meta property="og:site_name" content="孟跃平的技术博客">
 <meta property="og:description" content="使用runtime进行归档解档问题 不使用runtime情况下，归档/解档有什么缺点？ 如何使用runtime进行归档/解档？ 使用runtime进行归档/解档好处是什么？">
-<meta property="og:updated_time" content="2017-07-18T02:37:18.000Z">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-06T14:41:29.442Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS的runtime应用篇之实现归档解档">
 <meta name="twitter:description" content="使用runtime进行归档解档问题 不使用runtime情况下，归档/解档有什么缺点？ 如何使用runtime进行归档/解档？ 使用runtime进行归档/解档好处是什么？">
@@ -114,9 +99,11 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -139,23 +126,7 @@
 
 
 
-
-<script type="text/javascript" id="hexo.configurations">
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?deacc15534ffb9510cfb94bae354ea45";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
-
-
   <title>iOS的runtime应用篇之实现归档解档 | 孟跃平的技术博客</title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
   
 
 
@@ -175,19 +146,16 @@ var _hmt = _hmt || [];
 
 
 
+</head>
 
-
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
 
-  <div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -233,22 +201,22 @@ var _hmt = _hmt || [];
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
           </a>
         </li>
       
@@ -263,12 +231,12 @@ var _hmt = _hmt || [];
         </li>
       
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            标签
+            关于
           </a>
         </li>
       
@@ -300,13 +268,17 @@ var _hmt = _hmt || [];
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://mengyueping.com/2017/07/17/iOS-runtime-archive/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="孟跃平">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/uploads/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -377,6 +349,17 @@ var _hmt = _hmt || [];
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/17/iOS-runtime-archive/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/07/17/iOS-runtime-archive/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -387,17 +370,12 @@ var _hmt = _hmt || [];
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">阅读次数 </span>
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
           
 
-          
-            <span class="post-meta-divider">|</span>
-            <span class="page-pv"><i class="fa fa-file-o"></i>
-            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
-            </span>
           
 
           
@@ -408,6 +386,9 @@ var _hmt = _hmt || [];
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -421,63 +402,59 @@ var _hmt = _hmt || [];
 </ul>
 <a id="more"></a>
 <h1 id="归档解档"><a href="#归档解档" class="headerlink" title="归档解档"></a>归档解档</h1><p><code>OC</code>中归档解档又称为序列化和反序列化。在<code>iOS</code>开发中通常会遇到对模型进行归档，而要实现模型归档，必须对该模型实现<code>NSCoding</code>协议。实现<code>NSCoding</code>协议的归档解档方法，一般做法是分别对该模型的每个属性进行<code>encodeObject</code>和<code>decodeObjectForKey</code>操作，如下。这样做缺点就是太过繁琐，如果该模型属性特别多的话，不适合使用。如果要修改了该模型的一些属性，对应的<code>encodeObject</code>和<code>decodeObjectForKey</code>操作也需要修改。</p>
-<h2 id="OC版本"><a href="#OC版本" class="headerlink" title="OC版本"></a>OC版本</h2><p>对模型<code>MomentModel</code>进行归档解档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@interface MomentModel : NSObject&lt;NSCoding&gt;</div><div class="line"></div><div class="line">@property (nonatomic, copy) NSString *content;</div><div class="line">@property (nonatomic, copy) NSString *time;</div><div class="line">@property (nonatomic, copy) NSString *pic;</div><div class="line">@property (nonatomic, copy) NSString *place;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">//归档操作</div><div class="line">- (void)encodeWithCoder:(NSCoder *)coder</div><div class="line">&#123;</div><div class="line">    [coder encodeObject:_content forKey:@&quot;_content&quot;];</div><div class="line">    [coder encodeObject:_time forKey:@&quot;_time&quot;];</div><div class="line">    [coder encodeObject:_pic forKey:@&quot;_pic&quot;];</div><div class="line">    [coder encodeObject:_place forKey:@&quot;_place&quot;];</div><div class="line">&#125;</div><div class="line">//解档操作</div><div class="line">- (instancetype)initWithCoder:(NSCoder *)coder</div><div class="line">&#123;</div><div class="line">    self = [super init];</div><div class="line">    if (self) &#123;</div><div class="line">        _content = [coder decodeObjectForKey:@&quot;_content&quot;];</div><div class="line">        _time = [coder decodeObjectForKey:@&quot;_time&quot;];</div><div class="line">        _pic = [coder decodeObjectForKey:@&quot;_pic&quot;];</div><div class="line">        _place = [coder decodeObjectForKey:@&quot;_place&quot;];</div><div class="line">    &#125;</div><div class="line">    return self;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Swift版本"><a href="#Swift版本" class="headerlink" title="Swift版本"></a>Swift版本</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//要归档的模型类</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MomentModel</span>: <span class="title">NSObject</span>, <span class="title">NSCoding</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> content: <span class="type">String</span>?</div><div class="line">    <span class="keyword">var</span> time: <span class="type">String</span>?</div><div class="line">    <span class="keyword">var</span> pic: <span class="type">String</span>?</div><div class="line">    <span class="keyword">var</span> place: <span class="type">String</span>?</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// MARK: - 归档</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">encode</span><span class="params">(with aCoder: NSCoder)</span></span> &#123;</div><div class="line">        aCoder.encode(content, forKey: <span class="string">"content"</span>)</div><div class="line">        aCoder.encode(time, forKey: <span class="string">"time"</span>)</div><div class="line">        aCoder.encode(pic, forKey: <span class="string">"pic"</span>)</div><div class="line">        aCoder.encode(place, forKey: <span class="string">"place"</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// MARK: - 解档</span></div><div class="line">    <span class="keyword">required</span> <span class="keyword">init</span>?(coder aDecoder: <span class="type">NSCoder</span>) &#123;</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</div><div class="line">        </div><div class="line">        content = aDecoder.decodeObject(forKey: <span class="string">"content"</span>) <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">        time = aDecoder.decodeObject(forKey: <span class="string">"time"</span>) <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">        pic = aDecoder.decodeObject(forKey: <span class="string">"pic"</span>) <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">        place = aDecoder.decodeObject(forKey: <span class="string">"place"</span>) <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//归档操作</span></div><div class="line"><span class="keyword">let</span> k_moment_path = <span class="string">"<span class="subst">\(NSTemporaryDirectory()</span>)/moment.moment"</span></div><div class="line"><span class="keyword">let</span> isSuccess: <span class="type">Bool</span> = <span class="type">NSKeyedArchiver</span>.archiveRootObject(momentmodel, toFile: k_moment_path)</div><div class="line"><span class="keyword">if</span> isSuccess &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"归档成功"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//解档操作</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> obj = <span class="type">NSKeyedUnarchiver</span>.unarchiveObject(withFile: k_moment_path) <span class="keyword">as</span>? <span class="type">MomentModel</span> &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"MomentModel: <span class="subst">\(obj)</span> <span class="subst">\(obj.content!)</span> <span class="subst">\(obj.pic!)</span> <span class="subst">\(obj.place!)</span> <span class="subst">\(obj.time!)</span>"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="OC版本"><a href="#OC版本" class="headerlink" title="OC版本"></a>OC版本</h2><p>对模型<code>MomentModel</code>进行归档解档：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@interface MomentModel : NSObject&lt;NSCoding&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, copy) NSString *content;</span><br><span class="line">@property (nonatomic, copy) NSString *time;</span><br><span class="line">@property (nonatomic, copy) NSString *pic;</span><br><span class="line">@property (nonatomic, copy) NSString *place;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//归档操作</span><br><span class="line">- (void)encodeWithCoder:(NSCoder *)coder</span><br><span class="line">&#123;</span><br><span class="line">    [coder encodeObject:_content forKey:@&quot;_content&quot;];</span><br><span class="line">    [coder encodeObject:_time forKey:@&quot;_time&quot;];</span><br><span class="line">    [coder encodeObject:_pic forKey:@&quot;_pic&quot;];</span><br><span class="line">    [coder encodeObject:_place forKey:@&quot;_place&quot;];</span><br><span class="line">&#125;</span><br><span class="line">//解档操作</span><br><span class="line">- (instancetype)initWithCoder:(NSCoder *)coder</span><br><span class="line">&#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        _content = [coder decodeObjectForKey:@&quot;_content&quot;];</span><br><span class="line">        _time = [coder decodeObjectForKey:@&quot;_time&quot;];</span><br><span class="line">        _pic = [coder decodeObjectForKey:@&quot;_pic&quot;];</span><br><span class="line">        _place = [coder decodeObjectForKey:@&quot;_place&quot;];</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Swift版本"><a href="#Swift版本" class="headerlink" title="Swift版本"></a>Swift版本</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//要归档的模型类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MomentModel</span>: <span class="title">NSObject</span>, <span class="title">NSCoding</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> content: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> time: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> pic: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> place: <span class="type">String</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// MARK: - 归档</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">encode</span><span class="params">(with aCoder: NSCoder)</span></span> &#123;</span><br><span class="line">        aCoder.encode(content, forKey: <span class="string">"content"</span>)</span><br><span class="line">        aCoder.encode(time, forKey: <span class="string">"time"</span>)</span><br><span class="line">        aCoder.encode(pic, forKey: <span class="string">"pic"</span>)</span><br><span class="line">        aCoder.encode(place, forKey: <span class="string">"place"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// MARK: - 解档</span></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>?(coder aDecoder: <span class="type">NSCoder</span>) &#123;</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">        </span><br><span class="line">        content = aDecoder.decodeObject(forKey: <span class="string">"content"</span>) <span class="keyword">as</span>? <span class="type">String</span></span><br><span class="line">        time = aDecoder.decodeObject(forKey: <span class="string">"time"</span>) <span class="keyword">as</span>? <span class="type">String</span></span><br><span class="line">        pic = aDecoder.decodeObject(forKey: <span class="string">"pic"</span>) <span class="keyword">as</span>? <span class="type">String</span></span><br><span class="line">        place = aDecoder.decodeObject(forKey: <span class="string">"place"</span>) <span class="keyword">as</span>? <span class="type">String</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//归档操作</span></span><br><span class="line"><span class="keyword">let</span> k_moment_path = <span class="string">"<span class="subst">\(NSTemporaryDirectory()</span>)/moment.moment"</span></span><br><span class="line"><span class="keyword">let</span> isSuccess: <span class="type">Bool</span> = <span class="type">NSKeyedArchiver</span>.archiveRootObject(momentmodel, toFile: k_moment_path)</span><br><span class="line"><span class="keyword">if</span> isSuccess &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"归档成功"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解档操作</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> obj = <span class="type">NSKeyedUnarchiver</span>.unarchiveObject(withFile: k_moment_path) <span class="keyword">as</span>? <span class="type">MomentModel</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"MomentModel: <span class="subst">\(obj)</span> <span class="subst">\(obj.content!)</span> <span class="subst">\(obj.pic!)</span> <span class="subst">\(obj.place!)</span> <span class="subst">\(obj.time!)</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="使用Runtime归档解档"><a href="#使用Runtime归档解档" class="headerlink" title="使用Runtime归档解档"></a>使用Runtime归档解档</h1><p><strong>归档/解档</strong>需要实现<code>NSCoding</code>协议方法，在<code>NSCoding</code>协议方法中实现了对每个属性分别进行<strong>归档/解档</strong>，归档对属性值归档为相应的字段，解档依据相应的字段为对象属性赋值。只要获得模型的属性个数，模型的属性列表，以及模型的属性名，模型的属性值，就可以通过循环遍历的方式分别对每个属性进行<strong>归档/解档</strong>操作。这样就不用考虑属性有多少，是否会改变，解决了一般归档方法的缺点。</p>
 <p>可以使用<code>runtime</code>的<code>OBJC_EXPORT Ivar *class_copyIvarList(Class cls, unsigned int *outCount)</code>方法获取某个类的属性个数和属性列表。遍历属性列表，可获取每个属性的名字，然后使用<code>KVC</code>获取每个属性的值。这样拿到了每个属性的名字和属性值就可以对模型进行归档。同样拿到属性的名字，进行解档。</p>
-<h2 id="OC版本-1"><a href="#OC版本-1" class="headerlink" title="OC版本"></a>OC版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">#pragma mark - NSCoding协议</div><div class="line">- (void)encodeWithCoder:(NSCoder *)coder</div><div class="line">&#123;</div><div class="line">    [self code:YES coder:coder];</div><div class="line">&#125;</div><div class="line">- (instancetype)initWithCoder:(NSCoder *)coder</div><div class="line">&#123;</div><div class="line">    self = [super init];</div><div class="line">    if (self) &#123;</div><div class="line">        [self code:NO coder:coder];</div><div class="line">    &#125;</div><div class="line">    return self;</div><div class="line">&#125;</div><div class="line">#pragma mark - 私有</div><div class="line">/**</div><div class="line"> 归档 | 解档</div><div class="line"> </div><div class="line"> @param isEncode YES：归档  NO：解档</div><div class="line"> */</div><div class="line">- (void)code:(BOOL)isEncode coder:(NSCoder *)coder</div><div class="line">&#123;</div><div class="line">    //1. 获取属性个数 &amp; 属性列表</div><div class="line">    unsigned int outCount = 0;</div><div class="line">    Ivar *ivars = class_copyIvarList([UserModel class], &amp;outCount);</div><div class="line">    </div><div class="line">    //2. 遍历属性列表，</div><div class="line">    for (int i = 0; i&lt;outCount; i++) &#123;</div><div class="line">        //3. 获取属性名字</div><div class="line">        Ivar ivar = ivars[i];</div><div class="line">        const char * name = ivar_getName(ivar);</div><div class="line">        NSString *key = [NSString stringWithUTF8String:name];</div><div class="line">        id value;</div><div class="line">        if (isEncode) &#123;</div><div class="line">            //4. kvc获取属性值</div><div class="line">            value = [self valueForKey:key];</div><div class="line">            </div><div class="line">            //5. 归档</div><div class="line">            [coder encodeObject:value forKey:key];</div><div class="line">        &#125; else &#123;</div><div class="line">            //4. 解档</div><div class="line">            value = [coder decodeObjectForKey:key];</div><div class="line">            //5. kvc设置属性值</div><div class="line">            [self setValue:value forKey:key];</div><div class="line">        &#125;</div><div class="line">        NSLog(@&quot;count: %u | const char *name: %s | NSString *name: %@ | value: %@&quot;, outCount, name, key, value);</div><div class="line">        //c语言里面需要释放指针</div><div class="line">    &#125;</div><div class="line">    free(ivars);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="Swift版本-1"><a href="#Swift版本-1" class="headerlink" title="Swift版本"></a>Swift版本</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//要归档解档的模型类</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserModel</span>: <span class="title">NSObject</span>, <span class="title">NSCoding</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> name: <span class="type">String</span>?</div><div class="line">    <span class="keyword">var</span> age: <span class="type">String</span>?</div><div class="line">    <span class="keyword">var</span> avatar: <span class="type">String</span>?</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// MARK: - 归档</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">encode</span><span class="params">(with aCoder: NSCoder)</span></span> &#123;</div><div class="line">        </div><div class="line">        <span class="comment">//1. 获取属性列表 &amp; 属性数量</span></div><div class="line">        <span class="keyword">var</span> outCount: <span class="type">UInt32</span> = <span class="number">0</span></div><div class="line">        <span class="keyword">let</span> ivars = class_copyIvarList(<span class="type">UserModel</span>.<span class="keyword">self</span>, &amp;outCount)</div><div class="line">        </div><div class="line">        <span class="comment">//2. 遍历属性列表</span></div><div class="line">        <span class="keyword">var</span> i = <span class="number">0</span></div><div class="line">        <span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="type">Array</span>(repeating: <span class="number">1</span>, <span class="built_in">count</span>: <span class="type">Int</span>(outCount)) &#123;</div><div class="line">            <span class="comment">//3. 获取属性名</span></div><div class="line">            <span class="keyword">let</span> key = <span class="type">String</span>(cString: ivar_getName(ivars?[i]), encoding: <span class="type">String</span>.<span class="type">Encoding</span>.utf8)!</div><div class="line">            <span class="comment">//4. kvc获取属性值</span></div><div class="line">            <span class="keyword">let</span> v = value(forKey: key)</div><div class="line">            </div><div class="line">            <span class="comment">//5. 归档</span></div><div class="line">            aCoder.encode(v, forKey: key)</div><div class="line">            </div><div class="line">            i += <span class="number">1</span></div><div class="line">        &#125;</div><div class="line">        <span class="comment">//6. 释放内存</span></div><div class="line">        free(ivars)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// MARK: - 解档</span></div><div class="line">    <span class="keyword">required</span> <span class="keyword">init</span>?(coder aDecoder: <span class="type">NSCoder</span>) &#123;</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</div><div class="line">        </div><div class="line">        <span class="comment">//1. 获取属性列表 &amp; 属性数量</span></div><div class="line">        <span class="keyword">var</span> outCount: <span class="type">UInt32</span> = <span class="number">0</span></div><div class="line">        <span class="keyword">let</span> ivars = class_copyIvarList(<span class="type">UserModel</span>.<span class="keyword">self</span>, &amp;outCount)</div><div class="line">        </div><div class="line">        <span class="comment">//2. 遍历属性列表</span></div><div class="line">        <span class="keyword">var</span> i = <span class="number">0</span></div><div class="line">        <span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="type">Array</span>(repeating: <span class="number">1</span>, <span class="built_in">count</span>: <span class="type">Int</span>(outCount)) &#123;</div><div class="line">            <span class="comment">//3. 获取属性名</span></div><div class="line">            <span class="keyword">let</span> key = <span class="type">String</span>(cString: ivar_getName(ivars?[i]), encoding: <span class="type">String</span>.<span class="type">Encoding</span>.utf8)!</div><div class="line">            </div><div class="line">            <span class="comment">//4. 解档</span></div><div class="line">            <span class="keyword">let</span> v = aDecoder.decodeObject(forKey: key)</div><div class="line">            </div><div class="line">            <span class="comment">//5. kvc获取属性值</span></div><div class="line">            setValue(v, forKey: key)</div><div class="line">            </div><div class="line">            i += <span class="number">1</span></div><div class="line">        &#125;</div><div class="line">        <span class="comment">//6. 释放内存</span></div><div class="line">        free(ivars)</div><div class="line">    &#125;   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//归档操作</span></div><div class="line"><span class="keyword">let</span> k_user_path = <span class="string">"<span class="subst">\(NSTemporaryDirectory()</span>)/user.user"</span></div><div class="line"><span class="keyword">let</span> isOk = <span class="type">NSKeyedArchiver</span>.archiveRootObject(userModel, toFile: k_user_path)</div><div class="line"><span class="keyword">if</span> isOk &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"归档成功 isOK"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//解档操作</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> user = <span class="type">NSKeyedUnarchiver</span>.unarchiveObject(withFile: k_user_path) <span class="keyword">as</span>? <span class="type">UserModel</span> &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"UserModel: <span class="subst">\(user)</span> <span class="subst">\(user.name!)</span> <span class="subst">\(user.avatar!)</span> <span class="subst">\(user.age!)</span>"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>=================<br>本文代码，我的<code>Github</code>仓库获取<a href="https://github.com/MengYP/apple-stack/tree/master/iOS_runtime-archive" target="_blank" rel="external">apple-stack</a></p>
+<h2 id="OC版本-1"><a href="#OC版本-1" class="headerlink" title="OC版本"></a>OC版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - NSCoding协议</span><br><span class="line">- (void)encodeWithCoder:(NSCoder *)coder</span><br><span class="line">&#123;</span><br><span class="line">    [self code:YES coder:coder];</span><br><span class="line">&#125;</span><br><span class="line">- (instancetype)initWithCoder:(NSCoder *)coder</span><br><span class="line">&#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        [self code:NO coder:coder];</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line">#pragma mark - 私有</span><br><span class="line">/**</span><br><span class="line"> 归档 | 解档</span><br><span class="line"> </span><br><span class="line"> @param isEncode YES：归档  NO：解档</span><br><span class="line"> */</span><br><span class="line">- (void)code:(BOOL)isEncode coder:(NSCoder *)coder</span><br><span class="line">&#123;</span><br><span class="line">    //1. 获取属性个数 &amp; 属性列表</span><br><span class="line">    unsigned int outCount = 0;</span><br><span class="line">    Ivar *ivars = class_copyIvarList([UserModel class], &amp;outCount);</span><br><span class="line">    </span><br><span class="line">    //2. 遍历属性列表，</span><br><span class="line">    for (int i = 0; i&lt;outCount; i++) &#123;</span><br><span class="line">        //3. 获取属性名字</span><br><span class="line">        Ivar ivar = ivars[i];</span><br><span class="line">        const char * name = ivar_getName(ivar);</span><br><span class="line">        NSString *key = [NSString stringWithUTF8String:name];</span><br><span class="line">        id value;</span><br><span class="line">        if (isEncode) &#123;</span><br><span class="line">            //4. kvc获取属性值</span><br><span class="line">            value = [self valueForKey:key];</span><br><span class="line">            </span><br><span class="line">            //5. 归档</span><br><span class="line">            [coder encodeObject:value forKey:key];</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            //4. 解档</span><br><span class="line">            value = [coder decodeObjectForKey:key];</span><br><span class="line">            //5. kvc设置属性值</span><br><span class="line">            [self setValue:value forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">        NSLog(@&quot;count: %u | const char *name: %s | NSString *name: %@ | value: %@&quot;, outCount, name, key, value);</span><br><span class="line">        //c语言里面需要释放指针</span><br><span class="line">    &#125;</span><br><span class="line">    free(ivars);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Swift版本-1"><a href="#Swift版本-1" class="headerlink" title="Swift版本"></a>Swift版本</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//要归档解档的模型类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserModel</span>: <span class="title">NSObject</span>, <span class="title">NSCoding</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> age: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> avatar: <span class="type">String</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// MARK: - 归档</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">encode</span><span class="params">(with aCoder: NSCoder)</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//1. 获取属性列表 &amp; 属性数量</span></span><br><span class="line">        <span class="keyword">var</span> outCount: <span class="type">UInt32</span> = <span class="number">0</span></span><br><span class="line">        <span class="keyword">let</span> ivars = class_copyIvarList(<span class="type">UserModel</span>.<span class="keyword">self</span>, &amp;outCount)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//2. 遍历属性列表</span></span><br><span class="line">        <span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="type">Array</span>(repeating: <span class="number">1</span>, <span class="built_in">count</span>: <span class="type">Int</span>(outCount)) &#123;</span><br><span class="line">            <span class="comment">//3. 获取属性名</span></span><br><span class="line">            <span class="keyword">let</span> key = <span class="type">String</span>(cString: ivar_getName(ivars?[i]), encoding: <span class="type">String</span>.<span class="type">Encoding</span>.utf8)!</span><br><span class="line">            <span class="comment">//4. kvc获取属性值</span></span><br><span class="line">            <span class="keyword">let</span> v = value(forKey: key)</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//5. 归档</span></span><br><span class="line">            aCoder.encode(v, forKey: key)</span><br><span class="line">            </span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//6. 释放内存</span></span><br><span class="line">        free(ivars)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// MARK: - 解档</span></span><br><span class="line">    <span class="keyword">required</span> <span class="keyword">init</span>?(coder aDecoder: <span class="type">NSCoder</span>) &#123;</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//1. 获取属性列表 &amp; 属性数量</span></span><br><span class="line">        <span class="keyword">var</span> outCount: <span class="type">UInt32</span> = <span class="number">0</span></span><br><span class="line">        <span class="keyword">let</span> ivars = class_copyIvarList(<span class="type">UserModel</span>.<span class="keyword">self</span>, &amp;outCount)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//2. 遍历属性列表</span></span><br><span class="line">        <span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="type">Array</span>(repeating: <span class="number">1</span>, <span class="built_in">count</span>: <span class="type">Int</span>(outCount)) &#123;</span><br><span class="line">            <span class="comment">//3. 获取属性名</span></span><br><span class="line">            <span class="keyword">let</span> key = <span class="type">String</span>(cString: ivar_getName(ivars?[i]), encoding: <span class="type">String</span>.<span class="type">Encoding</span>.utf8)!</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//4. 解档</span></span><br><span class="line">            <span class="keyword">let</span> v = aDecoder.decodeObject(forKey: key)</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//5. kvc获取属性值</span></span><br><span class="line">            setValue(v, forKey: key)</span><br><span class="line">            </span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//6. 释放内存</span></span><br><span class="line">        free(ivars)</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//归档操作</span></span><br><span class="line"><span class="keyword">let</span> k_user_path = <span class="string">"<span class="subst">\(NSTemporaryDirectory()</span>)/user.user"</span></span><br><span class="line"><span class="keyword">let</span> isOk = <span class="type">NSKeyedArchiver</span>.archiveRootObject(userModel, toFile: k_user_path)</span><br><span class="line"><span class="keyword">if</span> isOk &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"归档成功 isOK"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解档操作</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> user = <span class="type">NSKeyedUnarchiver</span>.unarchiveObject(withFile: k_user_path) <span class="keyword">as</span>? <span class="type">UserModel</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"UserModel: <span class="subst">\(user)</span> <span class="subst">\(user.name!)</span> <span class="subst">\(user.avatar!)</span> <span class="subst">\(user.age!)</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>=================<br>本文代码，我的<code>Github</code>仓库获取<a href="https://github.com/MengYP/apple-stack/tree/master/iOS_runtime-archive" target="_blank" rel="noopener">apple-stack</a></p>
 
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>🐶 客观赏个好评吧 🐶</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
 
-    <div>
-      
-        
-  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-    <div>🐶 有您的支持将鼓励我继续创作 🐶</div>
-    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-      <span>赏</span>
-    </button>
-    <div id="QR" style="display: none;">
-      
-        <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/reward/wechat-reward-image.jpg" alt="孟跃平 WeChat Pay"/>
-          <p>微信打赏</p>
-        </div>
-      
-      
-        <div id="alipay" style="display: inline-block">
-          <img id="alipay_qr" src="/images/reward/alipay-reward-image.jpg" alt="孟跃平 Alipay"/>
-          <p>支付宝打赏</p>
-        </div>
-      
-    </div>
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.png" alt="孟跃平 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/uploads/alipay.png" alt="孟跃平 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
   </div>
+</div>
 
+      </div>
+    
 
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -531,6 +508,10 @@ var _hmt = _hmt || [];
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -552,9 +533,19 @@ var _hmt = _hmt || [];
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
 
 
         </div>
@@ -570,99 +561,100 @@ var _hmt = _hmt || [];
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="孟跃平" />
-          <p class="site-author-name" itemprop="name">孟跃平</p>
-           
-              <p class="site-description motion-element" itemprop="description">Just do it, and keep.</p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives/">
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="孟跃平" />
             
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
+              <p class="site-author-name" itemprop="name">孟跃平</p>
+              <p class="site-description motion-element" itemprop="description">stay hungry, stay foolish</p>
           </div>
-        
 
-        <div class="links-of-author motion-element">
-          
+          <nav class="site-state motion-element">
+
             
-              <span class="links-of-author-item">
-                <a href="https://github.com/MengYP" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
                 </a>
-              </span>
+              </div>
             
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
           
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MengYP" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mengcoder@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
         </div>
-
-        
-        
-
-        
-        
-
-        
-
-
       </section>
 
       
@@ -695,49 +687,29 @@ var _hmt = _hmt || [];
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2015 - 
-  <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">孟跃平</span>
+
+  
 </div>
 
 
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
 
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
+
+
+
+
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
 
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
+
+
+
 
 
         
@@ -749,6 +721,8 @@ var _hmt = _hmt || [];
         <i class="fa fa-arrow-up"></i>
         
       </div>
+    
+
     
 
   </div>
@@ -783,51 +757,83 @@ var _hmt = _hmt || [];
 
 
   
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
   
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
-
-
-
-  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
 
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
 
 
 
   
 
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://mengyueping.com/2017/07/17/iOS-runtime-archive/';
+          this.page.identifier = '2017/07/17/iOS-runtime-archive/';
+          this.page.title = 'iOS的runtime应用篇之实现归档解档';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
 
   
 
@@ -852,14 +858,8 @@ var _hmt = _hmt || [];
 
 
 
-  
 
 
-
-
-
-
-  
 
 
 
@@ -867,8 +867,14 @@ var _hmt = _hmt || [];
 
   
 
+
+
+
+
   
-  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
   <script>AV.initialize("bSSS0Dg4QVv1p0FAHGaWv8Ei-gzGzoHsz", "UcKuDEryAx1QLVWeFLQHrUns");</script>
   <script>
     function showTime(Counter) {
@@ -976,6 +982,9 @@ var _hmt = _hmt || [];
 
   
 
+  
+
+  
   
 
   
