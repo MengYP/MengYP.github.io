@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="孟跃平的技术博客">
 <meta property="og:description" content="CocoaPods 私有库拾遗公司项目组件化有一段时间了，根据自己的零星笔记，总结一下 CocoaPods 在组件化过程中的一些使用。关于私有库的一些笔记。 参考：CocoaPods 官方文档">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-15T15:11:13.786Z">
+<meta property="og:updated_time" content="2018-08-15T15:18:56.977Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CocoaPods私有库拾遗">
 <meta name="twitter:description" content="CocoaPods 私有库拾遗公司项目组件化有一段时间了，根据自己的零星笔记，总结一下 CocoaPods 在组件化过程中的一些使用。关于私有库的一些笔记。 参考：CocoaPods 官方文档">
@@ -343,17 +343,6 @@
 
                 
                 
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/CocoaPods/私有库/" itemprop="url" rel="index">
-                    <span itemprop="name">私有库</span>
-                  </a>
-                </span>
-
-                
-                
               
             </span>
           
@@ -438,36 +427,22 @@
 <p>本地缓存路径：<code>~/Library/Caches/CocoaPods/</code> 。eg:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">~/Library/Caches/CocoaPods/</span><br><span class="line">├── Pods</span><br><span class="line">│   ├── Release</span><br><span class="line">│   │   ├── AFNetworking</span><br><span class="line">│   │   ├── AMap3DMap</span><br><span class="line">│   │   ├── AMapFoundation</span><br><span class="line">│   │   ├── AMapSearch</span><br><span class="line">│   │   ├── AliyunOSSiOS</span><br><span class="line">│   │   ├── BDSSSDK</span><br><span class="line">│   │   ├── FMDB</span><br><span class="line">│   ├── Specs</span><br><span class="line">│   │   └── Release</span><br><span class="line">│   └── VERSION</span><br><span class="line">└── search_index.json</span><br></pre></td></tr></table></figure>
 <h2 id="创建私有库"><a href="#创建私有库" class="headerlink" title="创建私有库"></a>创建私有库</h2><ul>
-<li><ol>
-<li>在 <code>git</code> 远端创建索引仓库。</li>
-</ol>
+<li><p>1、在 <code>git</code> 远端创建索引仓库。</p>
 </li>
-<li><ol start="2">
-<li>在 <code>git</code> 远端创建代码仓库。所有代码仓库共用一个索引库。</li>
-</ol>
+<li><p>2、在 <code>git</code> 远端创建代码仓库。所有代码仓库共用一个索引库。</p>
 </li>
-<li><ol start="3">
-<li><code>clone</code> 代码库到本地，创建工程。一般包含：<code>LICENSE</code>（开源许可证）、<code>README.md</code>、<code>name.podspec</code>（CocoaPods 的索引描述文件）、代码（代码 &amp; 二进制文件 &amp; 资源文件）、<code>Example</code>（Demo工程）。</li>
-</ol>
+<li><p>3、<code>clone</code> 代码库到本地，创建工程。一般包含：<code>LICENSE</code>（开源许可证）、<code>README.md</code>、<code>name.podspec</code>（CocoaPods 的索引描述文件）、代码（代码 &amp; 二进制文件 &amp; 资源文件）、<code>Example</code>（Demo工程）。</p>
 </li>
 </ul>
 <h2 id="几个常用命令"><a href="#几个常用命令" class="headerlink" title="几个常用命令"></a>几个常用命令</h2><p>执行命令时都做了什么事情：</p>
 <ul>
-<li><ol>
-<li>执行 <code>pod setup</code> 时，会从 <code>github</code> 上拉取 <code>master</code> 源。</li>
-</ol>
+<li><p>1、执行 <code>pod setup</code> 时，会从 <code>github</code> 上拉取 <code>master</code> 源。</p>
 </li>
-<li><ol start="2">
-<li>执行 <code>pod install</code> 时，会把 <code>Podfile</code> 中所有的私有库索引源对应的索引库拉取下来。</li>
-</ol>
+<li><p>2、执行 <code>pod install</code> 时，会把 <code>Podfile</code> 中所有的私有库索引源对应的索引库拉取下来。</p>
 </li>
-<li><ol start="3">
-<li>执行 <code>pod update</code> 时，会更新本地所有的索引库。</li>
-</ol>
+<li><p>3、执行 <code>pod update</code> 时，会更新本地所有的索引库。</p>
 </li>
-<li><ol start="4">
-<li>执行 <code>pod repo udpate</code> 时，更新本地所有索引库。</li>
-</ol>
+<li><p>4、执行 <code>pod repo udpate</code> 时，更新本地所有索引库。</p>
 </li>
 </ul>
 <p>第一次搜索库的时候或者删除电脑缓存，会出现：</p>
