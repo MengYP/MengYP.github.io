@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,CocoaPods,私有库," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="CocoaPods 私有库拾遗公司项目组件化有一段时间了，根据自己的零星笔记，总结一下 CocoaPods 在组件化过程中的一些使用。关于私有库使用的一些常见问题集合。 参考：CocoaPods 官方文档">
+<meta name="keywords" content="iOS,CocoaPods,私有库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CocoaPods私有库常见问题拾遗">
+<meta property="og:url" content="http://www.mengyueping.com/2018/08/16/iOS_CocoaPods_03/index.html">
+<meta property="og:site_name" content="孟跃平的技术博客">
+<meta property="og:description" content="CocoaPods 私有库拾遗公司项目组件化有一段时间了，根据自己的零星笔记，总结一下 CocoaPods 在组件化过程中的一些使用。关于私有库使用的一些常见问题集合。 参考：CocoaPods 官方文档">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-17T03:08:00.552Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CocoaPods私有库常见问题拾遗">
+<meta name="twitter:description" content="CocoaPods 私有库拾遗公司项目组件化有一段时间了，根据自己的零星笔记，总结一下 CocoaPods 在组件化过程中的一些使用。关于私有库使用的一些常见问题集合。 参考：CocoaPods 官方文档">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.mengyueping.com/2018/08/16/iOS_CocoaPods_03/"/>
+
+
+
+
+
+  <title>CocoaPods私有库常见问题拾遗 | 孟跃平的技术博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?deacc15534ffb9510cfb94bae354ea45";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">孟跃平的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.mengyueping.com/2018/08/16/iOS_CocoaPods_03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="孟跃平">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="孟跃平的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CocoaPods私有库常见问题拾遗</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-16T00:00:00+08:00">
+                2018-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/CocoaPods/" itemprop="url" rel="index">
+                    <span itemprop="name">CocoaPods</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/16/iOS_CocoaPods_03/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/08/16/iOS_CocoaPods_03/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/08/16/iOS_CocoaPods_03/" class="leancloud_visitors" data-flag-title="CocoaPods私有库常见问题拾遗">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="CocoaPods-私有库拾遗"><a href="#CocoaPods-私有库拾遗" class="headerlink" title="CocoaPods 私有库拾遗"></a>CocoaPods 私有库拾遗</h1><p>公司项目组件化有一段时间了，根据自己的零星笔记，总结一下 <code>CocoaPods</code> 在组件化过程中的一些使用。<br>关于私有库使用的一些常见问题集合。</p>
+<p>参考：<a href="`https://cocoapods.org`">CocoaPods 官方文档</a></p>
+<a id="more"></a>
+<h1 id="CocoaPods-私有库常见问题"><a href="#CocoaPods-私有库常见问题" class="headerlink" title="CocoaPods 私有库常见问题"></a>CocoaPods 私有库常见问题</h1><h2 id="执行-pod-install-命令"><a href="#执行-pod-install-命令" class="headerlink" title="执行 pod install 命令"></a>执行 <code>pod install</code> 命令</h2><h3 id="Unable-to-find-a-specification-for-MCLib"><a href="#Unable-to-find-a-specification-for-MCLib" class="headerlink" title="[!] Unable to find a specification for MCLib"></a>[!] Unable to find a specification for MCLib</h3><ul>
+<li><p>原因：本地没有 <code>MCLib</code> 的索引 <code>spec</code>。</p>
+</li>
+<li><p>操作：更新 <code>MCLib</code> 对应的本地 <code>repos</code>。</p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新本地 repo </span></span><br><span class="line">pod repo udpate</span><br></pre></td></tr></table></figure>
+<ul>
+<li>备注：本地 <code>repos</code> 仓库缓存目录：<code>~/.cocoapods/repos/</code>。</li>
+</ul>
+<hr>
+<h3 id="Unable-to-find-a-specification-for-FMDB-depended-upon-by-MCLib"><a href="#Unable-to-find-a-specification-for-FMDB-depended-upon-by-MCLib" class="headerlink" title="[!] Unable to find a specification for FMDB depended upon by MCLib"></a>[!] Unable to find a specification for <code>FMDB</code> depended upon by <code>MCLib</code></h3><ul>
+<li>原因：<code>Podfile</code> 在私有库后面配置了 <code>source</code>，没有考虑到私有库 <code>A</code> 依赖的私有库 <code>B</code>，而私有库 <code>B</code> 依赖 <code>FMDB</code>， 在设置的 <code>source</code> 中找不到 <code>FMDB</code>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Podfile </span></span><br><span class="line"> pod <span class="string">'A'</span> , <span class="string">'0.0.1'</span> , :<span class="built_in">source</span> =&gt; <span class="string">'git@10.2.250.21:MCLib/specRepo_iOS.git'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>操作：正确做法是在 <code>Podfile</code> 头部配置多个 <code>source</code>。</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source <span class="string">'git@10.2.250.21:MCLib/specRepo_iOS.git'</span></span><br><span class="line">source <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="CocoaPods-could-not-find-compatible-versions-for-pod-“MCStatistics”"><a href="#CocoaPods-could-not-find-compatible-versions-for-pod-“MCStatistics”" class="headerlink" title="[!] CocoaPods could not find compatible versions for pod “MCStatistics”"></a>[!] CocoaPods could not find compatible versions for pod “MCStatistics”</h3><ul>
+<li>描述：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MacBook-Pro:$ pod install</span><br><span class="line">Analyzing dependencies</span><br><span class="line">Pre-downloading: `MCStatistics` from `https://gitlab.com/xxx/MCStatistics_framework.git`</span><br><span class="line">[!] CocoaPods could not find compatible versions for pod &quot;MCStatistics&quot;:</span><br><span class="line">  In Podfile:</span><br><span class="line">    MCStatistics (from `https://gitlab.com/xxxx/MCStatistics_framework.git`)</span><br><span class="line"></span><br><span class="line">Specs satisfying the `MCStatistics (from `https://gitlab.com/xxxxxxx/MCStatistics_framework.git`)` dependency were found, but they required a higher minimum deployment target.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>原因：<code>Podfile</code> 配置的最低支持平台低于 <code>spec</code> 配置的最低平台 <code>8.0</code>。</li>
+</ul>
+<p><code>Podfile</code> 配置最低平台支持 <code>7.0</code> 。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">platform :ios, &apos;7.0&apos;</span><br><span class="line">pod &apos;MCPrivateNetworking&apos;, :git =&gt; &apos;https://gitlab.com/xxxxx/framwwork.git&apos;</span><br></pre></td></tr></table></figure>
+<p><code>spec</code> 配置最低平台支持 <code>8.0</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.platform     = :ios, &apos;8.0&apos;  # 平台及支持的最低版本</span><br></pre></td></tr></table></figure>
+<hr>
+<hr>
+<h2 id="执行-pod-repo-push-命令"><a href="#执行-pod-repo-push-命令" class="headerlink" title="执行 pod repo push 命令"></a>执行 <code>pod repo push</code> 命令</h2><p>推送 <code>spec</code> 文件时。</p>
+<h3 id="CocoaPods-私有库，静态-Framework-验证失败"><a href="#CocoaPods-私有库，静态-Framework-验证失败" class="headerlink" title="CocoaPods 私有库，静态 Framework 验证失败"></a>CocoaPods 私有库，静态 Framework 验证失败</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">The following build commands failed:</span><br><span class="line">    	CompileC /Users/mengyueping/Library/Developer/Xcode/DerivedData/App-fbdglhmiocesdxeuqlwfuuhbmtht/Build/Intermediates.noindex/Pods.build/Release-iphonesimulator/MCLib.build/Objects-normal/i386/openssl_wrapper.o MCLib/MCLib/Lib/Util/openssl_wrapper.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler</span><br><span class="line">    (1 failure)</span><br><span class="line">   Testing with `xcodebuild`. </span><br><span class="line"> -&gt; MCLib (0.0.1)</span><br><span class="line">    - ERROR | [iOS] xcodebuild: Returned an unsuccessful <span class="built_in">exit</span> code.</span><br></pre></td></tr></table></figure>
+<p>指定私有库的源，验证 <code>.podspec</code> 文件时，出现私有库找不到。</p>
+<hr>
+<h3 id="fatal-error-could-not-build-module-‘xxxxx’"><a href="#fatal-error-could-not-build-module-‘xxxxx’" class="headerlink" title="fatal error: could not build module ‘xxxxx’"></a>fatal error: could not build module ‘xxxxx’</h3><ul>
+<li><p>或者： Include of non-modular header inside framework module</p>
+</li>
+<li><p>原因：私有库的 <code>.h</code> 文件中引入了依赖的源码库的 <code>.h</code> 文件，导致根据的私有库的 <code>module.modulemap</code> 找不到该头文件，导致错误。（比如：<code>MCFoundtion</code> 库某个公开的头文件中引用了 <code>AFNetworking</code> 类的头文件。分装库代码的时候应该尽量避免公开的头文件中，引入第三方依赖开源库的头文件。）</p>
+</li>
+<li><p>解决：设置 <code>BuildSetting</code> 的 <code>Allow Non-modular Includes In Framework Modules</code> 为 <code>YES</code></p>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">spec.user_target_xcconfig = &#123; <span class="string">'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'</span> =&gt; <span class="string">'YES'</span> &#125;。</span><br><span class="line"></span><br><span class="line"><span class="comment"># lint 命令只剩下 warning。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># user_target_xcconfig 和 pod_target_xcconfig 的区别:</span></span><br><span class="line"><span class="comment"># user_target_xcconfig 是对于编译工程中所有 pod 的设置，</span></span><br><span class="line"><span class="comment"># 而 pod_target_xcconfig 只是针对当前 pod 的。</span></span><br><span class="line"><span class="comment"># 所以如果多个 pod 的 podspec 中对 user_target_xcconfig 同一个值进行了设置，那么就可能存在冲突问题。</span></span><br><span class="line"><span class="comment"># 但因为 CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES 在 pod_target_xcconfig 不起作用，只能按现在的配置来处理。</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Cloning-into-‘-var-folders-rg-f1ycrs553dq2z2dq7mt0mbh80000gn-T-d20160921-12602-1bx4f8v’…-remote-Not-Found-fatal-repository-‘http-192-168-110-114-xxxxxx-git-’-not-found"><a href="#Cloning-into-‘-var-folders-rg-f1ycrs553dq2z2dq7mt0mbh80000gn-T-d20160921-12602-1bx4f8v’…-remote-Not-Found-fatal-repository-‘http-192-168-110-114-xxxxxx-git-’-not-found" class="headerlink" title="Cloning into ‘/var/folders/rg/f1ycrs553dq2z2dq7mt0mbh80000gn/T/d20160921-12602-1bx4f8v’… remote: Not Found fatal: repository ‘http://192.168.110.114/xxxxxx.git/’ not found"></a><code>Cloning into ‘/var/folders/rg/f1ycrs553dq2z2dq7mt0mbh80000gn/T/d20160921-12602-1bx4f8v’… remote: Not Found fatal: repository ‘http://192.168.110.114/xxxxxx.git/’ not found</code></h3><ul>
+<li>原因：<code>pod spec lint</code> 命令，校验 <code>pod</code> 的代码和配置时是从 <code>git</code> 上拉取响应版本（<code>Tag</code>）的代码进行编译；没有创建 <code>git</code> 代码仓库，报错。</li>
+</ul>
+<hr>
+<h3 id="gt-Cloning-into-‘-var-folders-rg-f1ycrs553dq2z2dq7mt0mbh80000gn-T-d20160921-12686-1o6vj1q’…-fatal-Remote-branch-0-1-0-not-found-in-upstream-origin"><a href="#gt-Cloning-into-‘-var-folders-rg-f1ycrs553dq2z2dq7mt0mbh80000gn-T-d20160921-12686-1o6vj1q’…-fatal-Remote-branch-0-1-0-not-found-in-upstream-origin" class="headerlink" title="&gt; Cloning into ‘/var/folders/rg/f1ycrs553dq2z2dq7mt0mbh80000gn/T/d20160921-12686-1o6vj1q’… fatal: Remote branch 0.1.0 not found in upstream origin"></a><code>&gt; Cloning into ‘/var/folders/rg/f1ycrs553dq2z2dq7mt0mbh80000gn/T/d20160921-12686-1o6vj1q’… fatal: Remote branch 0.1.0 not found in upstream origin</code></h3><ul>
+<li>原因：没有在 <code>git</code> 上增加对应的 <code>tag</code> 值，报错。 </li>
+</ul>
+<hr>
+<h3 id="Found-multiple-specifications"><a href="#Found-multiple-specifications" class="headerlink" title="[!] Found multiple specifications"></a>[!] Found multiple specifications</h3><ul>
+<li><p>原因：将私有仓库拉到本地时可能会存在两个。 </p>
+</li>
+<li><p>解释：因为 <code>git</code> 存在两个地址，分别是 <code>git@</code> 和 <code>http/https</code>，所以有时候可能会在本地 <code>repos</code> 下出现两个基于同一个 <code>git</code> 的仓库，仓库名字不同。因为一开始 <code>lint</code> 的时候是指定了仓库名的，所以能通过，但 <code>pod repo push</code> 的时候虽然指定了 <code>push</code> 的仓库名，但因为没有指定校验的仓库名，一旦你的 <code>pod</code> 依赖了私有仓库中的某个 <code>pod</code>，校验时会出现类似 <code>[!] Found multiple specifications xxxxLibrary</code> 的错误。此时需要删除掉一个私有仓库，然后重新 <code>push</code> 才行。 </p>
+</li>
+<li><p>备注：这里需要明白 <code>pod spec lint</code> 的时候，可以配置 <code>--sources</code>。而 <code>pod repo push</code> 的时候，是直接使用的本地仓库名。有可能  <code>--sources</code> 指定的是 <code>http/https</code> ，而本地 <code>repo</code> 仓库是使用的 <code>git@</code> 拉取的。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pod spec lint --verbose --use-libraries --allow-warnings --sources=&apos;私有仓库repo地址,https://github.com/CocoaPods/Specs&apos;</span><br><span class="line"></span><br><span class="line">pod repo push MCRepo MCAppKit.podspec --verbose --use-libraries --allow-warnings</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="pod-Libraries-should-not-include-the-extension"><a href="#pod-Libraries-should-not-include-the-extension" class="headerlink" title="pod Libraries should not include the extension"></a>pod Libraries should not include the extension</h3><ul>
+<li><p>原因：工程中导入了第三方 <code>SDK</code> ，包含有二进制文件，没有在 <code>spec</code> 文件中配置。</p>
+</li>
+<li><p>解决：需要配置一下路径，保证 <code>push repo</code> 的时候，不丢失二进制文件：</p>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.vendored_libraries = [<span class="string">'Class/SobotSDK/SobotLib/libSobotLib.a'</span>]</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="编译时，找不到宏定义"><a href="#编译时，找不到宏定义" class="headerlink" title="编译时，找不到宏定义"></a>编译时，找不到宏定义</h3><ul>
+<li>原因：宏定义可能和环境有关。根据 <code>DEBUG</code> 和 <code>RELEASE</code> 定义了不同的宏。eg：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#ifdef DEBUG</span><br><span class="line">    #define kAppKey  @“123456789”</span><br><span class="line">#endif</span><br><span class="line">#ifdef RELEASE</span><br><span class="line">    #define kAppKey  @“987654321”</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<ul>
+<li>解决：</li>
+</ul>
+<p>编译时，找不到宏定义 <code>kAppKey</code> ，需要设置查看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Project -&gt; Build Settings -&gt; Preprocessor Macros -&gt; </span><br><span class="line">Debug     DEBUG=1</span><br><span class="line">Release   RELEASE</span><br></pre></td></tr></table></figure>
+<p>对应 Spec 文件设置：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s.xcconfig = &#123;</span><br><span class="line">    <span class="string">"GCC_PREPROCESSOR_DEFINITIONS"</span> =&gt; <span class="string">"RELEASE COCOAPODS=1"</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Shell-Script-Invocation-Error-Group"><a href="#Shell-Script-Invocation-Error-Group" class="headerlink" title="Shell Script Invocation Error Group"></a>Shell Script Invocation Error Group</h3><ul>
+<li>错误信息：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Shell Script Invocation Error Group</span><br><span class="line"></span><br><span class="line">sent 31754831 bytes  received 54674 bytes  21206336.67 bytes/sec</span><br><span class="line">total size is 36763600  speedup is 1.16</span><br><span class="line">/* com.apple.actool.errors */</span><br><span class="line">: error: There are multiple stickers icon <span class="built_in">set</span> or app icon <span class="built_in">set</span> instances named <span class="string">"AppIcon"</span>.</span><br><span class="line">/* com.apple.actool.compilation-results */</span><br><span class="line">/Users/mengyueping/Library/Developer/Xcode/DerivedData/Example-fdeuhzzwrdwyjrfsdeusamwbippd/Build/Products/Debug-iphonesimulator/Example.app/Assets.car</span><br><span class="line">/Users/mengyueping/Library/Developer/Xcode/DerivedData/Example-fdeuhzzwrdwyjrfsdeusamwbippd/Build/Intermediates.noindex/Example.build/Debug-iphonesimulator/Example.build/assetcatalog_generated_info_cocoapods.plist</span><br><span class="line"></span><br><span class="line">Command /bin/sh failed with <span class="built_in">exit</span> code 1</span><br></pre></td></tr></table></figure>
+<ul>
+<li>原因：<code>Pod</code> 资源拷贝脚本运行错误。不同 <code>Bundle</code> 有同名资源。有多个 <code>AppIcon</code> 。</li>
+</ul>
+<p>在自己工程 <code>Build Phases -&gt; Copy Pods Resources</code> 中，可以看到配置的资源拷贝脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;$&#123;SRCROOT&#125;/Pods/Target Support Files/Pods-Example/Pods-Example-resources.sh&quot;</span><br></pre></td></tr></table></figure>
+<p>这个脚本是 <code>pod</code> 自己生成的，咱们也可以在物理文件夹下找到该脚本。</p>
+<ul>
+<li>解决：可以通过去除这个脚本来解决冲突，但是这样会丢失资源文件。所以最终解决方法是，应该去除重名的资源文件 <code>AppIcon</code> 。</li>
+</ul>
+<h3 id="duplicate-symbol"><a href="#duplicate-symbol" class="headerlink" title="duplicate symbol"></a>duplicate symbol</h3><ul>
+<li>错误信息：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">duplicate symbol _OBJC_IVAR_$_ViewController._lastIndex in:</span><br><span class="line">    /Users/mengyueping/Library/Developer/Xcode/DerivedData/Example-fdeuhzzwrdwyjrfsdeusamwbippd/Build/Products/Debug-iphonesimulator/libMain.a(ViewController.o)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>原因：<code>duplicate symbol</code> 重复符号。原因一，有可能是重复类。原因二，也有可能是在某个文件中引入了 <code>.m</code> 文件。 eg：<code>#import &quot;ViewController.m&quot;</code> 。</li>
+</ul>
+<hr>
+<h3 id="Unable-to-run-command-‘StripNIB-TableViewListCell-nib’-this-target-might-include-its-own-product"><a href="#Unable-to-run-command-‘StripNIB-TableViewListCell-nib’-this-target-might-include-its-own-product" class="headerlink" title="Unable to run command ‘StripNIB TableViewListCell.nib’ - this target might include its own product."></a>Unable to run command ‘StripNIB TableViewListCell.nib’ - this target might include its own product.</h3><ul>
+<li><p>原因：<code>xib</code> 文件没有指定路径，<code>pod</code> 的时候不会下载 <code>xib</code>。<code>xib</code> 文件算是资源文件的，需要另外添加 <code>s.resource</code> 引入。</p>
+</li>
+<li><p>解决：</p>
+</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">s.source_files  = <span class="string">"pod/classes/**/*.&#123;h,m&#125;"</span></span><br><span class="line">s.resource = <span class="string">"pod/classes/TestViewController.xib"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者把 xib 拷贝到 bundle 中，直接指定资源文件路径为 bundle 。</span></span><br><span class="line"></span><br><span class="line">s.resources = [<span class="string">'*.bundle'</span>, <span class="string">'*.strings'</span>]</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Unable-to-find-a-specification-for-BaseSDK-1-0-2-depended-upon-by-MyProject"><a href="#Unable-to-find-a-specification-for-BaseSDK-1-0-2-depended-upon-by-MyProject" class="headerlink" title="[!] Unable to find a specification for BaseSDK (= 1.0.2) depended upon by MyProject"></a>[!] Unable to find a specification for <code>BaseSDK (= 1.0.2)</code> depended upon by <code>MyProject</code></h3><ul>
+<li>描述：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Analyzing dependencies</span><br><span class="line">Fetching podspec for `MyProject` from `../`</span><br><span class="line">[!] Unable to find a specification for `BaseSDK (= 1.0.2)` depended upon by `MyProject`</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>原因：没有配置私有库的索引库地址。</p>
+</li>
+<li><p>解决：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source &apos;git@10.2.24.2:MengCode/Specs.git&apos;</span><br><span class="line">source &apos;https://github.com/CocoaPods/Specs.git&apos;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="libLWApiSDK-a-LWApiRequest-o-’-does-not-contain-bitcode"><a href="#libLWApiSDK-a-LWApiRequest-o-’-does-not-contain-bitcode" class="headerlink" title="libLWApiSDK.a(LWApiRequest.o)’ does not contain bitcode."></a>libLWApiSDK.a(LWApiRequest.o)’ does not contain bitcode.</h3><ul>
+<li>描述：</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">ld:</span> <span class="string">'/Users/mengyueping/MCModule/MCUIKit/MCUIKitCode/Example/Pods/UMengUShare/UShareSDK/SocialLibraries/LaiWang/libLWApiSDK.a(LWApiRequest.o)'</span> does <span class="keyword">not</span> contain bitcode. You must rebuild it with bitcode enabled (Xcode setting ENABLE_BITCODE), obtain an updated library from the vendor, <span class="keyword">or</span> disable bitcode <span class="keyword">for</span> this target. file <span class="string">'/Users/mengyueping/MCModule/MCUIKit/MCUIKitCode/Example/Pods/UMengUShare/UShareSDK/SocialLibraries/LaiWang/libLWApiSDK.a'</span> <span class="keyword">for</span> architecture arm64</span><br><span class="line"><span class="symbol">clang:</span> <span class="symbol">error:</span> linker command failed with exit code <span class="number">1</span> (use -v to see invocation)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>解决：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Build Settings  -&gt;  Enable Bitcode  -&gt; NO</span><br></pre></td></tr></table></figure>
+<h3 id="Could-not-build-module-‘MCFoundation’"><a href="#Could-not-build-module-‘MCFoundation’" class="headerlink" title="Could not build module ‘MCFoundation’"></a>Could not build module ‘MCFoundation’</h3><ul>
+<li>描述：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Could not build module &apos;MCFoundation&apos;</span><br><span class="line"></span><br><span class="line">- ERROR | xcodebuild:  MCFoundationLib/MCFoundation/MCFoundation.framework/Headers/MCRefreshBackNormalFooter.h:9:9: error: include of non-modular header inside framework module &apos;MCFoundation.MCRefreshBackNormalFooter&apos;: &apos;Headers/Public/MJRefresh/MJRefreshBackNormalFooter.h&apos; [-Werror,-Wnon-modular-include-in-framework-module]</span><br><span class="line"></span><br><span class="line">- NOTE  | xcodebuild:  Headers/Public/MCKit/MCSavaDataManager.h:11:9: fatal error: could not build module &apos;MCFoundation&apos;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>原因：在头文件中，引入了第三方 <code>pod</code> 管理的库的头文件。</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s.user_target_xcconfig = &#123; </span><br><span class="line">    <span class="string">"CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES"</span> =&gt; <span class="string">"YES"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置后，<code>push spec</code> 会出现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">[!] Smart quotes were detected and ignored in your Podfile. To avoid issues in the future, you should not use TextEdit for editing it. If you are not using TextEdit, you should turn off smart quotes in your editor of choice.</span><br><span class="line"></span><br><span class="line">[!] The `MC [Debug]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC/Pods-MC.debug.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br><span class="line"></span><br><span class="line">[!] The `MC [Gamma]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC/Pods-MC.gamma.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br><span class="line"></span><br><span class="line">[!] The `MC [PreRelease]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC/Pods-MC.prerelease.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br><span class="line"></span><br><span class="line">[!] The `MC [Release]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC/Pods-MC.release.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br><span class="line"></span><br><span class="line">[!] The `MC-Test [Debug]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC-Test/Pods-MC-Test.debug.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br><span class="line"></span><br><span class="line">[!] The `MC-Test [Gamma]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC-Test/Pods-MC-Test.gamma.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br><span class="line"></span><br><span class="line">[!] The `MC-Test [PreRelease]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC-Test/Pods-MC-Test.prerelease.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br><span class="line"></span><br><span class="line">[!] The `MC-Test [Release]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC-Test/Pods-MC-Test.release.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br><span class="line"></span><br><span class="line">[!] The `MC-Release [Debug]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC-Release/Pods-MC-Release.debug.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br><span class="line"></span><br><span class="line">[!] The `MC-Release [Gamma]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC-Release/Pods-MC-Release.gamma.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br><span class="line"></span><br><span class="line">[!] The `MC-Release [PreRelease]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC-Release/Pods-MC-Release.prerelease.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br><span class="line"></span><br><span class="line">[!] The `MC-Release [Release]` target overrides the `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting defined in `Pods/Target Support Files/Pods-MC-Release/Pods-MC-Release.release.xcconfig&apos;. This can lead to problems with the CocoaPods installation</span><br><span class="line">    - Use the `$(inherited)` flag, or</span><br><span class="line">    - Remove the build settings from the target.</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="The-‘Pods’-target-has-transitive-dependencies"><a href="#The-‘Pods’-target-has-transitive-dependencies" class="headerlink" title="The ‘Pods’ target has transitive dependencies"></a>The ‘Pods’ target has transitive dependencies</h3><ul>
+<li><p>原因：如果私有库添加了静态库或者 <code>dependency</code> 用了静态库。</p>
+</li>
+<li><p>解决：那么执行 <code>pod spec lint</code> 或者 <code>pod repo push</code> 时候需要加上 <code>—user-libraries</code> 选项。否则会出现 <code>The &#39;Pods&#39; target has transitive dependencies</code> 错误。</p>
+</li>
+</ul>
+<hr>
+<hr>
+<h2 id="执行-pod-spec-lint-命令"><a href="#执行-pod-spec-lint-命令" class="headerlink" title="执行 pod spec lint 命令"></a>执行 <code>pod spec lint</code> 命令</h2><blockquote>
+<p><code>pod lib lint</code> 是只从本地验证你的 <code>pod</code> 能否通过验证。</p>
+<p><code>pod spec lint</code> 是从本地和远程验证你的 <code>pod</code> 能否通过验证。</p>
+</blockquote>
+<p>在私有库引用了私有库的情况下，在验证和推送私有库的情况下都要加上所有的资源地址，不然 <code>pod</code> 会默认从官方 <code>repo</code> 查询。<br>使用 <code>pod spec lint</code> 去验证私有库能否通过验证时，应该要添加 <code>--sources</code> 选项，不然会出现找不到 <code>repo</code> 的错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 配置 `--sources` 下载源。</span><br><span class="line"></span><br><span class="line">pod spec lint --sources=&apos;私有仓库repo地址,https://github.com/CocoaPods/Specs&apos;</span><br><span class="line">pod repo push 本地repo名 podspec名 --sources=&apos;私有仓库repo地址,https://github.com/CocoaPods/Specs&apos;</span><br><span class="line"></span><br><span class="line">pod lib lint MCCommon.podspec --sources=&apos;http://10.2.250.21/MC/MCPrivateSourceCodeSpecRepo.git,https://github.com/CocoaPods/Specs.git&apos; </span><br><span class="line"></span><br><span class="line">pod spec lint MCCommon.podspec --sources=&apos;http://10.2.250.21/MC/MCPrivateSourceCodeSpecRepo.git,https://github.com/CocoaPods/Specs.git&apos;</span><br></pre></td></tr></table></figure>
+<hr>
+<hr>
+<h2 id="Podfile-文件"><a href="#Podfile-文件" class="headerlink" title="Podfile 文件"></a><code>Podfile</code> 文件</h2><h3 id="inhibit-all-warnings"><a href="#inhibit-all-warnings" class="headerlink" title="inhibit_all_warnings!"></a><code>inhibit_all_warnings!</code></h3><p>屏蔽 <code>cocoapods</code> 库里面的所有警告。这个特性也能在子 <code>target</code> 里面定义。</p>
+<p>如果你想屏蔽某 <code>pod</code> 库里面的警告也是可以的:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod &apos;SSZipArchive&apos;, :inhibit_warnings =&gt; true</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="引用本地库"><a href="#引用本地库" class="headerlink" title="引用本地库"></a>引用本地库</h3><p>在 <code>Podfile</code> 中配置引用本地库文件：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod <span class="string">'库名'</span>, <span class="symbol">:path</span> =&gt; <span class="string">'本地路径'</span></span><br></pre></td></tr></table></figure>
+<p>这样在通常的修改代码中是不需要执行 <code>pod update</code> 的。但是对于如果修改了目录结构（添加、删除或者移动文件文件）或者是修改了 <code>Podspec</code> 文件的配置的话，最好是运行一下 <code>pod update</code> 的命令。普通修改代码的情况下就不需要运行 <code>pod update</code> 命令。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod <span class="string">'iOS-Test'</span>, <span class="symbol">:path</span> =&gt; <span class="string">'../iOS-Test’</span></span><br></pre></td></tr></table></figure>
+<hr>
+<hr>
+<h2 id="spec-文件"><a href="#spec-文件" class="headerlink" title="spec 文件"></a><code>spec</code> 文件</h2><h3 id="包含有-MRC-文件类"><a href="#包含有-MRC-文件类" class="headerlink" title="包含有 MRC 文件类"></a>包含有 <code>MRC</code> 文件类</h3><ul>
+<li>方法一：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s.requires_arc = false</span><br><span class="line">s.source_files  = &quot;MCFoundation/**/*.&#123;h,m&#125;&quot;</span><br><span class="line">s.requires_arc = &quot;MCFoundation/CommonComponent/**/*.&#123;h,m&#125;&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>方法二：<code>subspec</code></li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new <span class="keyword">do</span> <span class="params">|s|</span></span><br><span class="line"></span><br><span class="line">s.name         = <span class="string">"MCFoundation"</span></span><br><span class="line">s.version      =<span class="string">"0.1.3.3"</span></span><br><span class="line">s.summary      = <span class="string">"学而思App基础源码仓库."</span></span><br><span class="line">s.description  = <span class="string">&lt;&lt;-DESC</span></span><br><span class="line"><span class="string">学而思App项目组封装了一些基础的工具,仅限学而思App项目组内使用</span></span><br><span class="line"><span class="string">DESC</span></span><br><span class="line">s.homepage     = <span class="string">"http://10.2.250.21/MC"</span></span><br><span class="line">s.license      = &#123; <span class="symbol">:type</span> =&gt; <span class="string">"MIT"</span>, <span class="symbol">:file</span> =&gt; <span class="string">"LICENSE"</span> &#125;</span><br><span class="line">s.author             = &#123; <span class="string">"raomeng"</span> =&gt; <span class="string">"raomeng@100tal.com"</span> &#125;</span><br><span class="line">s.ios.deployment_target = <span class="string">"8.0"</span></span><br><span class="line">s.source       = &#123; <span class="symbol">:git</span> =&gt; <span class="string">'git@10.2.250.21:MCModuleiOS/MCFoundationCode.git'</span>, <span class="symbol">:tag</span> =&gt; s.version&#125;</span><br><span class="line"></span><br><span class="line">s.default_subspec = <span class="string">'MCFoundationARC'</span></span><br><span class="line"></span><br><span class="line">non_arc_files = <span class="string">'MCFoundation/MRC/*.&#123;h,m&#125;'</span></span><br><span class="line"></span><br><span class="line">s.subspec <span class="string">'MCFoundationARC'</span> <span class="keyword">do</span> <span class="params">|arc|</span></span><br><span class="line">    arc.requires_arc = <span class="literal">true</span>    </span><br><span class="line">    arc.source_files  = <span class="string">"MCFoundation/CommonComponent/**/*.&#123;h,m&#125;"</span></span><br><span class="line">    arc.exclude_files = non_arc_files  </span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">s.subspec <span class="string">'MCFoundationNonARC'</span> <span class="keyword">do</span> <span class="params">|non_arc|</span></span><br><span class="line">    non_arc.requires_arc = <span class="literal">false</span></span><br><span class="line">    non_arc.source_files = non_arc_files</span><br><span class="line">    non_arc.dependency <span class="string">'MCFoundation/MCFoundationARC'</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">s.dependency <span class="string">'FMDB'</span></span><br><span class="line">s.dependency <span class="string">'MJRefresh'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="引用自己或第三方的-framework-或-a-文件时"><a href="#引用自己或第三方的-framework-或-a-文件时" class="headerlink" title="引用自己或第三方的 framework 或 .a 文件时"></a>引用自己或第三方的 <code>framework</code> 或 <code>.a</code> 文件时</h3><p>在 <code>podsepc</code> 中应该这样写:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s.ios.vendored_frameworks = <span class="string">"xxx/**/*.framework"</span></span><br><span class="line">s.ios.vendored_libraries = <span class="string">"xxx/**/*.a”</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="资源文件"><a href="#资源文件" class="headerlink" title="资源文件"></a>资源文件</h3><ul>
+<li>把资源文件放在 <code>bundle</code> 中，<code>spec</code> 文件需要配置：</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">spec.resource = <span class="string">"Resources/MYLibrary.bundle"</span></span><br><span class="line"></span><br><span class="line">spec.resource_bundles = &#123;</span><br><span class="line">  <span class="string">'MyLibrary'</span> =&gt; [<span class="string">'Resources/*.png'</span>],</span><br><span class="line">  <span class="string">'OtherResources'</span> =&gt; [<span class="string">'OtherResources/*.png'</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>也可以这样写，但是这些资源会在打包的时候直接拷贝的 <code>app</code> 中，这样说不定会和其它资源产生命名冲突：</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spec.resources = [<span class="string">"Images/*.png"</span>, <span class="string">"Sounds/*"</span>]</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="配置执行脚本"><a href="#配置执行脚本" class="headerlink" title="配置执行脚本"></a>配置执行脚本</h3><p>可以在编译的某个时机，来配置要运行的脚本。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># :execution_position 选项有 [:before_compile, :after_compile, :any]</span></span><br><span class="line"></span><br><span class="line">s.script_phase = &#123; <span class="symbol">:name</span> =&gt; <span class="string">"Script Name"</span>, <span class="symbol">:script</span> =&gt; <span class="string">"echo 'Hello World'"</span>, <span class="symbol">:execution_position</span> =&gt; <span class="symbol">:any</span> , <span class="symbol">:shell_path</span> =&gt; <span class="string">"/bin/sh"</span>&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="subspec"><a href="#subspec" class="headerlink" title="subspec"></a><code>subspec</code></h3><p>为了让自己的 <code>Pod</code> 被导入时显示出良好的文件层划分，<code>subspec</code> 是必须的。<br>若 <code>subspec</code> 要依赖其它的 <code>subspec</code> ，则 <code>subspec</code> 的 <code>dependency</code> 后面接的不是目录路径，而是 <code>specA/specB</code> 这种 <code>spec</code> 关系。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>🐶 客观赏个好评吧 🐶</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.png" alt="孟跃平 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/uploads/alipay.png" alt="孟跃平 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/CocoaPods/" rel="tag"># CocoaPods</a>
+          
+            <a href="/tags/私有库/" rel="tag"># 私有库</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/15/iOS_CocoaPods_02/" rel="next" title="CocoaPods私有库拾遗">
+                <i class="fa fa-chevron-left"></i> CocoaPods私有库拾遗
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="孟跃平" />
+            
+              <p class="site-author-name" itemprop="name">孟跃平</p>
+              <p class="site-description motion-element" itemprop="description">stay hungry, stay foolish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MengYP" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mengcoder@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CocoaPods-私有库拾遗"><span class="nav-number">1.</span> <span class="nav-text">CocoaPods 私有库拾遗</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CocoaPods-私有库常见问题"><span class="nav-number">2.</span> <span class="nav-text">CocoaPods 私有库常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#执行-pod-install-命令"><span class="nav-number">2.1.</span> <span class="nav-text">执行 pod install 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Unable-to-find-a-specification-for-MCLib"><span class="nav-number">2.1.1.</span> <span class="nav-text">[!] Unable to find a specification for MCLib</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unable-to-find-a-specification-for-FMDB-depended-upon-by-MCLib"><span class="nav-number">2.1.2.</span> <span class="nav-text">[!] Unable to find a specification for FMDB depended upon by MCLib</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods-could-not-find-compatible-versions-for-pod-“MCStatistics”"><span class="nav-number">2.1.3.</span> <span class="nav-text">[!] CocoaPods could not find compatible versions for pod “MCStatistics”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行-pod-repo-push-命令"><span class="nav-number">2.2.</span> <span class="nav-text">执行 pod repo push 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CocoaPods-私有库，静态-Framework-验证失败"><span class="nav-number">2.2.1.</span> <span class="nav-text">CocoaPods 私有库，静态 Framework 验证失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fatal-error-could-not-build-module-‘xxxxx’"><span class="nav-number">2.2.2.</span> <span class="nav-text">fatal error: could not build module ‘xxxxx’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cloning-into-‘-var-folders-rg-f1ycrs553dq2z2dq7mt0mbh80000gn-T-d20160921-12602-1bx4f8v’…-remote-Not-Found-fatal-repository-‘http-192-168-110-114-xxxxxx-git-’-not-found"><span class="nav-number">2.2.3.</span> <span class="nav-text">Cloning into ‘/var/folders/rg/f1ycrs553dq2z2dq7mt0mbh80000gn/T/d20160921-12602-1bx4f8v’… remote: Not Found fatal: repository ‘http://192.168.110.114/xxxxxx.git/’ not found</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gt-Cloning-into-‘-var-folders-rg-f1ycrs553dq2z2dq7mt0mbh80000gn-T-d20160921-12686-1o6vj1q’…-fatal-Remote-branch-0-1-0-not-found-in-upstream-origin"><span class="nav-number">2.2.4.</span> <span class="nav-text">&gt; Cloning into ‘/var/folders/rg/f1ycrs553dq2z2dq7mt0mbh80000gn/T/d20160921-12686-1o6vj1q’… fatal: Remote branch 0.1.0 not found in upstream origin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Found-multiple-specifications"><span class="nav-number">2.2.5.</span> <span class="nav-text">[!] Found multiple specifications</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pod-Libraries-should-not-include-the-extension"><span class="nav-number">2.2.6.</span> <span class="nav-text">pod Libraries should not include the extension</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译时，找不到宏定义"><span class="nav-number">2.2.7.</span> <span class="nav-text">编译时，找不到宏定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Shell-Script-Invocation-Error-Group"><span class="nav-number">2.2.8.</span> <span class="nav-text">Shell Script Invocation Error Group</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#duplicate-symbol"><span class="nav-number">2.2.9.</span> <span class="nav-text">duplicate symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unable-to-run-command-‘StripNIB-TableViewListCell-nib’-this-target-might-include-its-own-product"><span class="nav-number">2.2.10.</span> <span class="nav-text">Unable to run command ‘StripNIB TableViewListCell.nib’ - this target might include its own product.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unable-to-find-a-specification-for-BaseSDK-1-0-2-depended-upon-by-MyProject"><span class="nav-number">2.2.11.</span> <span class="nav-text">[!] Unable to find a specification for BaseSDK (= 1.0.2) depended upon by MyProject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#libLWApiSDK-a-LWApiRequest-o-’-does-not-contain-bitcode"><span class="nav-number">2.2.12.</span> <span class="nav-text">libLWApiSDK.a(LWApiRequest.o)’ does not contain bitcode.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Could-not-build-module-‘MCFoundation’"><span class="nav-number">2.2.13.</span> <span class="nav-text">Could not build module ‘MCFoundation’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-‘Pods’-target-has-transitive-dependencies"><span class="nav-number">2.2.14.</span> <span class="nav-text">The ‘Pods’ target has transitive dependencies</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行-pod-spec-lint-命令"><span class="nav-number">2.3.</span> <span class="nav-text">执行 pod spec lint 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Podfile-文件"><span class="nav-number">2.4.</span> <span class="nav-text">Podfile 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#inhibit-all-warnings"><span class="nav-number">2.4.1.</span> <span class="nav-text">inhibit_all_warnings!</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用本地库"><span class="nav-number">2.4.2.</span> <span class="nav-text">引用本地库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spec-文件"><span class="nav-number">2.5.</span> <span class="nav-text">spec 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#包含有-MRC-文件类"><span class="nav-number">2.5.1.</span> <span class="nav-text">包含有 MRC 文件类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用自己或第三方的-framework-或-a-文件时"><span class="nav-number">2.5.2.</span> <span class="nav-text">引用自己或第三方的 framework 或 .a 文件时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源文件"><span class="nav-number">2.5.3.</span> <span class="nav-text">资源文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置执行脚本"><span class="nav-number">2.5.4.</span> <span class="nav-text">配置执行脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subspec"><span class="nav-number">2.5.5.</span> <span class="nav-text">subspec</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">孟跃平</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.mengyueping.com/2018/08/16/iOS_CocoaPods_03/';
+          this.page.identifier = '2018/08/16/iOS_CocoaPods_03/';
+          this.page.title = 'CocoaPods私有库常见问题拾遗';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("bSSS0Dg4QVv1p0FAHGaWv8Ei-gzGzoHsz", "UcKuDEryAx1QLVWeFLQHrUns");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
