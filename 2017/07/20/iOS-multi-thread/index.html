@@ -510,7 +510,7 @@
 <li>创建线程后自动启动线程：</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[NSThread detachNewThreadSelector:@selector(run) toTarget:self withObject:nil];</span><br></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">detachNewThreadSelector</span>(<span class="title">_</span> <span class="title">selector</span>: <span class="title">Selector</span>, <span class="title">toTarget</span> <span class="title">target</span>: <span class="title">Any</span>, <span class="title">with</span> <span class="title">argument</span>: <span class="title">Any</span>?)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">detachNewThreadSelector</span>(_ <span class="title">selector</span>: <span class="title">Selector</span>, <span class="title">toTarget</span> <span class="title">target</span>: <span class="title">Any</span>, <span class="title">with</span> <span class="title">argument</span>: <span class="title">Any</span>?)</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>隐式创建并启动线程：</li>
 </ul>
