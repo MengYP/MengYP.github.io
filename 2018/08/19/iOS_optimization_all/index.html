@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,iOS性能优化," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="iOS 性能优化 项目中怎么优化内存？ 优化从哪几方面着手？ 列表卡顿的原因可能有哪些？怎么优化的？ 遇到 tableView 卡顿嘛？会造成卡顿的原因大致有哪些？">
+<meta name="keywords" content="iOS,iOS性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS性能优化">
+<meta property="og:url" content="http://www.mengyueping.com/2018/08/19/iOS_optimization_all/index.html">
+<meta property="og:site_name" content="孟跃平的技术博客">
+<meta property="og:description" content="iOS 性能优化 项目中怎么优化内存？ 优化从哪几方面着手？ 列表卡顿的原因可能有哪些？怎么优化的？ 遇到 tableView 卡顿嘛？会造成卡顿的原因大致有哪些？">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://app-launch.jpg">
+<meta property="og:updated_time" content="2018-08-19T08:11:48.352Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS性能优化">
+<meta name="twitter:description" content="iOS 性能优化 项目中怎么优化内存？ 优化从哪几方面着手？ 列表卡顿的原因可能有哪些？怎么优化的？ 遇到 tableView 卡顿嘛？会造成卡顿的原因大致有哪些？">
+<meta name="twitter:image" content="https://app-launch.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.mengyueping.com/2018/08/19/iOS_optimization_all/"/>
+
+
+
+
+
+  <title>iOS性能优化 | 孟跃平的技术博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?deacc15534ffb9510cfb94bae354ea45";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">孟跃平的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.mengyueping.com/2018/08/19/iOS_optimization_all/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="孟跃平">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="孟跃平的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS性能优化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-19T00:00:00+08:00">
+                2018-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/iOS性能优化/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS性能优化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/08/19/iOS_optimization_all/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/08/19/iOS_optimization_all/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/08/19/iOS_optimization_all/" class="leancloud_visitors" data-flag-title="iOS性能优化">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="iOS-性能优化"><a href="#iOS-性能优化" class="headerlink" title="iOS 性能优化"></a>iOS 性能优化</h1><ul>
+<li>项目中怎么优化内存？</li>
+<li>优化从哪几方面着手？</li>
+<li>列表卡顿的原因可能有哪些？怎么优化的？</li>
+<li>遇到 <code>tableView</code> 卡顿嘛？会造成卡顿的原因大致有哪些？</li>
+</ul>
+<a id="more"></a>
+<h1 id="CPU-和-GPU"><a href="#CPU-和-GPU" class="headerlink" title="CPU 和 GPU"></a><code>CPU</code> 和 <code>GPU</code></h1><p>在屏幕成像的过程中，<code>CPU</code> 和 <code>GPU</code> 起着至关重要的作用。</p>
+<ul>
+<li><code>CPU</code>（<code>Central Processing Unit</code>，中央处理器）</li>
+</ul>
+<p>负责：对象的创建和销毁、对象属性的调整、布局计算、文本的计算和排版、图片的格式转换和解码、图像的绘制（<code>Core Graphics</code>）。</p>
+<ul>
+<li><code>GPU</code>（<code>Graphics Processing Unit</code>，图形处理器）</li>
+</ul>
+<p>负责：纹理的渲染。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR;</span><br><span class="line">　　CPU--&gt;|计算|GPU;</span><br><span class="line">　　GPU--&gt;|渲染|帧缓存;</span><br><span class="line">　　帧缓存--&gt;|读取|视频控制器;</span><br><span class="line">　　视频控制器--&gt;|显示|屏幕;</span><br></pre></td></tr></table></figure>
+<p><code>CPU</code> 计算好的数据给 <code>GPU</code>， <code>GPU</code> 来渲染，渲染后的数据放在帧缓存（缓冲区，有两块缓冲区，前帧缓存和后帧缓存，协调使用，效率高）中。然后，<code>视频控制器</code>从缓冲区获取渲染后的数据显示在<code>屏幕</code>上。</p>
+<ul>
+<li>在 <code>iOS</code> 中是双缓冲机制， 有前帧缓存、后帧缓存。</li>
+</ul>
+<h2 id="屏幕成像原理"><a href="#屏幕成像原理" class="headerlink" title="屏幕成像原理"></a>屏幕成像原理</h2><p>一帧（或者一页）数据就是：一个垂直同步信号（<code>VSync</code> ）和一个水平同步信号（<code>HSync</code>）的组合。</p>
+<p>先发送一个垂直同步信号（<code>VSync</code> ），代表即将显示一页，再发送一个水平同步信号（<code>HSync</code>）就显示一帧。</p>
+<h2 id="卡顿产生的原因"><a href="#卡顿产生的原因" class="headerlink" title="卡顿产生的原因"></a>卡顿产生的原因</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR;</span><br><span class="line">　　CPU计算--&gt;GPU渲染计算;</span><br><span class="line">　　GPU渲染计算--&gt;VSync信号</span><br><span class="line">　　VSync信号-.-....;</span><br></pre></td></tr></table></figure>
+<p>当下次 <code>VSync</code> 信号到来之前，<code>CPU</code>和<code>GPU</code>还没有计算完成，就会产生卡顿效果。</p>
+<ul>
+<li>卡顿解决的主要思路</li>
+</ul>
+<p>尽可能减少 <code>CPU</code> 、<code>GPU</code> 资源消耗。</p>
+<ul>
+<li>按照 <code>60FPS</code> 的刷帧率，每隔 <code>16ms</code> 就会有一次 <code>VSync</code> 信号。</li>
+</ul>
+<h2 id="卡顿优化-CPU"><a href="#卡顿优化-CPU" class="headerlink" title="卡顿优化 - CPU"></a>卡顿优化 - CPU</h2><ul>
+<li><p>尽量用轻量级的对象，比如用不到事件处理的地方，可以考虑使用 <code>CALayer</code> 取代 <code>UIView</code> 。</p>
+</li>
+<li><p>不要频繁地调用 <code>UIView</code> 的相关属性， 比如 <code>frame</code>、<code>bounds</code>、<code>transform</code>等属性，尽量减少不必要的修改。</p>
+</li>
+<li><p>尽量提前计算好布局，在有需要时一次性调整对应的属性，不要多次修改属性。</p>
+</li>
+<li><p><code>Autolayout</code> 会比直接设置 <code>frame</code> 消耗更多的 <code>CPU</code> 资源。</p>
+</li>
+<li><p>图片的 <code>size</code> 最好刚好跟 <code>UIImageView</code> 的 <code>size</code> 保持一致。</p>
+</li>
+<li><p>控制一下线程的最大并发数量。</p>
+</li>
+<li><p>尽量把耗时的操作放到子线程。</p>
+<blockquote>
+<p>文本处理（尺寸计算、绘制）</p>
+</blockquote>
+<blockquote>
+<p>图片处理（解码、绘制）</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 文字计算</span><br><span class="line">[@&quot;text&quot; boundingRectWithSize:CGSizeMake(100, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:nil context:nil];</span><br><span class="line"></span><br><span class="line">// 文字绘制</span><br><span class="line">[@&quot;text&quot; drawWithRect:CGRectMake(0, 0, 100, 100) options:NSStringDrawingUsesLineFragmentOrigin attributes:nil context:nil];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR;</span><br><span class="line">　　UIImage+imageNamed:--&gt;|压缩|二进制文件;</span><br><span class="line">　　二进制文件--&gt;|解码|屏幕所需要的格式;</span><br><span class="line">　　屏幕所需要的格式--&gt;渲染到屏幕;</span><br></pre></td></tr></table></figure>
+<p>图片<code>解码</code>的过程默认是在主线程，如果图片比较多数据比较大，就会产生卡顿。提前在子线程<code>解码</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">// 图片的处理，提前解码</span><br><span class="line">- (void)image</span><br><span class="line">&#123;</span><br><span class="line">    UIImageView *imageView = [[UIImageView alloc] init];</span><br><span class="line">    imageView.frame = CGRectMake(100, 100, 100, 56);</span><br><span class="line">    [self.view addSubview:imageView];</span><br><span class="line">    self.imageView = imageView;</span><br><span class="line"></span><br><span class="line">    dispatch_async(dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">        // 获取CGImage</span><br><span class="line">        CGImageRef cgImage = [UIImage imageNamed:@&quot;timg&quot;].CGImage;</span><br><span class="line"></span><br><span class="line">        // alphaInfo</span><br><span class="line">        CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(cgImage) &amp; kCGBitmapAlphaInfoMask;</span><br><span class="line">        BOOL hasAlpha = NO;</span><br><span class="line">        if (alphaInfo == kCGImageAlphaPremultipliedLast ||</span><br><span class="line">            alphaInfo == kCGImageAlphaPremultipliedFirst ||</span><br><span class="line">            alphaInfo == kCGImageAlphaLast ||</span><br><span class="line">            alphaInfo == kCGImageAlphaFirst) &#123;</span><br><span class="line">            hasAlpha = YES;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // bitmapInfo</span><br><span class="line">        CGBitmapInfo bitmapInfo = kCGBitmapByteOrder32Host;</span><br><span class="line">        bitmapInfo |= hasAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst;</span><br><span class="line"></span><br><span class="line">        // size</span><br><span class="line">        size_t width = CGImageGetWidth(cgImage);</span><br><span class="line">        size_t height = CGImageGetHeight(cgImage);</span><br><span class="line"></span><br><span class="line">        // 解码：把位图提前画到图形上下文，生成 cgImage，就完成了解码。</span><br><span class="line">        // context </span><br><span class="line">        CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 0, CGColorSpaceCreateDeviceRGB(), bitmapInfo);</span><br><span class="line"></span><br><span class="line">        // draw</span><br><span class="line">        CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgImage);</span><br><span class="line"></span><br><span class="line">        // get CGImage</span><br><span class="line">        cgImage = CGBitmapContextCreateImage(context);</span><br><span class="line"></span><br><span class="line">        // 解码后的图片，包装成 UIImage 。</span><br><span class="line">        // into UIImage </span><br><span class="line">        UIImage *newImage = [UIImage imageWithCGImage:cgImage];</span><br><span class="line"></span><br><span class="line">        // release</span><br><span class="line">        CGContextRelease(context);</span><br><span class="line">        CGImageRelease(cgImage);</span><br><span class="line"></span><br><span class="line">        // back to the main thread</span><br><span class="line">        dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            self.imageView.image = newImage;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="卡顿优化-GPU"><a href="#卡顿优化-GPU" class="headerlink" title="卡顿优化 - GPU"></a>卡顿优化 - GPU</h2><ul>
+<li><p>尽量避免短时间内大量图片的显示，尽可能将多张图片合成一张进行显示。</p>
+</li>
+<li><p><code>GPU</code> 能处理的最大纹理尺寸是 <code>4096x4096</code>，一旦超过这个尺寸，就会占用 <code>CPU</code> 资源进行处理，所以纹理尽量不要超过这个尺寸。</p>
+</li>
+<li><p>尽量减少视图数量和层次。</p>
+</li>
+<li><p>减少透明的视图（<code>alpha&lt;1</code>），不透明的就设置 <code>opaque</code> 为 <code>YES</code>。（透明视图叠加，需要计算叠加部分颜色。）</p>
+</li>
+<li><p>尽量避免出现离屏渲染。</p>
+</li>
+</ul>
+<h3 id="离屏渲染"><a href="#离屏渲染" class="headerlink" title="离屏渲染"></a>离屏渲染</h3><ul>
+<li><p>在 <code>OpenGL</code> 中， <code>GPU</code> 有<code>2</code>中渲染方式:</p>
+<blockquote>
+<p><code>On-Screen Rendering</code>：当前屏幕渲染，在当前用于显示的屏幕缓冲区进行渲染操作。</p>
+</blockquote>
+<blockquote>
+<p><code>Off-Screen Rendering</code>：离屏渲染，在当前屏幕缓冲区以外新开辟一个缓冲区进行渲染操作。</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>离屏渲染消耗性能的原因：</li>
+</ul>
+<p>需要创建新的缓冲区。</p>
+<p>离屏渲染的整个过程，需要多次切换上下文环境。先是从当前屏幕（<code>On-Screen</code>）切换到离屏（<code>Off-Screen</code>）；等到离屏渲染结束以后，将离屏缓冲区的渲染结果显示到屏幕上，又需要将上下文环境从离屏切换到当前屏幕。</p>
+<ul>
+<li><p>哪些操作会触发离屏渲染？</p>
+<blockquote>
+<p>光栅化， <code>layer.shouldRasterize = YES</code></p>
+</blockquote>
+<blockquote>
+<p>遮罩， <code>layer.mask</code></p>
+</blockquote>
+<blockquote>
+<p>圆角，同时设置 <code>layer.masksToBounds = YES</code>、<code>layer.cornerRadius</code> 大于0。<br>  可以考虑通过 <code>CoreGraphics</code> 绘制裁剪圆角，或者让美工提供圆角图片。</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>阴影， <code>layer.shadowXXX</code> </li>
+</ul>
+<p>如果设置了 <code>layer.shadowPath</code> 就不会产生离屏渲染。</p>
+<h2 id="卡顿检测"><a href="#卡顿检测" class="headerlink" title="卡顿检测"></a>卡顿检测</h2><ul>
+<li>平时所说的“卡顿”主要是因为在线程执行了比较耗时的操作。</li>
+<li>可以添加 <code>Observer</code> 到主线程 <code>RunLoop</code> 中，通过监听 <code>RunLoop</code> 状态切换的耗时，以达到监控卡顿的目的。</li>
+</ul>
+<hr>
+<h1 id="耗电"><a href="#耗电" class="headerlink" title="耗电"></a>耗电</h1><h2 id="耗电的主要来源"><a href="#耗电的主要来源" class="headerlink" title="耗电的主要来源"></a>耗电的主要来源</h2><ul>
+<li><code>CPU</code> 处理，<code>Processing</code></li>
+<li>网络，<code>Networking</code></li>
+<li>定位，<code>Location</code></li>
+<li>图像，<code>Graphics</code></li>
+</ul>
+<h2 id="耗电优化"><a href="#耗电优化" class="headerlink" title="耗电优化"></a>耗电优化</h2><ul>
+<li><p>尽可能降低 <code>CPU</code> 、<code>GPU</code> 功耗</p>
+</li>
+<li><p>少用定时器</p>
+</li>
+<li><p>优化 <code>I/O</code> 操作</p>
+<blockquote>
+<p>尽量不要频繁写入小数据，最好批量一次性写入。</p>
+</blockquote>
+<blockquote>
+<p>读写大量重要数据时，考虑用 <code>dispatch_io</code>，其提供了基于 <code>GCD</code> 的异步操作文件 <code>I/O</code> 的 <code>API</code>。用 <code>dispatch_io</code> 系统会优化磁盘访问。</p>
+</blockquote>
+<blockquote>
+<p>数据量比较大的，建议使用数据库（比如 <code>SQLite</code>、<code>CoreData</code>）</p>
+</blockquote>
+</li>
+<li><p>网络优化</p>
+</li>
+</ul>
+<blockquote>
+<p>减少、压缩网络数据。<code>XML</code>：体积比较大。<code>JSON</code>：体积比较小。<code>protobuf</code>。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">graph LR;</span><br><span class="line">　　XML--&gt;JSON;</span><br><span class="line">　　JSON--&gt;protobuf(protocol buffer);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果多次请求的结果是相同的，尽量使用缓存。（一个请求内容不变的情况，<code>NSMutableURLRequest</code> 中可以使用 <code>NSCache</code> 缓存。）</p>
+</blockquote>
+<blockquote>
+<p>使用断点续传，否则网络不稳定时可能多次传输相同的内容</p>
+</blockquote>
+<blockquote>
+<p>网络不可用时，不要尝试执行网络请求</p>
+</blockquote>
+<blockquote>
+<p>让用户可以取消长时间运行或者速度很慢的网络操作，设置合适的超时时间</p>
+</blockquote>
+<blockquote>
+<p>批量传输，比如，下载视频流时，不要传输很小的数据包，直接下载整个文件或者一大块一大块地下载。如果下载广告，一次性多下载一些，然后再慢慢展示。如果下载电子邮件，一次下载多封，不要一封一封地下载。</p>
+</blockquote>
+<ul>
+<li>定位优化</li>
+</ul>
+<blockquote>
+<p>如果只是需要快速确定用户位置，最好用 <code>CLLocationManager</code> 的 <code>requestLocation</code> 方法。定位完成后，会自动让定位硬件断电。</p>
+</blockquote>
+<blockquote>
+<p>如果不是导航应用，尽量不要实时更新位置，定位完毕就关掉定位服务。</p>
+</blockquote>
+<blockquote>
+<p>尽量降低定位精度，比如尽量不要使用精度最高的 <code>KCLLocationAccuracyBest</code> 。</p>
+</blockquote>
+<blockquote>
+<p>需要后台定位时，尽量设置 <code>pausesLocationUpdatesAutomatically</code> 为 <code>YES</code>， 如果用户不太可能移动的时候系统会自动暂停位置更新。</p>
+</blockquote>
+<blockquote>
+<p>尽量不要使用 <code>startMonitoringSignificantLocationChanges</code> 优先考虑 <code>startMonitoringForRegion:</code> 。</p>
+</blockquote>
+<ul>
+<li>硬件检测优化</li>
+</ul>
+<p>用户移动、摇晃、倾斜设备时，会产生动作（<code>motion</code>）事件，这些事件由加速计、陀螺仪、磁力计等硬件检测。在不需要检测的场合，应该及时关闭这些硬件。</p>
+<hr>
+<h1 id="App-的启动"><a href="#App-的启动" class="headerlink" title="App 的启动"></a>App 的启动</h1><ul>
+<li>App 的启动可以分为<code>2</code>种：</li>
+</ul>
+<p>冷启动（<code>Cold Launch</code>）：从零开始启动 <code>App</code></p>
+<p>热启动（<code>Warm Launch</code>）：<code>App</code> 已经在内存中，在后台存活着，再次点击图标启动 <code>App</code> 。</p>
+<ul>
+<li><p><code>App</code> 启动时间的优化，主要是针对冷启动进行优化。</p>
+</li>
+<li><p>通过添加环境变量可以打印出 <code>App</code> 的启动时间分析（<code>Edit scheme -&gt; Run -&gt; Arguments</code>）<br><code>DYLD_PRINT_STATISTICS</code> 设置为 <code>1</code> 。如果需要更详细的信息，那就将 <code>DYLD_PRINT_STATISTICS_DETAILS</code> 设置为 <code>1</code>。（总启动时间差不多400ms内就是正常）</p>
+</li>
+</ul>
+<ul>
+<li><code>App</code> 的冷启动可以概括为3大阶段：</li>
+</ul>
+<p><code>dyld</code></p>
+<p><code>runtime</code></p>
+<p><code>main</code></p>
+<p><img src="https://app-launch.jpg" alt="image"></p>
+<h2 id="App-的启动-dyld"><a href="#App-的启动-dyld" class="headerlink" title="App 的启动 dyld"></a>App 的启动 <code>dyld</code></h2><ul>
+<li><p><code>dyld</code> （<code>dynamic link editor</code>），<code>Apple</code> 的动态连接器，可以用来装载 <code>Mach-O</code> 文件（可执行文件、动态库等）</p>
+</li>
+<li><p>启动 <code>App</code> 时，<code>dyld</code> 所做的事情有 </p>
+</li>
+</ul>
+<p>装载 <code>App</code> 的可执行文件，同时会递归加载所有依赖的动态库。</p>
+<p>当 <code>dyld</code> 把可执行文件、动态库都装载完毕后，会通知 <code>Runtime</code> 进行下一步的处理。</p>
+<h2 id="App-的启动-runtime"><a href="#App-的启动-runtime" class="headerlink" title="App 的启动 - runtime"></a>App 的启动 - runtime</h2><ul>
+<li><p>启动 <code>App</code> 时， <code>runtime</code> 所做的事情有：</p>
+<blockquote>
+<ol>
+<li>调用 <code>map_images</code> 进行可执行文件内容的解析和处理</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>在 <code>load_images</code> 中调用 <code>call_load_methods</code>，调用所有 <code>Class</code> 和 <code>Category</code> 的 <code>+load</code> 方法</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="3">
+<li>进行各种 <code>objc</code> 结构的初始化（注册 <code>Objc</code> 类、初始化类对象等等）</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="4">
+<li>调用 <code>C++</code> 静态初始化器和 <code>__attribute__((constructor))</code> 修饰的函数</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>到此为止，可执行文件和动态库中所有的符号（<code>Class</code>，<code>Protocol</code>，<code>Selector</code>，<code>IMP</code>，…）都已经按格式成功加载到内存中，被 <code>runtime</code> 所管理。</li>
+</ul>
+<h2 id="App-的启动-main"><a href="#App-的启动-main" class="headerlink" title="App 的启动 - main"></a>App 的启动 - main</h2><ul>
+<li>总结一下</li>
+</ul>
+<p><code>App</code> 的启动由 <code>dyld</code> 主导，将可执行文件加载到内存，顺便加载所有依赖的动态库。</p>
+<p>并由 <code>runtime</code> 负责加载成 <code>objc</code> 定义的结构。</p>
+<p>所有初始化工作结束后，<code>dyld</code> 就会调用 <code>main</code> 函数。</p>
+<p>接下来就是 <code>UIApplicationMain</code> 函数， <code>AppDelegate</code>的<code>application:didFinishLaunchingWithOptions:</code> 方法</p>
+<h2 id="App-的启动优化"><a href="#App-的启动优化" class="headerlink" title="App 的启动优化"></a>App 的启动优化</h2><ul>
+<li><p>按照不同的阶段</p>
+</li>
+<li><p>dyld</p>
+</li>
+</ul>
+<p>减少动态库、合并一些动态库（定期清理不必要的动态库）</p>
+<p>减少 <code>Objc</code> 类、分类的数量、减少 <code>Selector</code> 数量（定期清理不必要的类、分类）</p>
+<p>减少 <code>C++</code> 虚函数数量</p>
+<p><code>Swift</code> 尽量使用 <code>struct</code></p>
+<ul>
+<li>runtime</li>
+</ul>
+<p>用 <code>+initialize</code> 方法和 <code>dispatch_once</code> 取代所有的 <code>__attribute__((constructor))</code> 、 <code>C++</code> 静态构造器、<code>Objective-C</code> 的 <code>+load</code> 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 替代 +load </span><br><span class="line">+ (void)initialize </span><br><span class="line">&#123;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>main</li>
+</ul>
+<p>在不影响用户体验的前提下，尽可能将一些操作延迟，不要全部都放在 <code>finishLaunching</code> 方法中。</p>
+<p>按需加载。</p>
+<hr>
+<h1 id="安装包瘦身"><a href="#安装包瘦身" class="headerlink" title="安装包瘦身"></a>安装包瘦身</h1><ul>
+<li><p>安装包（<code>ipa</code>）主要由可执行文件、资源组成。</p>
+</li>
+<li><p>资源（图片、音频、视频等）</p>
+</li>
+</ul>
+<p>采取无损压缩</p>
+<p>去除没有用到的资源： <code>https://github.com/tinymind/LSUnusedResources</code></p>
+<ul>
+<li>可执行文件瘦身</li>
+</ul>
+<blockquote>
+<p>编译器优化</p>
+</blockquote>
+<p><code>Strip Linked Product</code>、<code>Make Strings Read-Only</code>、<code>Symbols Hidden by Default</code> 设置为 <code>YES</code>。</p>
+<p>去掉异常支持， <code>Enable C++ Exceptions</code>、<code>Enable Objective-C Exceptions</code> 设置为 <code>NO</code> , <code>Other C Flags</code> 添加 <code>-fno-exceptions</code> </p>
+<blockquote>
+<p>利用 <code>AppCode</code> （<a href="https://www.jetbrains.com/objc/）检测未使用的代码：`菜单-&gt;Code-&gt;Inspect" target="_blank" rel="noopener">https://www.jetbrains.com/objc/）检测未使用的代码：`菜单-&gt;Code-&gt;Inspect</a> Code`</p>
+</blockquote>
+<blockquote>
+<p>编写 <code>LLVM</code> 插件检测出重复代码、未被调用的代码。</p>
+</blockquote>
+<ul>
+<li>LinkMap</li>
+</ul>
+<p>生成 <code>LinkMap</code> 文件， 可以查看可执行文件的具体组成。</p>
+<p>可借助第三方工具解析 <code>LinkMap</code> 文件： <a href="https://github.com/huanxsd/LinkMap" target="_blank" rel="noopener">https://github.com/huanxsd/LinkMap</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>🐶 客观赏个好评吧 🐶</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechatpay.png" alt="孟跃平 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/uploads/alipay.png" alt="孟跃平 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/iOS性能优化/" rel="tag"># iOS性能优化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/18/go_introduce_01/" rel="next" title="Go语言">
+                <i class="fa fa-chevron-left"></i> Go语言
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="孟跃平" />
+            
+              <p class="site-author-name" itemprop="name">孟跃平</p>
+              <p class="site-description motion-element" itemprop="description">stay hungry, stay foolish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MengYP" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mengcoder@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS-性能优化"><span class="nav-number">1.</span> <span class="nav-text">iOS 性能优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CPU-和-GPU"><span class="nav-number">2.</span> <span class="nav-text">CPU 和 GPU</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#屏幕成像原理"><span class="nav-number">2.1.</span> <span class="nav-text">屏幕成像原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卡顿产生的原因"><span class="nav-number">2.2.</span> <span class="nav-text">卡顿产生的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卡顿优化-CPU"><span class="nav-number">2.3.</span> <span class="nav-text">卡顿优化 - CPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卡顿优化-GPU"><span class="nav-number">2.4.</span> <span class="nav-text">卡顿优化 - GPU</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#离屏渲染"><span class="nav-number">2.4.1.</span> <span class="nav-text">离屏渲染</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卡顿检测"><span class="nav-number">2.5.</span> <span class="nav-text">卡顿检测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#耗电"><span class="nav-number">3.</span> <span class="nav-text">耗电</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#耗电的主要来源"><span class="nav-number">3.1.</span> <span class="nav-text">耗电的主要来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#耗电优化"><span class="nav-number">3.2.</span> <span class="nav-text">耗电优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#App-的启动"><span class="nav-number">4.</span> <span class="nav-text">App 的启动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#App-的启动-dyld"><span class="nav-number">4.1.</span> <span class="nav-text">App 的启动 dyld</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-的启动-runtime"><span class="nav-number">4.2.</span> <span class="nav-text">App 的启动 - runtime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-的启动-main"><span class="nav-number">4.3.</span> <span class="nav-text">App 的启动 - main</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-的启动优化"><span class="nav-number">4.4.</span> <span class="nav-text">App 的启动优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装包瘦身"><span class="nav-number">5.</span> <span class="nav-text">安装包瘦身</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">孟跃平</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.mengyueping.com/2018/08/19/iOS_optimization_all/';
+          this.page.identifier = '2018/08/19/iOS_optimization_all/';
+          this.page.title = 'iOS性能优化';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("bSSS0Dg4QVv1p0FAHGaWv8Ei-gzGzoHsz", "UcKuDEryAx1QLVWeFLQHrUns");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
